@@ -10,20 +10,35 @@ import SwiftUI
 struct SettingsPage: View {
 //    @Environment(\.presentationMode) var presentationMode
 //    @EnvironmentObject var userInfo: UserInfo
+   
+    @State private var userDeleted = false
+    @State private var showingAlert = false
     
     var body: some View {
+        if userDeleted{
+            LoginView()
+        } else{
         VStack {
             Text("Delete My Account")
                 .bold()
                 .padding()
             
             Button {
-                print("dead")
+                showingAlert = true
             } label: {
                 Text("Delete Profile")
             }
-
-            
+            .alert("Are you sure you want to delete your account permanently?", isPresented: $showingAlert) {
+                Button("NO", role: .cancel) { }
+                Button("YES", role: .destructive) {
+                    AuthViewModel.shared.deleteUser { deleteStatus in
+                        if deleteStatus{
+                            userDeleted = true
+                        }
+                    }
+                }
+            }
+        
         
             
             
@@ -43,7 +58,7 @@ struct SettingsPage: View {
             Text("http://www.onthemargin.org/report/")
             Text("*Subject to review by Admin*")
         } .padding()
-        
+        }
         }
     }
 

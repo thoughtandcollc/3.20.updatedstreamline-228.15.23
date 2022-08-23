@@ -96,8 +96,19 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func deleteUser() {
-        
+    func deleteUser(_ completion: @escaping ((Bool) -> Void)) {
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+          if let error = error {
+              print("DEBUG: Failed to upload image \(error.localizedDescription)")
+              completion(false)
+          } else {
+              self.userSession = nil
+              self.user = nil
+              completion(true)
+//              self.deleteComments()
+          }
+        }
     }
     
 //    static func saveProfileImage(profileImage: UIImage, imageData: Data, metaData: StorageMetadata, storageProfileImageRef: StorageReference, onError: @escaping(_ errorMessage: String) -> Void) {
