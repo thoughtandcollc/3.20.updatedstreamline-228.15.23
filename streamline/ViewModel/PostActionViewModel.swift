@@ -21,8 +21,9 @@ class PostActionViewModel: ObservableObject {
         guard let uid = AuthViewModel.shared.userSession?.uid else { return }
         let postLikesRef = COLLECTION_POSTS.document(post.id).collection("post-likes")
         let userLikesRef = COLLECTION_USERS.document(uid).collection("user-likes")
+        let likes = (Int(post.likes) ?? 0) + 1
         
-        COLLECTION_POSTS.document(post.id).updateData(["likes": post.likes == "1"]) { _ in
+        COLLECTION_POSTS.document(post.id).updateData(["likes": "\(likes)"]) { _ in
             postLikesRef.document(uid).setData([:]) { _ in
                 userLikesRef.document(self.post.id).setData([:]) { _ in
                     self.didLike = true
@@ -36,8 +37,12 @@ class PostActionViewModel: ObservableObject {
         guard let uid = AuthViewModel.shared.userSession?.uid else { return }
         let postLikesRef = COLLECTION_POSTS.document(post.id).collection("post-likes")
         let userLikesRef = COLLECTION_USERS.document(uid).collection("user-likes")
+        var likes = Int(post.likes) ?? 0
+        if likes > 0 {
+            likes = likes - 1
+        }
         
-        COLLECTION_POSTS.document(post.id).updateData(["likes": post.likes == "0"]) { _ in
+        COLLECTION_POSTS.document(post.id).updateData(["likes": "\(likes)"]) { _ in
             postLikesRef.document(uid).delete() { _ in
                 userLikesRef.document(self.post.id).delete() { _ in
                     self.didLike = false
