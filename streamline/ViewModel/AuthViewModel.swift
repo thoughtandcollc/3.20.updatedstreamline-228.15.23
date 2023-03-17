@@ -22,20 +22,21 @@ class AuthViewModel: ObservableObject {
         fetchUser()
     }
     
-    func login(withEmail email: String, password: String) {
+    func login(withEmail email: String, password: String, completion: @escaping (Result<AnyObject?, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("DEBUG: Failed to login: \(error.localizedDescription)")
-                return
+                completion(.failure(error))
             }
             
+            completion(.success(result))
             self.userSession = result?.user
             self.fetchUser()
         }
     }
     
     func registerUser(email: String, password: String,
-                      fullname: String, profileImage: UIImage) {
+                      fullname: String, profileImage: UIImage, completion: (@escaping (Result<AnyObject, Error>) -> Void)) {
         
         guard let imageData = profileImage.jpegData(compressionQuality: 0.3) else { return }
         let filename = NSUUID().uuidString
@@ -44,6 +45,7 @@ class AuthViewModel: ObservableObject {
         storageRef.putData(imageData, metadata: nil) { _, error in
             if let error = error {
                 print("DEBUG: Failed to upload image \(error.localizedDescription)")
+                completion(.failure(error))
                 return
             }
                         
@@ -53,6 +55,7 @@ class AuthViewModel: ObservableObject {
                 Auth.auth().createUser(withEmail: email, password: password) { result, error in
                     if let error = error {
                         print("DEBUG: Error \(error.localizedDescription)")
+                        completion(.failure(error))
                         return
                     }
                     
@@ -62,7 +65,7 @@ class AuthViewModel: ObservableObject {
                                 "fullname": fullname,
                                 "profileImageUrl": profileImageUrl,
                                 "uid": user.uid]
-                    
+                    completion(.success(user))
                     Firestore.firestore().collection("users").document(user.uid).setData(data) { _ in
                         self.userSession = user
                         self.fetchUser()

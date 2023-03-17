@@ -22,7 +22,7 @@ struct MainTabView: View {
                     Image(systemName: "house")
                 }.tag(0)
             
-//            AnnotateView()
+//            DailyView()
 //                .onTapGesture {
 //                    selectedIndex = 1
 //                }

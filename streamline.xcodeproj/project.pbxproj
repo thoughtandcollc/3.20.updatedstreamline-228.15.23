@@ -46,6 +46,15 @@
 		2DFC9377282CE9EE0009F586 /* TextWithLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DFC9376282CE9EE0009F586 /* TextWithLinks.swift */; };
 		2DFC9379282CEC0F0009F586 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DFC9378282CEC0F0009F586 /* SafariView.swift */; };
 		C9A82F1F28616359006B5DBE /* ScanTextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A82F1E28616359006B5DBE /* ScanTextArea.swift */; };
+		C9ABEDB028EC747100A78D88 /* DailyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDAF28EC747100A78D88 /* DailyView.swift */; };
+		C9ABEDB328EC751100A78D88 /* PurchasePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDB228EC751100A78D88 /* PurchasePopup.swift */; };
+		C9ABEDB528EC755D00A78D88 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDB428EC755D00A78D88 /* Subscription.swift */; };
+		C9ABEDB828EC75B300A78D88 /* PurchaseSwipePromo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDB728EC75B300A78D88 /* PurchaseSwipePromo.swift */; };
+		C9ABEDBA28EC75FD00A78D88 /* PurchaseOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDB928EC75FD00A78D88 /* PurchaseOptionView.swift */; };
+		C9ABEDBC28EC774700A78D88 /* AddlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDBB28EC774700A78D88 /* AddlExtension.swift */; };
+		C9ABEDBE28ECA9AF00A78D88 /* TopPicksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDBD28ECA9AF00A78D88 /* TopPicksView.swift */; };
+		C9ABEDC028ECAE7200A78D88 /* ArticlesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDBF28ECAE7200A78D88 /* ArticlesManager.swift */; };
+		C9ABEDC228ECAEAF00A78D88 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDC128ECAEAF00A78D88 /* Person.swift */; };
 		F93468D2276932C1005912AF /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93468D1276932C1005912AF /* Comment.swift */; };
 		F951C2AE26E291A5002BE88E /* Annotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951C2AD26E291A5002BE88E /* Annotate.swift */; };
 		F951C2B426E2A852002BE88E /* uploadAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951C2B326E2A852002BE88E /* uploadAnnotation.swift */; };
@@ -174,6 +183,15 @@
 		2DFC9376282CE9EE0009F586 /* TextWithLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextWithLinks.swift; sourceTree = "<group>"; };
 		2DFC9378282CEC0F0009F586 /* SafariView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		C9A82F1E28616359006B5DBE /* ScanTextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanTextArea.swift; sourceTree = "<group>"; };
+		C9ABEDAF28EC747100A78D88 /* DailyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyView.swift; sourceTree = "<group>"; };
+		C9ABEDB228EC751100A78D88 /* PurchasePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePopup.swift; sourceTree = "<group>"; };
+		C9ABEDB428EC755D00A78D88 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		C9ABEDB728EC75B300A78D88 /* PurchaseSwipePromo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseSwipePromo.swift; sourceTree = "<group>"; };
+		C9ABEDB928EC75FD00A78D88 /* PurchaseOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseOptionView.swift; sourceTree = "<group>"; };
+		C9ABEDBB28EC774700A78D88 /* AddlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddlExtension.swift; sourceTree = "<group>"; };
+		C9ABEDBD28ECA9AF00A78D88 /* TopPicksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPicksView.swift; sourceTree = "<group>"; };
+		C9ABEDBF28ECAE7200A78D88 /* ArticlesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesManager.swift; sourceTree = "<group>"; };
+		C9ABEDC128ECAEAF00A78D88 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		F93468D1276932C1005912AF /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		F951C2AD26E291A5002BE88E /* Annotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotate.swift; sourceTree = "<group>"; };
 		F951C2B326E2A852002BE88E /* uploadAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadAnnotation.swift; sourceTree = "<group>"; };
@@ -336,6 +354,29 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		C9ABEDAE28EC743C00A78D88 /* ElectricDaily */ = {
+			isa = PBXGroup;
+			children = (
+				C9ABEDAF28EC747100A78D88 /* DailyView.swift */,
+				C9ABEDBD28ECA9AF00A78D88 /* TopPicksView.swift */,
+				C9ABEDBF28ECAE7200A78D88 /* ArticlesManager.swift */,
+				C9ABEDC128ECAEAF00A78D88 /* Person.swift */,
+			);
+			path = ElectricDaily;
+			sourceTree = "<group>";
+		};
+		C9ABEDB128EC74F300A78D88 /* PurchasePopUp */ = {
+			isa = PBXGroup;
+			children = (
+				C9ABEDB228EC751100A78D88 /* PurchasePopup.swift */,
+				C9ABEDB928EC75FD00A78D88 /* PurchaseOptionView.swift */,
+				C9ABEDB728EC75B300A78D88 /* PurchaseSwipePromo.swift */,
+				C9ABEDB428EC755D00A78D88 /* Subscription.swift */,
+				C9ABEDBB28EC774700A78D88 /* AddlExtension.swift */,
+			);
+			path = PurchasePopUp;
+			sourceTree = "<group>";
+		};
 		F93468C827691C4A005912AF /* ProbablyDelete */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +411,8 @@
 		F985D36B265AE8ED002A8F75 = {
 			isa = PBXGroup;
 			children = (
+				C9ABEDB128EC74F300A78D88 /* PurchasePopUp */,
+				C9ABEDAE28EC743C00A78D88 /* ElectricDaily */,
 				F985D376265AE8ED002A8F75 /* streamline */,
 				F985D375265AE8ED002A8F75 /* Products */,
 				2D66A36D2796F9CA00F91E28 /* Frameworks */,
@@ -716,13 +759,16 @@
 				F985D37A265AE8ED002A8F75 /* ContentView.swift in Sources */,
 				F985D3A9265B0B9F002A8F75 /* FeedView.swift in Sources */,
 				2D8550CA27A15A4C0034CFEE /* CheckBoxView.swift in Sources */,
+				C9ABEDB328EC751100A78D88 /* PurchasePopup.swift in Sources */,
 				2D7217D528352A79005DB335 /* ImageViewer.swift in Sources */,
 				2DC5B5D9278C3C2500737D98 /* CommentInputView.swift in Sources */,
+				C9ABEDBC28EC774700A78D88 /* AddlExtension.swift in Sources */,
 				F9EC6C9F26FF8A3F009F8BE8 /* UploadChapterViewModel.swift in Sources */,
 				F985D3F926616800002A8F75 /* FeedViewModel.swift in Sources */,
 				F99B4A1726CDD3B50042F551 /* SettingsPage.swift in Sources */,
 				F95D5E38268A5F1B00E0F70D /* MainTabView.swift in Sources */,
 				F9B4B27C26667A5F00F2B8D6 /* ReplyCell.swift in Sources */,
+				C9ABEDBE28ECA9AF00A78D88 /* TopPicksView.swift in Sources */,
 				F985D3B4265BEEE4002A8F75 /* ConversationsView.swift in Sources */,
 				F951C2AE26E291A5002BE88E /* Annotate.swift in Sources */,
 				F985D3C7265D4EB7002A8F75 /* ProfileHeaderView.swift in Sources */,
@@ -731,6 +777,7 @@
 				2D8550C627A132C60034CFEE /* NotificationCellViewModel.swift in Sources */,
 				F9EC6C9D26FF89E4009F8BE8 /* NewChapter.swift in Sources */,
 				2D8550BF279FCF7B0034CFEE /* InvitationCellView.swift in Sources */,
+				C9ABEDB828EC75B300A78D88 /* PurchaseSwipePromo.swift in Sources */,
 				C9A82F1F28616359006B5DBE /* ScanTextArea.swift in Sources */,
 				F985D378265AE8ED002A8F75 /* streamlineApp.swift in Sources */,
 				2D8550A6279E87470034CFEE /* View+Ext.swift in Sources */,
@@ -753,6 +800,7 @@
 				F951C2C426F0F2CB002BE88E /* EditListView.swift in Sources */,
 				F9EC6C9726FE4CEA009F8BE8 /* ChapterViewModel.swift in Sources */,
 				2DC725AF27D876AE003ECF8E /* ThreadPostCell.swift in Sources */,
+				C9ABEDC028ECAE7200A78D88 /* ArticlesManager.swift in Sources */,
 				F9EC6C9526FE1A6F009F8BE8 /* ChapterCell.swift in Sources */,
 				F9B4B3052673BD0C00F2B8D6 /* UploadReadingsModel.swift in Sources */,
 				2D66A36C2796F7BB00F91E28 /* Group.swift in Sources */,
@@ -764,6 +812,7 @@
 				2DFC9377282CE9EE0009F586 /* TextWithLinks.swift in Sources */,
 				2DC5B5DA278C3C2500737D98 /* CommentConversationView.swift in Sources */,
 				2D6703A42833905A005951EF /* MTMedia.swift in Sources */,
+				C9ABEDB528EC755D00A78D88 /* Subscription.swift in Sources */,
 				F9EC6C8C26F9053E009F8BE8 /* NotificationsViewModel.swift in Sources */,
 				F9EC6CA32700CE7D009F8BE8 /* ChapterProfileViewModel.swift in Sources */,
 				2D8550A8279E89740034CFEE /* GetGroupViewModel.swift in Sources */,
@@ -791,12 +840,14 @@
 				F9EC6C8826F9045E009F8BE8 /* NotificationsPostView.swift in Sources */,
 				F96B425D26B73BD900B4CA16 /* ReadingReplies.swift in Sources */,
 				F985D3C5265D4D86002A8F75 /* UserProfileView.swift in Sources */,
+				C9ABEDC228ECAEAF00A78D88 /* Person.swift in Sources */,
 				2DB776B427A7CEE6007B1744 /* AppDelegate.swift in Sources */,
 				F9B4B2FD26713D5300F2B8D6 /* DummyReadInput.swift in Sources */,
 				F951C2C026EFA75E002BE88E /* AnnotateInputView.swift in Sources */,
 				F951C2BC26EF9902002BE88E /* AnnotateView.swift in Sources */,
 				F985D3B1265BE7A5002A8F75 /* UserCell.swift in Sources */,
 				F9EC6CA72703614A009F8BE8 /* ChapterFilterOptions.swift in Sources */,
+				C9ABEDB028EC747100A78D88 /* DailyView.swift in Sources */,
 				F93468D2276932C1005912AF /* Comment.swift in Sources */,
 				2D8550CC27A28B820034CFEE /* GroupCellView.swift in Sources */,
 				F9B4B3012673BB1700F2B8D6 /* NewReading.swift in Sources */,
@@ -807,6 +858,7 @@
 				F985D3D9265E90C2002A8F75 /* CustomTextField.swift in Sources */,
 				F95D5E3F268A60F200E0F70D /* SideMenuView.swift in Sources */,
 				F985D3B8265BF91C002A8F75 /* MessagenInputView.swift in Sources */,
+				C9ABEDBA28EC75FD00A78D88 /* PurchaseOptionView.swift in Sources */,
 				F9F20DF026E25F7E00F9327D /* NewNote.swift in Sources */,
 				F985D3DB265E95C7002A8F75 /* CustomSecureField.swift in Sources */,
 				F985D3C0265D45B4002A8F75 /* MessageView.swift in Sources */,
@@ -948,7 +1000,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"streamline/Preview Content\"";
-				DEVELOPMENT_TEAM = GG48XQRM4J;
+				DEVELOPMENT_TEAM = LZKT9SHUK8;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = streamline/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -956,8 +1008,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8;
-				PRODUCT_BUNDLE_IDENTIFIER = .com.ThoughtCo.OnTheMargin;
+				MARKETING_VERSION = 3.2;
+				PRODUCT_BUNDLE_IDENTIFIER = .com.ThoughtCo.OnTheMargin.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -975,7 +1027,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"streamline/Preview Content\"";
-				DEVELOPMENT_TEAM = GG48XQRM4J;
+				DEVELOPMENT_TEAM = LZKT9SHUK8;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = streamline/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -983,8 +1035,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8;
-				PRODUCT_BUNDLE_IDENTIFIER = .com.ThoughtCo.OnTheMargin;
+				MARKETING_VERSION = 3.2;
+				PRODUCT_BUNDLE_IDENTIFIER = .com.ThoughtCo.OnTheMargin.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

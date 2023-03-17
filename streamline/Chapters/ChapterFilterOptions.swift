@@ -14,7 +14,7 @@ enum ChapterFilterOptions: Int, CaseIterable {
     
     var title: String {
         switch self {
-        
+            
         case .verses: return "Verses"
             
    //     case .replies: return "Posts & Replies"

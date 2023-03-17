@@ -11,6 +11,8 @@ struct LoginView: View {
     @State var email = ""
     @State var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @State var showErrorDialogue = false
+    @State var errorMessage = ""
     
     var body: some View {
     NavigationView {
@@ -53,7 +55,15 @@ struct LoginView: View {
                     }
                     
                     Button(action: {
-                        viewModel.login(withEmail: email, password: password)
+                        viewModel.login(withEmail: email, password: password) { res in
+                            switch(res){
+                            case .success:
+                                print("succeeded")
+                            case .failure(let error):
+                                showErrorDialogue = true
+                                errorMessage = "Login did not succeed with error: \(error.localizedDescription)"
+                            }
+                        }
                     }, label: {
                         Text("Sign In")
                             .font(.headline)
@@ -62,8 +72,11 @@ struct LoginView: View {
                             .background(Color.white)
                             .clipShape(Capsule())
                             .padding()
-                    })
-                    
+                    }).alert("Login Error", isPresented: $showErrorDialogue) {
+                        Button("OK") {}
+                    }message: {
+                       Text("\(errorMessage)")
+                    }
                     Spacer()
                     
                     NavigationLink(

@@ -17,7 +17,9 @@ struct RegistrationView: View {
     @State private var isLoading = false
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     @EnvironmentObject var viewModel: AuthViewModel
-    
+    @State var hasNotAttachedProfilePicture = false
+    @State var registrationErrorShown = false
+    @State var registrationErrorMessage = ""
     func loadImage() {
         guard let selectedImage = selectedUIImage else { return }
         image = Image(uiImage: selectedImage)
@@ -83,10 +85,21 @@ struct RegistrationView: View {
                 Button(action: {
                     isLoading = true
                     guard let image = selectedUIImage else {
+                        isLoading = false
+                        hasNotAttachedProfilePicture = true
                         return
                     }
-                    viewModel.registerUser(email: email, password: password, fullname: fullname, profileImage: image)
-                   
+                    viewModel.registerUser(email: email, password: password, fullname: fullname, profileImage: image) { res in
+                        switch(res) {
+                        case .success:
+                            isLoading = false
+                        case .failure(let error):
+                            isLoading = false
+                            registrationErrorShown = true
+                            registrationErrorMessage = "Registration did not succeed with error: \(error.localizedDescription)"
+                        }
+                    }
+                           
                     
                         }, label: {
                     Text("Sign Up")
@@ -131,7 +144,18 @@ struct RegistrationView: View {
                     })
                 }
                 
+            }.alert("Please attach a profile Image to register", isPresented: $hasNotAttachedProfilePicture) {
+                Button("Ok", action: {
+                    isLoading = false
+                })
+            }.alert("Registration Error", isPresented: $registrationErrorShown) {
+                Button("Ok", role: .cancel) {
+                    isLoading = false
+                }
+            }message: {
+                Text("\(registrationErrorMessage)")
             }
+            
             if isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .black))
