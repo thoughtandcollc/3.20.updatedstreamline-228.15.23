@@ -21,10 +21,39 @@ struct SearchGroupView: View {
                     .padding(.horizontal, 20)
                 
                 List {
-                    ForEach(model.groupsList.filter { searchText.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchText) }, id: \.self) { item in
-                       // NavigationLink(destination: Text(item.name)) {
-                        Text(item.name)
-                      //  }
+                    ForEach(model.groupsList.filter { searchText.isEmpty ? true : $0.name.localizedCaseInsensitiveContains(searchText) }, id: \.self) { group in
+                        
+                        HStack {
+                            
+                            Text(group.name)
+                            
+                            Spacer()
+                            
+                            Text("Joined")
+                                .font(.system(size: 12))
+                                .foregroundColor(.blue)
+                                .padding(.horizontal, 4)
+                                .padding(.vertical, 2)
+                                .background{
+                                    RoundedRectangle(cornerRadius: 4).stroke(Color.blue, lineWidth: 1)
+                                }
+                                .isVisible(group.joinedUsers?.contains(userId) ?? false)
+                            
+                            Text("Request Sent")
+                                .font(.system(size: 12))
+                                .foregroundColor(.orange)
+                                .padding(.horizontal, 4)
+                                .padding(.vertical, 2)
+                                .background{
+                                    RoundedRectangle(cornerRadius: 4).stroke(Color.orange, lineWidth: 1)
+                                }
+                                .isVisible(group.joinRequests?.contains(userId) ?? false)
+                            
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            model.groupTapped(group: group)
+                        }
                     }
                 }
                 .listStyle(InsetGroupedListStyle())

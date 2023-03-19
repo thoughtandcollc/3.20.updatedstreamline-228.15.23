@@ -60,7 +60,7 @@ class CreateGroupViewModel: ObservableObject {
     
     fileprivate func saveDataToDatabase(imageURL: String) {
         guard let user = AuthViewModel.shared.user else { return }
-        let group = Group(id: user.id, name: name, description: description, imageURL: imageURL, timestamp: Timestamp(date: Date()), joinedUsers: isAlreadyHaveGroup ? nil : [user.id])
+        let group = Group(id: user.id, name: name, description: description, imageURL: imageURL, timestamp: Timestamp(date: Date()), createdBy: user.id, joinedUsers: isAlreadyHaveGroup ? nil : [user.id], joinRequests: [])
         
         let query = COLLECTION_GROUPS.document(user.id)
 

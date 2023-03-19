@@ -14,7 +14,9 @@ struct Group: Codable, Identifiable, Hashable {
     var description: String?
     var imageURL: String?
     var timestamp: Timestamp = Timestamp(date: Date())
+    var createdBy: String?
     var joinedUsers: [String]?
+    var joinRequests: [String]?
     
     var timestampString: String {
         let formatter = DateComponentsFormatter()
@@ -34,12 +36,14 @@ struct Group: Codable, Identifiable, Hashable {
         
     }
     
-    internal init(id: String = "", name: String = "", description: String? = nil, imageURL: String? = nil, timestamp: Timestamp, joinedUsers: [String]?) {
+    internal init(id: String = "", name: String = "", description: String? = nil, imageURL: String? = nil, timestamp: Timestamp, createdBy: String, joinedUsers: [String]?, joinRequests: [String]?) {
         self.id = id
         self.name = name
         self.description = description
         self.imageURL = imageURL
         self.timestamp = timestamp
+        self.createdBy = createdBy
         self.joinedUsers = joinedUsers
+        self.joinRequests = joinRequests
     }
 }
