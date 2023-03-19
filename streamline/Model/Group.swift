@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct Group: Codable, Identifiable {
+struct Group: Codable, Identifiable, Hashable {
     var id: String = ""
     var name: String = ""
     var description: String?

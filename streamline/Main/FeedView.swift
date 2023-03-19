@@ -144,6 +144,9 @@ struct FeedView: View {
         .fullScreenCover(isPresented: $viewModel.showingCreateGroup) {
             CreateGroupView(isPresented: $viewModel.showingCreateGroup, viewModel: CreateGroupViewModel(myGroupViewModel: myGroupViewModel))
         }
+        .sheet(isPresented: $viewModel.showGroupSearchView) {
+            SearchGroupView()
+        }
 //        .onAppear {
 //            if selectedSegment == 1 {
 //                viewModel.filterGroups(with: selectedGroupId)

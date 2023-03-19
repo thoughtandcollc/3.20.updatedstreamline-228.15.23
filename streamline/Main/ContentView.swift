@@ -41,6 +41,15 @@ struct ContentView: View {
                                                 trailing: selectedIndex == 0 ? refreshButton : nil)
                             .toolbar {
                                 ToolbarItemGroup(placement: .navigationBarTrailing) {
+                                    
+                                    Button {
+                                        self.feedViewModel.showGroupSearchView.toggle()
+                                    } label: {
+                                        Image(systemName: "magnifyingglass")
+                                            .foregroundColor(Color("AdaptiveColor"))
+                                    }
+
+                                    
                                     Button {
                                         self.feedViewModel.showingCreateGroup.toggle()
                                     } label: {
