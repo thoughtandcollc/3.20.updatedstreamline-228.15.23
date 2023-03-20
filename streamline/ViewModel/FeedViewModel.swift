@@ -21,6 +21,7 @@ class FeedViewModel: ObservableObject {
 
     @Published var showingCreateGroup = false
     @Published var showGroupSearchView = false
+    @Published var showGroupJoinRequestsView = false
     
     init() {
         fetchPosts()

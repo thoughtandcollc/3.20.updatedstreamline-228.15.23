@@ -69,6 +69,8 @@
 		CD28ECA729C71E2900BC79E5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28EC9329C71E2900BC79E5 /* ColorExtension.swift */; };
 		CD28ECA829C71E2900BC79E5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28EC9429C71E2900BC79E5 /* StringExtension.swift */; };
 		CD28ECAD29C71E2900BC79E5 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28EC9A29C71E2900BC79E5 /* Macros.swift */; };
+		CD28ECAF29C72FB700BC79E5 /* GroupJoinRequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28ECAE29C72FB700BC79E5 /* GroupJoinRequestsView.swift */; };
+		CD28ECB129C846E200BC79E5 /* JoinRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */; };
 		CDB0414F29C49E8900A1CD3D /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */; };
 		CDB0415129C49F7900A1CD3D /* SearchGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */; };
 		F93468D2276932C1005912AF /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93468D1276932C1005912AF /* Comment.swift */; };
@@ -222,6 +224,8 @@
 		CD28EC9329C71E2900BC79E5 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		CD28EC9429C71E2900BC79E5 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		CD28EC9A29C71E2900BC79E5 /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
+		CD28ECAE29C72FB700BC79E5 /* GroupJoinRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupJoinRequestsView.swift; sourceTree = "<group>"; };
+		CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequestViewModel.swift; sourceTree = "<group>"; };
 		CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
 		CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupViewModel.swift; sourceTree = "<group>"; };
 		F93468D1276932C1005912AF /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -581,6 +585,7 @@
 				F985D3F626615F75002A8F75 /* UploadPostViewModel.swift */,
 				F985D3F826616800002A8F75 /* FeedViewModel.swift */,
 				CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */,
+				CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */,
 				F9B4B2732662877F00F2B8D6 /* PostActionViewModel.swift */,
 				F9B4B27726651F5000F2B8D6 /* ChatViewModel.swift */,
 				F9B4B279266529CB00F2B8D6 /* ConversationsViewModel.swift */,
@@ -682,6 +687,7 @@
 				F985D379265AE8ED002A8F75 /* ContentView.swift */,
 				F985D3A8265B0B9F002A8F75 /* FeedView.swift */,
 				CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */,
+				CD28ECAE29C72FB700BC79E5 /* GroupJoinRequestsView.swift */,
 				F951C2BB26EF9902002BE88E /* AnnotateView.swift */,
 				F985D3B3265BEEE4002A8F75 /* ConversationsView.swift */,
 				F9EC6C8F26FE1110009F8BE8 /* ChapterSelection.swift */,
@@ -844,6 +850,7 @@
 				C9ABEDB328EC751100A78D88 /* PurchasePopup.swift in Sources */,
 				2D7217D528352A79005DB335 /* ImageViewer.swift in Sources */,
 				2DC5B5D9278C3C2500737D98 /* CommentInputView.swift in Sources */,
+				CD28ECAF29C72FB700BC79E5 /* GroupJoinRequestsView.swift in Sources */,
 				C9ABEDBC28EC774700A78D88 /* AddlExtension.swift in Sources */,
 				F9EC6C9F26FF8A3F009F8BE8 /* UploadChapterViewModel.swift in Sources */,
 				F985D3F926616800002A8F75 /* FeedViewModel.swift in Sources */,
@@ -961,6 +968,7 @@
 				CD28EC9B29C71E2900BC79E5 /* CustomModifiers.swift in Sources */,
 				F951C2C226F0E2E0002BE88E /* AnnotateCell.swift in Sources */,
 				F9B4B2FF2671664600F2B8D6 /* ReadingsViewModel.swift in Sources */,
+				CD28ECB129C846E200BC79E5 /* JoinRequestViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,18 +54,23 @@ struct FeedView: View {
                 }
                 
                 if selectedSegment == 1 && !myGroupViewModel.myGroups.isEmpty {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack {
-                            ForEach($myGroupViewModel.myGroups) { group in
-                                GroupCellView(group: group, isSelected: group.id == viewModel.selectedGroupId)
-                                    .frame(width: 100)
-                                    .onTapGesture {
-                                        viewModel.selectedGroupId = group.id
-                                    }
+                    VStack {
+                        
+                        RequestsView()
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack {
+                                ForEach($myGroupViewModel.myGroups) { group in
+                                    GroupCellView(group: group, isSelected: group.id == viewModel.selectedGroupId)
+                                        .frame(width: 100)
+                                        .onTapGesture {
+                                            viewModel.selectedGroupId = group.id
+                                        }
+                                }
                             }
+                            .frame(height: 100)
+                            .padding(.horizontal)
                         }
-                        .frame(height: 100)
-                        .padding(.horizontal)
                     }
                 }
                 
@@ -153,5 +158,32 @@ struct FeedView: View {
 //            }
 //        }
     }
+    
+}
+
+// MARK: - View Functions
+// MARK: -
+extension FeedView {
+    
+    private func RequestsView() -> some View {
+        
+        HStack {
+            Text("Join Requests")
+            Spacer()
+            Text("\(myGroupViewModel.myGroup?.joinRequests?.count ?? 0)")
+        }
+        .foregroundColor(.blue)
+        .padding(.horizontal)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            viewModel.showGroupJoinRequestsView.toggle()
+        }
+        .sheet(isPresented: $viewModel.showGroupJoinRequestsView) {
+            GroupJoinRequestsView(group: myGroupViewModel.myGroup ?? Group())
+        }
+        .isVisible(myGroupViewModel.myGroup?.joinRequests?.count ?? 0 > 0)
+        
+    }
+    
 }
 

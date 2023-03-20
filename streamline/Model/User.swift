@@ -7,7 +7,12 @@
 
 import Firebase
 
-struct User: Identifiable {
+struct User: Identifiable, Equatable {
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     let id: String
     let profileImageUrl: String
     let fullname: String
