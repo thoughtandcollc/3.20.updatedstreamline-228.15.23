@@ -73,6 +73,7 @@
 		CD28ECB129C846E200BC79E5 /* JoinRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */; };
 		CDB0414F29C49E8900A1CD3D /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */; };
 		CDB0415129C49F7900A1CD3D /* SearchGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */; };
+		CDC2477129EACE350067F9D9 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC2477029EACE350067F9D9 /* ForgotPasswordView.swift */; };
 		F93468D2276932C1005912AF /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93468D1276932C1005912AF /* Comment.swift */; };
 		F951C2AE26E291A5002BE88E /* Annotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951C2AD26E291A5002BE88E /* Annotate.swift */; };
 		F951C2B426E2A852002BE88E /* uploadAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951C2B326E2A852002BE88E /* uploadAnnotation.swift */; };
@@ -228,6 +229,7 @@
 		CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequestViewModel.swift; sourceTree = "<group>"; };
 		CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
 		CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupViewModel.swift; sourceTree = "<group>"; };
+		CDC2477029EACE350067F9D9 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		F93468D1276932C1005912AF /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		F951C2AD26E291A5002BE88E /* Annotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotate.swift; sourceTree = "<group>"; };
 		F951C2B326E2A852002BE88E /* uploadAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadAnnotation.swift; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				F985D3D4265E8C13002A8F75 /* LoginView.swift */,
+				CDC2477029EACE350067F9D9 /* ForgotPasswordView.swift */,
 				F985D3D6265E8C1F002A8F75 /* RegistrationView.swift */,
 			);
 			path = Authentication;
@@ -922,6 +925,7 @@
 				2D1548C9282E309C00DB5A68 /* MorePhotoView.swift in Sources */,
 				2DC5B5DE278C3C2500737D98 /* CommentCell.swift in Sources */,
 				CD28ECA329C71E2900BC79E5 /* ViewExtensions.swift in Sources */,
+				CDC2477129EACE350067F9D9 /* ForgotPasswordView.swift in Sources */,
 				F9B4B2FB2666F18100F2B8D6 /* ReadingCell.swift in Sources */,
 				F985D3FB2661683C002A8F75 /* Post.swift in Sources */,
 				F985D3F1265FF574002A8F75 /* SearchViewModel.swift in Sources */,

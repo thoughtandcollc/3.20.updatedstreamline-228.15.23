@@ -114,6 +114,40 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    func forgotPassword(email: String) {
+        
+        // hide keyboard
+        dismissKeyboard()
+        
+        var email = email.removeSpaces().lowercased()
+        
+        guard email.isValidEmail() else {
+            customAlertApple(title: "Error", message: "Invalid Email", yesButtonTitle: "Okay", showDestructive: false)
+            return
+        }
+        
+        // show progress bar
+        ProgressHUD.show()
+        
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            
+            // hide progress bar
+            ProgressHUD.dismiss()
+            
+            // handle error
+            guard error == nil else {
+                customAlertApple(title: "Error", message: error!.localizedDescription, yesButtonTitle: "Okay", showDestructive: false)
+                return
+            }
+            
+            // success
+            customAlertApple(title: "Success", message: "Please check your email for password reset", yesButtonTitle: "Okay", showDestructive: false)
+            
+        }
+        
+        
+    }
+    
 //    static func saveProfileImage(profileImage: UIImage, imageData: Data, metaData: StorageMetadata, storageProfileImageRef: StorageReference, onError: @escaping(_ errorMessage: String) -> Void) {
 //        
 //        storageProfileImageRef.putData(imageData, metadata: metaData) {

@@ -13,6 +13,7 @@ struct LoginView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State var showErrorDialogue = false
     @State var errorMessage = ""
+    @State private var showForgotPassword = false
     
     var body: some View {
     NavigationView {
@@ -43,7 +44,7 @@ struct LoginView: View {
                     HStack {
                         Spacer()
                         
-                        Button(action: {}, label: {
+                        Button(action: {showForgotPassword.toggle()}, label: {
                             Text("Forgot Password?")
                                 .font(.footnote)
                                 .bold()
@@ -52,6 +53,9 @@ struct LoginView: View {
                                 .padding(.trailing, 32)
                             
                         })
+                        .fullScreenCover(isPresented: $showForgotPassword) {
+                            ForgotPasswordView(email: $email)
+                        }
                     }
                     
                     Button(action: {
