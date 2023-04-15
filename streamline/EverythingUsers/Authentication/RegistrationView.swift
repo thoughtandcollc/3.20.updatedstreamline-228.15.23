@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import WebKit
+import SafariServices
 
 struct RegistrationView: View {
     @State var email = ""
@@ -20,6 +22,9 @@ struct RegistrationView: View {
     @State var hasNotAttachedProfilePicture = false
     @State var registrationErrorShown = false
     @State var registrationErrorMessage = ""
+    @State private var showSafariView = false
+    @State private var termsUrl = URL(string: "https://onthemargin.org/terms-conditions")!
+    
     func loadImage() {
         guard let selectedImage = selectedUIImage else { return }
         image = Image(uiImage: selectedImage)
@@ -117,11 +122,16 @@ struct RegistrationView: View {
                 
                 
                 VStack {
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Button(action: {
+                        showSafariView.toggle()
+                    }, label: {
                         Text("Agree to Terms & Conditions and Privacy Policy")
                             .font(.system(size: 14))
                             .foregroundColor(.white)
                     })
+                    .sheet(isPresented: $showSafariView) {
+                        SafariView(url: termsUrl).edgesIgnoringSafeArea(.bottom)
+                    }
                     
                     HStack {
                         Image("check")
@@ -174,3 +184,20 @@ struct RegistrationView_Previews: PreviewProvider {
     }
 }
 }
+
+// MARK: - Safari View
+// MARK: -
+struct WebView: UIViewRepresentable {
+ 
+    var url: URL
+ 
+    func makeUIView(context: Context) -> WKWebView {
+        return WKWebView()
+    }
+ 
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        webView.load(request)
+    }
+}
+
