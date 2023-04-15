@@ -12,7 +12,7 @@ struct ForgotPasswordView: View {
     @Environment(\.dismiss) var dismiss // for dismissing this view
     @EnvironmentObject var viewModel: AuthViewModel
     
-    @Binding var email: String    
+    @Binding var email: String
     
     var body: some View {
         
@@ -33,11 +33,9 @@ struct ForgotPasswordView: View {
                 }
                 
             }
-            //.background(NavigationLinkView())
             .background(Color(#colorLiteral(red: 0.9269468188, green: 0.5522589684, blue: 0.1965774, alpha: 1)))
             .ignoresSafeArea()
             .toolbar { TopRightButtonView() }
-            .onAppear { onAppearHandling() }
             
         }
         .navigationViewStyle(StackNavigationViewStyle())
