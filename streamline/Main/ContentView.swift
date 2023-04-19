@@ -11,7 +11,7 @@ import MapKit
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: AuthViewModel
-    @ObservedObject var feedViewModel = FeedViewModel()
+    @StateObject var feedViewModel = FeedViewModel()
 
     @State private var selectedIndex = 0
     @State private var showingMenu = false
@@ -27,7 +27,7 @@ struct ContentView: View {
                                 .ignoresSafeArea()
                         }
                         
-                        MainTabView(selectedIndex: $selectedIndex, viewModel: feedViewModel)
+                        MainTabView(viewModel: feedViewModel, selectedIndex: $selectedIndex)
                             .cornerRadius(showingMenu ? 20 : 10)
                             .ignoresSafeArea()
                             .navigationBarTitle(viewModel.tabTitle(forIndex: selectedIndex))

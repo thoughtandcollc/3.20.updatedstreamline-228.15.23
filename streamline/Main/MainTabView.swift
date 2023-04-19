@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @Binding var selectedIndex: Int
-    @ObservedObject var viewModel: FeedViewModel
+    
     @ObservedObject var getGroupViewModel = GetGroupViewModel()
-
+    @ObservedObject var viewModel: FeedViewModel
+    
+    @Binding var selectedIndex: Int
+    
     var body: some View {
+        
         TabView(selection: $selectedIndex) {
             FeedView(viewModel: viewModel, myGroupViewModel: getGroupViewModel)
                 .onTapGesture {
@@ -63,5 +66,16 @@ struct MainTabView: View {
 //                }.tag(4)
         }
     }
+    
+    init(viewModel: FeedViewModel, selectedIndex: Binding<Int>) {
+        self.viewModel = viewModel
+        _selectedIndex = selectedIndex
+        
+        // Fix tabbar transparency
+        let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithDefaultBackground()
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+    }
+
 }
 
