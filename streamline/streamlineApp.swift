@@ -21,8 +21,6 @@ struct streamlineApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView().environmentObject(AuthViewModel.shared)
-        
-            
         }
     }
 }
