@@ -20,10 +20,12 @@ struct RegistrationView: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     @EnvironmentObject var viewModel: AuthViewModel
     @State var hasNotAttachedProfilePicture = false
+    @State var showTermsError = false
     @State var registrationErrorShown = false
     @State var registrationErrorMessage = ""
     @State private var showSafariView = false
     @State private var termsUrl = URL(string: "https://onthemargin.org/terms-conditions")!
+    @State private var isTermsAccepted = false // for accepting terms
     
     func loadImage() {
         guard let selectedImage = selectedUIImage else { return }
@@ -89,6 +91,11 @@ struct RegistrationView: View {
                 
                 Button(action: {
                     isLoading = true
+                    guard isTermsAccepted == true else {
+                        isLoading = false
+                        showTermsError = true
+                        return
+                    }
                     guard let image = selectedUIImage else {
                         isLoading = false
                         hasNotAttachedProfilePicture = true
@@ -134,10 +141,17 @@ struct RegistrationView: View {
                     }
                     
                     HStack {
-                        Image("check")
+                        Image(systemName: isTermsAccepted ? "checkmark" : "")
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 20, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .padding(3)
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.white)
+                            .border(.white, width: 2)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                isTermsAccepted.toggle()
+                            }
                     }
                     Spacer()
                     
@@ -158,7 +172,13 @@ struct RegistrationView: View {
                 Button("Ok", action: {
                     isLoading = false
                 })
-            }.alert("Registration Error", isPresented: $registrationErrorShown) {
+            }
+            .alert("Please accept terms & conditions", isPresented: $showTermsError) {
+                Button("Ok", action: {
+                    isLoading = false
+                })
+            }
+            .alert("Registration Error", isPresented: $registrationErrorShown) {
                 Button("Ok", role: .cancel) {
                     isLoading = false
                 }
