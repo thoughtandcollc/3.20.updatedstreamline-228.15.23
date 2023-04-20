@@ -14,7 +14,7 @@ class CreateGroupViewModel: ObservableObject {
     @Published var name: String = ""
     @Published var description: String = ""
     @Published var imageURL: URL?
-    @Published var isAlreadyHaveGroup: Bool = false
+    @Published var createNewGroup: Bool = false // create group or edit group
     @Published var alert: AlertIdentifier?
     @Published var showToast: Bool = false
     @Published var alertToast = AlertToast(type: .regular, title: "SOME TITLE") {
@@ -23,11 +23,17 @@ class CreateGroupViewModel: ObservableObject {
         }
     }
         
-    init(myGroupViewModel: GetGroupViewModel) {
-        self.name = myGroupViewModel.myGroup?.name ?? ""
-        self.description = myGroupViewModel.myGroup?.description ?? ""
-        self.imageURL = URL(string: myGroupViewModel.myGroup?.imageURL ?? "")
-        self.isAlreadyHaveGroup = myGroupViewModel.isAlreadyHaveGroup
+    init(group: Group?) {
+        
+        // if group is nil then create new group if not then edit previous group
+        guard let group = group else {
+            createNewGroup = true // create new group instead of edit
+            return
+        }
+        
+        self.name               = group.name
+        self.description        = group.description ?? " "
+        self.imageURL           = URL(string : group.imageURL ?? "")
     }
 
     func createNewGroupInDatabase(image: UIImage?) {
@@ -60,7 +66,7 @@ class CreateGroupViewModel: ObservableObject {
     
     fileprivate func saveDataToDatabase(imageURL: String) {
         guard let user = AuthViewModel.shared.user else { return }
-        let group = Group(id: user.id, name: name, description: description, imageURL: imageURL, timestamp: Timestamp(date: Date()), createdBy: user.id, joinedUsers: isAlreadyHaveGroup ? nil : [user.id], joinRequests: [])
+        let group = Group(id: user.id, name: name, description: description, imageURL: imageURL, timestamp: Timestamp(date: Date()), createdBy: user.id, joinedUsers: createNewGroup ? nil : [user.id], joinRequests: [])
         
         let query = COLLECTION_GROUPS.document(user.id)
 

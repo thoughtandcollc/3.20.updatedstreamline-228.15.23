@@ -10,11 +10,16 @@ import SDWebImageSwiftUI
 
 struct CreateGroupView: View {
     @Binding var isPresented: Bool
-    @ObservedObject var viewModel: CreateGroupViewModel
+    @StateObject var viewModel: CreateGroupViewModel
     
     @State var showImagePicker = false
     @State var selectedUIImage: UIImage?
     @State var image: Image?
+    
+    init(isPresented: Binding<Bool>, group: Group?) {
+        _isPresented = isPresented
+        _viewModel = StateObject(wrappedValue: CreateGroupViewModel(group: group))
+    }
     
     var body: some View {
         NavigationView {
@@ -72,7 +77,7 @@ struct CreateGroupView: View {
                     
                     TextArea("Write some description", text: $viewModel.description, horizontalPadding: 0, font: Font.system(size: 14))
                 }
-                .navigationTitle(viewModel.isAlreadyHaveGroup ? "Update Group" : "Create Group")
+                .navigationTitle(viewModel.createNewGroup ? "Create Group" : "Update Group")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(leading:
                                         Button(action: {
@@ -84,7 +89,7 @@ struct CreateGroupView: View {
                     viewModel.createNewGroupInDatabase(image: selectedUIImage)
                 },
                                                      label: {
-                    Text(viewModel.isAlreadyHaveGroup ? "Update" : "Create")
+                    Text(viewModel.createNewGroup ? "Create" : "Update")
                         .padding(.horizontal)
                         .padding(.vertical, 8)
                         .background(viewModel.name.isEmpty ? Color.gray : Color.orange)
@@ -114,6 +119,6 @@ struct CreateGroupView: View {
 
 struct CreateGroupView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateGroupView(isPresented: .constant(true), viewModel: CreateGroupViewModel(myGroupViewModel: GetGroupViewModel()))
+        CreateGroupView(isPresented: .constant(true), group: Group())
     }
 }

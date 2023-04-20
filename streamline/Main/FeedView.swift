@@ -17,6 +17,14 @@ struct FeedView: View {
     
     @State private var selectedSegment          = 0
     @State private var hasSelectedPostWithImage = false
+    
+    @State private var selectedGroup: Group? {
+        didSet {
+            selectedGroupId = selectedGroup?.id
+        }
+    }
+    
+    @SceneStorage("selectedGroupId") var selectedGroupId: String?
 
     init(viewModel: FeedViewModel, myGroupViewModel: GetGroupViewModel) {
         self.viewModel = viewModel
@@ -50,8 +58,12 @@ struct FeedView: View {
                 
             }
         }
+        .onAppear{
+            // remember the last selected group
+            selectedGroup = myGroupViewModel.myGroups.first(where: {$0.id == selectedGroupId }) ?? myGroupViewModel.myGroups.first
+        }
         .fullScreenCover(isPresented: $viewModel.showingCreateGroup) {
-            CreateGroupView(isPresented: $viewModel.showingCreateGroup, viewModel: CreateGroupViewModel(myGroupViewModel: myGroupViewModel))
+            CreateGroupView(isPresented: $viewModel.showingCreateGroup, group: selectedGroup)
         }
         .sheet(isPresented: $viewModel.showGroupSearchView) {
             SearchGroupView()
@@ -84,7 +96,7 @@ extension FeedView {
             self.selectedSegment = selectedSegment == 0 ? 1 : 0
             
             if selectedSegment == 1 {
-                viewModel.selectedGroupId = viewModel.selectedGroupId.isEmpty ? myGroupViewModel.myGroups.first?.id ?? "" : viewModel.selectedGroupId
+                viewModel.selectedGroupId = viewModel.selectedGroupId.isEmpty ? myGroupViewModel.joinedGroups.first?.id ?? "" : viewModel.selectedGroupId
             }
         }
         
@@ -98,7 +110,7 @@ extension FeedView {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
-                    ForEach($myGroupViewModel.myGroups) { group in
+                    ForEach($myGroupViewModel.joinedGroups) { group in
                         GroupCellView(group: group, isSelected: group.id == viewModel.selectedGroupId)
                             .frame(width: 100)
                             .onTapGesture {
@@ -113,7 +125,7 @@ extension FeedView {
                 
             }
         }
-        .isVisible(selectedSegment == 1 && !myGroupViewModel.myGroups.isEmpty)
+        .isVisible(selectedSegment == 1 && !myGroupViewModel.joinedGroups.isEmpty)
         
     }
     
@@ -122,7 +134,7 @@ extension FeedView {
         HStack {
             Text("Join Requests")
             Spacer()
-            Text("\(myGroupViewModel.myGroup?.joinRequests?.count ?? 0)")
+            Text("\(selectedGroup?.joinRequests?.count ?? 0)")
         }
         .foregroundColor(.blue)
         .padding(.horizontal)
@@ -131,9 +143,9 @@ extension FeedView {
             viewModel.showGroupJoinRequestsView.toggle()
         }
         .sheet(isPresented: $viewModel.showGroupJoinRequestsView) {
-            GroupJoinRequestsView(group: myGroupViewModel.myGroup ?? Group())
+            GroupJoinRequestsView(group: selectedGroup ?? Group())
         }
-        .isVisible(myGroupViewModel.myGroup?.joinRequests?.count ?? 0 > 0)
+        .isVisible(selectedGroup?.joinRequests?.count ?? 0 > 0)
         
     }
     
@@ -172,11 +184,11 @@ extension FeedView {
         .clipShape(Circle())
         .padding()
         .fullScreenCover(isPresented: $isShowingInviteUsersView) {
-            if let myGroup = myGroupViewModel.myGroup {
+            if let myGroup = selectedGroup {
                 UsersListView(viewModel: .init(myGroup: myGroup), isPresented: $isShowingInviteUsersView)
             }
         }
-        .isVisible(selectedSegment == 1 && myGroupViewModel.myGroup != nil)
+        .isVisible(selectedSegment == 1 && selectedGroup?.createdBy == userId)
         
     }
     
@@ -196,7 +208,7 @@ extension FeedView {
         .fullScreenCover(isPresented: $isShowingNewPostView) {
             NewPost(isPresented: $isShowingNewPostView, groupId: selectedSegment == 0 ? "" : viewModel.selectedGroupId)
         }
-        .isVisible(selectedSegment == 0 || !myGroupViewModel.myGroups.isEmpty )
+        .isVisible(selectedSegment == 0 || !myGroupViewModel.joinedGroups.isEmpty )
         
     }
     
