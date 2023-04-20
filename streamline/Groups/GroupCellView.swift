@@ -24,6 +24,7 @@ struct GroupCellView: View {
                     Circle()
                         .stroke(Color.orange, lineWidth: isSelected ? 2 : 0)
                 )
+                .defaultShadow()
 
             Text(group.name)
                 .font(.system(size: 14, weight: .semibold))

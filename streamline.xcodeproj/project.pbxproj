@@ -74,6 +74,7 @@
 		CDB0414F29C49E8900A1CD3D /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */; };
 		CDB0415129C49F7900A1CD3D /* SearchGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */; };
 		CDC2477129EACE350067F9D9 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC2477029EACE350067F9D9 /* ForgotPasswordView.swift */; };
+		CDFD46D229F128FC00E68324 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD46D129F128FC00E68324 /* MainView.swift */; };
 		F93468D2276932C1005912AF /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93468D1276932C1005912AF /* Comment.swift */; };
 		F951C2AE26E291A5002BE88E /* Annotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951C2AD26E291A5002BE88E /* Annotate.swift */; };
 		F951C2B426E2A852002BE88E /* uploadAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951C2B326E2A852002BE88E /* uploadAnnotation.swift */; };
@@ -230,6 +231,7 @@
 		CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
 		CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupViewModel.swift; sourceTree = "<group>"; };
 		CDC2477029EACE350067F9D9 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		CDFD46D129F128FC00E68324 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F93468D1276932C1005912AF /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		F951C2AD26E291A5002BE88E /* Annotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotate.swift; sourceTree = "<group>"; };
 		F951C2B326E2A852002BE88E /* uploadAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadAnnotation.swift; sourceTree = "<group>"; };
@@ -685,10 +687,11 @@
 		F9B4B2E82666A24900F2B8D6 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				F9CA27EB26DFD47600BFDD6F /* Report.swift */,
-				F95D5E37268A5F1A00E0F70D /* MainTabView.swift */,
 				F985D379265AE8ED002A8F75 /* ContentView.swift */,
+				CDFD46D129F128FC00E68324 /* MainView.swift */,
+				F95D5E37268A5F1A00E0F70D /* MainTabView.swift */,
 				F985D3A8265B0B9F002A8F75 /* FeedView.swift */,
+				F9CA27EB26DFD47600BFDD6F /* Report.swift */,
 				CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */,
 				CD28ECAE29C72FB700BC79E5 /* GroupJoinRequestsView.swift */,
 				F951C2BB26EF9902002BE88E /* AnnotateView.swift */,
@@ -912,6 +915,7 @@
 				2D6703A42833905A005951EF /* MTMedia.swift in Sources */,
 				CD28ECA029C71E2900BC79E5 /* StatusAlertUtils.swift in Sources */,
 				C9ABEDB528EC755D00A78D88 /* Subscription.swift in Sources */,
+				CDFD46D229F128FC00E68324 /* MainView.swift in Sources */,
 				F9EC6C8C26F9053E009F8BE8 /* NotificationsViewModel.swift in Sources */,
 				F9EC6CA32700CE7D009F8BE8 /* ChapterProfileViewModel.swift in Sources */,
 				2D8550A8279E89740034CFEE /* GetGroupViewModel.swift in Sources */,

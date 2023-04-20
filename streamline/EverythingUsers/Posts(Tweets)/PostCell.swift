@@ -25,7 +25,8 @@ struct PostCell: View {
             .resizable()
             .scaledToFill()
             .clipped()
-            .cornerRadius(56 / 2)
+            .cornerRadius(.infinity)
+            .defaultShadow()
     }
     
     var body: some View {

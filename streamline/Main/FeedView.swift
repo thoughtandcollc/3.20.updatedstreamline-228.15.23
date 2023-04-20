@@ -108,6 +108,9 @@ extension FeedView {
                 }
                 .frame(height: 100)
                 .padding(.horizontal)
+                
+                Divider()
+                
             }
         }
         .isVisible(selectedSegment == 1 && !myGroupViewModel.myGroups.isEmpty)
