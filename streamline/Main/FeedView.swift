@@ -9,8 +9,8 @@ import SwiftUI
 
 struct FeedView: View {
     
-    @ObservedObject var viewModel        : FeedViewModel
-    @ObservedObject var myGroupViewModel : GetGroupViewModel
+    @ObservedObject var feedModel  : FeedViewModel
+    @ObservedObject var groupModel : GetGroupViewModel
     
     @State private var isShowingNewPostView     = false
     @State private var isShowingInviteUsersView = false
@@ -23,13 +23,13 @@ struct FeedView: View {
             selectedGroupId = selectedGroup?.id
         }
     }
-    
     @SceneStorage("selectedGroupId") var selectedGroupId: String?
+    
 
     init(viewModel: FeedViewModel, myGroupViewModel: GetGroupViewModel) {
-        self.viewModel = viewModel
-        self.myGroupViewModel = myGroupViewModel
-        self.viewModel.subscribeForPushNotification()
+        self.feedModel = viewModel
+        self.groupModel = myGroupViewModel
+        self.feedModel.subscribeForPushNotification()
     }
     
     var body: some View {
@@ -60,12 +60,12 @@ struct FeedView: View {
         }
         .onAppear{
             // remember the last selected group
-            selectedGroup = myGroupViewModel.myGroups.first(where: {$0.id == selectedGroupId }) ?? myGroupViewModel.myGroups.first
+            selectedGroup = groupModel.myGroups.first(where: {$0.id == selectedGroupId }) ?? groupModel.myGroups.first
         }
-        .fullScreenCover(isPresented: $viewModel.showingCreateGroup) {
-            CreateGroupView(isPresented: $viewModel.showingCreateGroup, group: selectedGroup)
+        .fullScreenCover(isPresented: $feedModel.showingCreateGroup) {
+            CreateGroupView(isPresented: $feedModel.showingCreateGroup, group: selectedGroup)
         }
-        .sheet(isPresented: $viewModel.showGroupSearchView) {
+        .sheet(isPresented: $feedModel.showGroupSearchView) {
             SearchGroupView()
         }
     }
@@ -96,7 +96,7 @@ extension FeedView {
             self.selectedSegment = selectedSegment == 0 ? 1 : 0
             
             if selectedSegment == 1 {
-                viewModel.selectedGroupId = viewModel.selectedGroupId.isEmpty ? myGroupViewModel.joinedGroups.first?.id ?? "" : viewModel.selectedGroupId
+                feedModel.selectedGroupId = feedModel.selectedGroupId.isEmpty ? groupModel.joinedGroups.first?.id ?? "" : feedModel.selectedGroupId
             }
         }
         
@@ -110,11 +110,11 @@ extension FeedView {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
-                    ForEach($myGroupViewModel.joinedGroups) { group in
-                        GroupCellView(group: group, isSelected: group.id == viewModel.selectedGroupId)
+                    ForEach($groupModel.joinedGroups) { group in
+                        GroupCellView(group: group, isSelected: group.id == feedModel.selectedGroupId)
                             .frame(width: 100)
                             .onTapGesture {
-                                viewModel.selectedGroupId = group.id
+                                feedModel.selectedGroupId = group.id
                             }
                     }
                 }
@@ -125,7 +125,7 @@ extension FeedView {
                 
             }
         }
-        .isVisible(selectedSegment == 1 && !myGroupViewModel.joinedGroups.isEmpty)
+        .isVisible(selectedSegment == 1 && !groupModel.joinedGroups.isEmpty)
         
     }
     
@@ -140,9 +140,9 @@ extension FeedView {
         .padding(.horizontal)
         .contentShape(Rectangle())
         .onTapGesture {
-            viewModel.showGroupJoinRequestsView.toggle()
+            feedModel.showGroupJoinRequestsView.toggle()
         }
-        .sheet(isPresented: $viewModel.showGroupJoinRequestsView) {
+        .sheet(isPresented: $feedModel.showGroupJoinRequestsView) {
             GroupJoinRequestsView(group: selectedGroup ?? Group())
         }
         .isVisible(selectedGroup?.joinRequests?.count ?? 0 > 0)
@@ -153,8 +153,8 @@ extension FeedView {
         
         ScrollView {
             LazyVStack {
-                ForEach(Array(selectedSegment == 0 ? viewModel.feedPosts.keys : viewModel.filteredGroupPosts.keys).sorted(by: >), id: \.self) { key in
-                    let posts = selectedSegment == 0 ? viewModel.feedPosts : viewModel.filteredGroupPosts
+                ForEach(Array(selectedSegment == 0 ? feedModel.feedPosts.keys : feedModel.filteredGroupPosts.keys).sorted(by: >), id: \.self) { key in
+                    let posts = selectedSegment == 0 ? feedModel.feedPosts : feedModel.filteredGroupPosts
                     NavigationLink(destination: PostDetailView(post: posts[key]!.first!)) {
                         PostCell(posts: posts[key]!)
                     }
@@ -206,9 +206,9 @@ extension FeedView {
         .clipShape(Circle())
         .padding()
         .fullScreenCover(isPresented: $isShowingNewPostView) {
-            NewPost(isPresented: $isShowingNewPostView, groupId: selectedSegment == 0 ? "" : viewModel.selectedGroupId)
+            NewPost(isPresented: $isShowingNewPostView, groupId: selectedSegment == 0 ? "" : feedModel.selectedGroupId)
         }
-        .isVisible(selectedSegment == 0 || !myGroupViewModel.joinedGroups.isEmpty )
+        .isVisible(selectedSegment == 0 || !groupModel.joinedGroups.isEmpty )
         
     }
     
