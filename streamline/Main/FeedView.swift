@@ -96,7 +96,7 @@ extension FeedView {
             self.selectedSegment = selectedSegment == 0 ? 1 : 0
             
             if selectedSegment == 1 {
-                feedModel.selectedGroupId = feedModel.selectedGroupId.isEmpty ? groupModel.joinedGroups.first?.id ?? "" : feedModel.selectedGroupId
+                feedModel.selectedGroupId = selectedGroup?.id ?? groupModel.joinedGroups.first?.id ?? ""
             }
         }
         
@@ -115,6 +115,7 @@ extension FeedView {
                             .frame(width: 100)
                             .onTapGesture {
                                 feedModel.selectedGroupId = group.id
+                                selectedGroup = group.wrappedValue
                             }
                     }
                 }
