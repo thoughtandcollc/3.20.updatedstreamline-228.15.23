@@ -40,9 +40,9 @@ struct FeedView: View {
          
                 TopPickerView()
                 
-                GroupsHorizontalListView()
+                GlobalPostsListView()
                 
-                MainListView()
+                GroupsView()
                 
                 Spacer()
                 
@@ -102,72 +102,31 @@ extension FeedView {
         
     }
     
-    private func GroupsHorizontalListView() -> some View {
-        
-        VStack {
-            
-            RequestsView()
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack {
-                    ForEach($groupModel.joinedGroups) { group in
-                        GroupCellView(group: group, isSelected: group.id == feedModel.selectedGroupId)
-                            .frame(width: 100)
-                            .onTapGesture {
-                                feedModel.selectedGroupId = group.id
-                                selectedGroup = group.wrappedValue
-                            }
-                    }
-                }
-                .frame(height: 100)
-                .padding(.horizontal)
-                
-                Divider()
-                
-            }
-        }
-        .isVisible(selectedSegment == 1 && !groupModel.joinedGroups.isEmpty)
-        
-    }
-    
-    private func RequestsView() -> some View {
-        
-        HStack {
-            Text("Join Requests")
-            Spacer()
-            Text("\(selectedGroup?.joinRequests?.count ?? 0)")
-        }
-        .foregroundColor(.blue)
-        .padding(.horizontal)
-        .contentShape(Rectangle())
-        .onTapGesture {
-            feedModel.showGroupJoinRequestsView.toggle()
-        }
-        .sheet(isPresented: $feedModel.showGroupJoinRequestsView) {
-            GroupJoinRequestsView(group: selectedGroup ?? Group())
-        }
-        .isVisible(selectedGroup?.joinRequests?.count ?? 0 > 0)
-        
-    }
-    
-    private func MainListView() -> some View {
+    private func GlobalPostsListView() -> some View {
         
         ScrollView {
+            
             LazyVStack {
-                ForEach(Array(selectedSegment == 0 ? feedModel.feedPosts.keys : feedModel.filteredGroupPosts.keys).sorted(by: >), id: \.self) { key in
-                    let posts = selectedSegment == 0 ? feedModel.feedPosts : feedModel.filteredGroupPosts
-                    NavigationLink(destination: PostDetailView(post: posts[key]!.first!)) {
-                        PostCell(posts: posts[key]!)
+                
+                ForEach(Array(feedModel.feedPosts.keys).sorted(by: >), id: \.self) { key in
+                    NavigationLink(
+                        destination: PostDetailView(post: feedModel.feedPosts[key]!.first!)) {
+                        PostCell(posts: feedModel.feedPosts[key]!)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(.plain)
                 }
                 .padding()
                 
                 // Bottom Edge inset
                 Color.clear.padding(.bottom, 30)
 
-            } .padding()
+            }
+            .padding()
+            
         }
+        .isVisible(selectedSegment == 0)
+        .transition(.move(edge: .leading))
+        .animation(.linear(duration: 0.2), value: selectedSegment)
         
     }
     
@@ -215,6 +174,97 @@ extension FeedView {
     
 }
 
+// MARK: - Groups View Functions
+// MARK: -
+extension FeedView {
+    
+    private func GroupsView() -> some View {
+        
+        VStack {
+            
+            RequestsView()
+            
+            GroupsHorizontalListView()
+            
+            GroupsPostsListView()
+            
+        }
+        .isVisible(selectedSegment == 1)
+        .transition(.move(edge: .trailing))
+        .animation(.linear(duration: 0.2), value: selectedSegment)
+        
+    }
+    
+    private func RequestsView() -> some View {
+        
+        HStack {
+            Text("Join Requests")
+            Spacer()
+            Text("\(selectedGroup?.joinRequests?.count ?? 0)")
+        }
+        .foregroundColor(.blue)
+        .padding(.horizontal)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            feedModel.showGroupJoinRequestsView.toggle()
+        }
+        .sheet(isPresented: $feedModel.showGroupJoinRequestsView) {
+            GroupJoinRequestsView(group: selectedGroup ?? Group())
+        }
+        .isVisible(selectedGroup?.joinRequests?.count ?? 0 > 0)
+        
+    }
+
+    private func GroupsHorizontalListView() -> some View {
+        
+        VStack {
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack {
+                    ForEach($groupModel.joinedGroups) { group in
+                        GroupCellView(group: group, isSelected: group.id == feedModel.selectedGroupId)
+                            .frame(width: 100)
+                            .onTapGesture {
+                                feedModel.selectedGroupId = group.id
+                                selectedGroup = group.wrappedValue
+                            }
+                    }
+                }
+                .frame(height: 100)
+                .padding(.horizontal)
+                
+            }
+            
+        }
+        //.isVisible(selectedSegment == 1 && !groupModel.joinedGroups.isEmpty)
+        
+    }
+    
+    private func GroupsPostsListView() -> some View {
+        
+        ScrollView {
+            
+            LazyVStack {
+                
+                ForEach(Array(feedModel.filteredGroupPosts.keys).sorted(by: >), id: \.self) { key in
+                    NavigationLink(destination: PostDetailView(post: feedModel.filteredGroupPosts[key]!.first!)) {
+                        PostCell(posts: feedModel.filteredGroupPosts[key]!)
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding()
+                
+                // Bottom Edge inset
+                Color.clear.padding(.bottom, 30)
+
+            }
+            .padding()
+        }
+        
+    }
+    
+}
+
 
 
 // MARK: - Preview
@@ -226,6 +276,35 @@ struct FeedView_Previews: PreviewProvider {
         FeedView(viewModel: FeedViewModel(), myGroupViewModel: GetGroupViewModel())
         
     }
+    
 }
 
 
+
+
+
+
+
+
+
+
+//private func MainListView() -> some View {
+//
+//    ScrollView {
+//        LazyVStack {
+//            ForEach(Array(selectedSegment == 0 ? feedModel.feedPosts.keys : feedModel.filteredGroupPosts.keys).sorted(by: >), id: \.self) { key in
+//                let posts = selectedSegment == 0 ? feedModel.feedPosts : feedModel.filteredGroupPosts
+//                NavigationLink(destination: PostDetailView(post: posts[key]!.first!)) {
+//                    PostCell(posts: posts[key]!)
+//                }
+//                .buttonStyle(PlainButtonStyle())
+//            }
+//            .padding()
+//
+//            // Bottom Edge inset
+//            Color.clear.padding(.bottom, 30)
+//
+//        } .padding()
+//    }
+//
+//}
