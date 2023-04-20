@@ -143,12 +143,13 @@ extension FeedView {
         .foregroundColor(.white)
         .clipShape(Circle())
         .padding()
+        .opacity((selectedSegment == 1 && selectedGroup?.createdBy == userId) ? 1 : 0)
+        .animation(.easeIn(duration: 0.2), value: selectedGroup)
         .fullScreenCover(isPresented: $isShowingInviteUsersView) {
             if let myGroup = selectedGroup {
                 UsersListView(viewModel: .init(myGroup: myGroup), isPresented: $isShowingInviteUsersView)
             }
         }
-        .isVisible(selectedSegment == 1 && selectedGroup?.createdBy == userId)
         
     }
     
@@ -168,7 +169,7 @@ extension FeedView {
         .fullScreenCover(isPresented: $isShowingNewPostView) {
             NewPost(isPresented: $isShowingNewPostView, groupId: selectedSegment == 0 ? "" : feedModel.selectedGroupId)
         }
-        .isVisible(selectedSegment == 0 || !groupModel.joinedGroups.isEmpty )
+        .isVisible(selectedSegment == 0 || groupModel.myGroups.isNotEmpty )
         
     }
     
