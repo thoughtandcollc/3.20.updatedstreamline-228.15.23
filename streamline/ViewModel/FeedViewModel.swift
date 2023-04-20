@@ -9,19 +9,21 @@ import SwiftUI
 import FirebaseMessaging
 
 class FeedViewModel: ObservableObject {
-    private var allPosts = [Post]()
-    @Published var feedPosts = [String : [Post]]()//[Post]()
-//    private var groupPosts = [Post]()
-    @Published var filteredGroupPosts = [String : [Post]]()//[Post]()
-    var selectedGroupId = "" {
+    
+    private var allPosts              = [Post]()
+    
+    @Published var feedPosts          = [String : [Post]]()
+    @Published var filteredGroupPosts = [String : [Post]]()
+    
+    @Published var showingCreateGroup        = false
+    @Published var showGroupSearchView       = false
+    @Published var showGroupJoinRequestsView = false
+    
+    @AppStorage("selectedGroupId") var selectedGroupId = "" {
         didSet {
             filteredGroupPosts = selectedGroupId == "" ? [:] : Dictionary(grouping: allPosts.filter({$0.myGroupId == selectedGroupId}), by: {$0.multiPostId})
         }
     }
-
-    @Published var showingCreateGroup = false
-    @Published var showGroupSearchView = false
-    @Published var showGroupJoinRequestsView = false
     
     init() {
         fetchPosts()
@@ -42,12 +44,10 @@ class FeedViewModel: ObservableObject {
     }
     
     func fetchGroupsPosts() {
-//        guard let user = AuthViewModel.shared.user else {
-//            return
-//        }
         
         let filteredGroupPosts = allPosts.filter({$0.myGroupId == selectedGroupId})
         self.filteredGroupPosts = Dictionary(grouping: filteredGroupPosts, by: {$0.multiPostId})
+        
     }
     
     func subscribeForPushNotification() {
@@ -55,7 +55,7 @@ class FeedViewModel: ObservableObject {
             return
         }
         Messaging.messaging().subscribe(toTopic: userId) { error in
-            print(error?.localizedDescription)
+            print(error?.localizedDescription ?? "")
         }
     }
 }

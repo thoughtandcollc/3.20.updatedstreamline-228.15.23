@@ -18,13 +18,7 @@ struct FeedView: View {
     @State private var selectedSegment          = 0
     @State private var hasSelectedPostWithImage = false
     
-    @State private var selectedGroup: Group? {
-        didSet {
-            selectedGroupId = selectedGroup?.id
-        }
-    }
-    @SceneStorage("selectedGroupId") var selectedGroupId: String?
-    
+    @State private var selectedGroup: Group?
 
     init(viewModel: FeedViewModel, myGroupViewModel: GetGroupViewModel) {
         self.feedModel = viewModel
@@ -58,10 +52,8 @@ struct FeedView: View {
                 
             }
         }
-        .onAppear{
-            // remember the last selected group
-            selectedGroup = groupModel.myGroups.first(where: {$0.id == selectedGroupId }) ?? groupModel.myGroups.first
-        }
+        .onAppear { updateSelectedGroup() }
+        .onChange(of: feedModel.selectedGroupId) { _ in updateSelectedGroup() }
         .fullScreenCover(isPresented: $feedModel.showingCreateGroup) {
             CreateGroupView(isPresented: $feedModel.showingCreateGroup, group: selectedGroup)
         }
@@ -227,7 +219,6 @@ extension FeedView {
                             .frame(width: 100)
                             .onTapGesture {
                                 feedModel.selectedGroupId = group.id
-                                selectedGroup = group.wrappedValue
                             }
                     }
                 }
@@ -264,6 +255,16 @@ extension FeedView {
         
     }
     
+}
+
+// MARK: - Helper View Functions
+// MARK: -
+extension FeedView {
+    
+    private func updateSelectedGroup() {
+        selectedGroup = groupModel.joinedGroups.first(where: {$0.id == feedModel.selectedGroupId }) ?? groupModel.joinedGroups.first
+    }
+
 }
 
 
