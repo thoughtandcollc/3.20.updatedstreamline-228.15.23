@@ -55,7 +55,7 @@ struct FeedView: View {
         .onAppear { updateSelectedGroup() }
         .onChange(of: feedModel.selectedGroupId) { _ in updateSelectedGroup() }
         .fullScreenCover(isPresented: $feedModel.showingCreateGroup) {
-            CreateGroupView(isPresented: $feedModel.showingCreateGroup, group: selectedGroup)
+            CreateGroupView(group: selectedGroup)
         }
         .sheet(isPresented: $feedModel.showGroupSearchView) {
             SearchGroupView()

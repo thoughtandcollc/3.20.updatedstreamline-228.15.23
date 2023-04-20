@@ -10,8 +10,9 @@ import SDWebImageSwiftUI
 
 struct CreateGroupView: View {
     
-    @Binding var isPresented: Bool
-    @StateObject var viewModel: CreateGroupViewModel
+    @Environment(\.dismiss) var dismiss // for dismissing this view
+    
+    @StateObject var createModel: CreateGroupViewModel
     
     @State var showImagePicker = false
     @State var selectedUIImage : UIImage?
@@ -32,24 +33,23 @@ struct CreateGroupView: View {
                     DescriptionView()
                     
                 }
-                .navigationTitle(viewModel.createNewGroup ? "Create Group" : "Update Group")
+                .navigationTitle(createModel.createNewGroup ? "Create Group" : "Update Group")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(leading: NavBarLeadingButton(), trailing: NavBarTrailingButton())
                 .foregroundColor(Color("AdaptiveColor"))
                 .padding()
-                .toast(isPresenting: $viewModel.showToast) { viewModel.alertToast }
-                .alert(item: $viewModel.alert, content: { alert in
+                .toast(isPresenting: $createModel.showToast) { createModel.alertToast }
+                .alert(item: $createModel.alert, content: { alert in
                     Alert(title: Text("Success"), message: Text(alert.message), dismissButton: .default(Text("Ok")){
-                        self.isPresented = false
+                        dismiss()
                     })
                 })
             }
         }
     }
     
-    init(isPresented: Binding<Bool>, group: Group?) {
-        _isPresented = isPresented
-        _viewModel = StateObject(wrappedValue: CreateGroupViewModel(group: group))
+    init(group: Group?) {
+        _createModel = StateObject(wrappedValue: CreateGroupViewModel(group: group))
     }
  
 }
@@ -75,9 +75,9 @@ extension CreateGroupView {
                         .padding(.bottom, 16)
                     
                 }
-                else if viewModel.imageURL != nil {
+                else if createModel.imageURL != nil {
                     
-                    AnimatedImage(url: viewModel.imageURL)
+                    AnimatedImage(url: createModel.imageURL)
                         .indicator(SDWebImageActivityIndicator.grayLarge)
                         .resizable()
                         .scaledToFill()
@@ -116,7 +116,7 @@ extension CreateGroupView {
                 .font(.system(size: 16, weight: .semibold))
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            TextField("Name your group", text: $viewModel.name)
+            TextField("Name your group", text: $createModel.name)
                 .font(.system(size: 14))
                 .padding(.vertical, 10)
             
@@ -135,7 +135,7 @@ extension CreateGroupView {
                 .font(.system(size: 16, weight: .semibold))
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            TextArea("Write some description", text: $viewModel.description, horizontalPadding: 0, font: Font.system(size: 14))
+            TextArea("Write some description", text: $createModel.description, horizontalPadding: 0, font: Font.system(size: 14))
             
         }
     }
@@ -143,7 +143,7 @@ extension CreateGroupView {
     private func NavBarLeadingButton() -> some View {
         
         Button(action: {
-            isPresented = false
+            dismiss()
         }, label: {
             Text("Cancel")
         })
@@ -153,18 +153,18 @@ extension CreateGroupView {
     private func NavBarTrailingButton() -> some View {
         
         Button {
-            viewModel.createNewGroupInDatabase(image: selectedUIImage)
+            createModel.createNewGroupInDatabase(image: selectedUIImage)
         } label: {
             
-            Text(viewModel.createNewGroup ? "Create" : "Update")
+            Text(createModel.createNewGroup ? "Create" : "Update")
                 .padding(.horizontal)
                 .padding(.vertical, 8)
-                .background(viewModel.name.isEmpty ? Color.gray : Color.orange)
+                .background(createModel.name.isEmpty ? Color.gray : Color.orange)
                 .foregroundColor(.white)
                 .clipShape(Capsule())
             
         }
-        .disabled(viewModel.name.isEmpty)
+        .disabled(createModel.name.isEmpty)
         
     }
     
@@ -185,6 +185,6 @@ extension CreateGroupView {
 // MARK: -
 struct CreateGroupView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateGroupView(isPresented: .constant(true), group: Group())
+        CreateGroupView(group: Group())
     }
 }
