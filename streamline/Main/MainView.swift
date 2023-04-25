@@ -40,7 +40,6 @@ struct MainView: View {
                     .disabled(showingMenu)
                     .navigationBarItems(leading: ProfileImageButton(),
                                         trailing: selectedIndex == 0 ? RefreshButton() : nil)
-                    .toolbar { ToolbarItemsView() }
                 
             }
             .onAppear { self.showingMenu = false }
@@ -81,28 +80,7 @@ extension MainView {
         }
 
     }
-    
-    private func ToolbarItemsView() -> some ToolbarContent {
-        
-        ToolbarItemGroup(placement: .navigationBarTrailing) {
-            
-            Button {
-                self.feedViewModel.showGroupSearchView.toggle()
-            } label: {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(Color("AdaptiveColor"))
-            }
-            
-            
-            Button {
-                self.feedViewModel.showingCreateGroup.toggle()
-            } label: {
-                Image(systemName: "plus")
-                    .foregroundColor(Color("AdaptiveColor"))
-            }
-        }
 
-    }
     
 }
 

@@ -9,15 +9,15 @@ import SwiftUI
 
 struct MainTabView: View {
     
-    @ObservedObject var getGroupViewModel = GetGroupViewModel()
-    @ObservedObject var viewModel: FeedViewModel
+    @ObservedObject var getGroupModel = GetGroupViewModel()
+    @ObservedObject var feedModel: FeedViewModel
     
     @Binding var selectedIndex: Int
     
     var body: some View {
         
         TabView(selection: $selectedIndex) {
-            FeedView(viewModel: viewModel, myGroupViewModel: getGroupViewModel)
+            FeedView(viewModel: feedModel, myGroupViewModel: getGroupModel)
                 .onTapGesture {
                     selectedIndex = 0
                 }
@@ -65,10 +65,12 @@ struct MainTabView: View {
 //                    Image(systemName: "bookmark")
 //                }.tag(4)
         }
+        .toolbar { ToolbarItemsView() }
+        
     }
     
     init(viewModel: FeedViewModel, selectedIndex: Binding<Int>) {
-        self.viewModel = viewModel
+        self.feedModel = viewModel
         _selectedIndex = selectedIndex
         
         // Fix tabbar transparency
@@ -77,5 +79,43 @@ struct MainTabView: View {
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
     }
 
+}
+
+// MARK: - View Functions
+// MARK: -
+extension MainTabView {
+    
+    
+    private func ToolbarItemsView() -> some ToolbarContent {
+        
+        ToolbarItemGroup(placement: .navigationBarTrailing) {
+            
+            Button {
+                self.feedModel.showGroupSearchView.toggle()
+            } label: {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(Color("AdaptiveColor"))
+            }
+            
+            
+            Button {
+                
+                // group limit check
+                guard getGroupModel.myGroups.count < 5 else {
+                    customAlertApple(title: "Maximum Limit Reached", message: "Each user can create maximum 5 groups", yesButtonTitle: "Okay")
+                    return
+                }
+                
+                // show create group screen
+                self.feedModel.showingCreateGroup.toggle()
+                
+            } label: {
+                Image(systemName: "plus")
+                    .foregroundColor(Color("AdaptiveColor"))
+            }
+        }
+
+    }
+    
 }
 
