@@ -69,8 +69,8 @@ struct MainTabView: View {
         
     }
     
-    init(viewModel: FeedViewModel, selectedIndex: Binding<Int>) {
-        self.feedModel = viewModel
+    init(feedModel: FeedViewModel, selectedIndex: Binding<Int>) {
+        self.feedModel = feedModel
         _selectedIndex = selectedIndex
         
         // Fix tabbar transparency

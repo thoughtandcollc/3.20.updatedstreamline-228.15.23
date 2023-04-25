@@ -10,8 +10,8 @@ import SDWebImageSwiftUI
 
 struct MainView: View {
     
-    @EnvironmentObject var viewModel  : AuthViewModel
-    @ObservedObject var feedViewModel : FeedViewModel
+    @EnvironmentObject var authModel  : AuthViewModel
+    @ObservedObject var feedModel : FeedViewModel
     
     @State private var selectedIndex = 0
     @State private var showingMenu   = false
@@ -28,10 +28,10 @@ struct MainView: View {
                     .isVisible(showingMenu)
                 
                 
-                MainTabView(viewModel: feedViewModel, selectedIndex: $selectedIndex)
+                MainTabView(feedModel: feedModel, selectedIndex: $selectedIndex)
                     .cornerRadius(showingMenu ? 20 : 10)
                     .ignoresSafeArea()
-                    .navigationBarTitle(viewModel.tabTitle(forIndex: selectedIndex))
+                    .navigationBarTitle(authModel.tabTitle(forIndex: selectedIndex))
                     .navigationBarTitleDisplayMode(.inline)
                     .offset(x: showingMenu ? 300 : 0, y: showingMenu ? 44 : 0)
                     .opacity(showingMenu ? 0.25 : 1)
@@ -59,7 +59,7 @@ extension MainView {
                 self.showingMenu.toggle()
             }
         }, label: {
-            if let user = viewModel.user {
+            if let user = authModel.user {
                 AnimatedImage(url: URL(string: user.profileImageUrl))
                     .indicator(SDWebImageActivityIndicator.grayLarge)
                     .resizable()
@@ -86,6 +86,6 @@ extension MainView {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(feedViewModel: FeedViewModel())
+        MainView(feedModel: FeedViewModel())
     }
 }
