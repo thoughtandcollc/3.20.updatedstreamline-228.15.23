@@ -12,7 +12,7 @@ import MapKit
 struct ContentView: View {
     
     @EnvironmentObject var viewModel : AuthViewModel
-    @StateObject var feedViewModel  = FeedViewModel()
+    @StateObject var feedModel  = FeedViewModel()
 
     var body: some View {
         
@@ -20,12 +20,12 @@ struct ContentView: View {
             
             // user is logged in
             if viewModel.userSession != nil {
-                MainView(feedViewModel: feedViewModel)
+                MainView(feedModel: feedModel)
                 
                 // user is logged out
             } else {
                 LoginView()
-                    .onAppear { feedViewModel.selectedGroupId = ""}
+                    .onAppear { feedModel.selectedGroupId = ""}
             }
             
         }
