@@ -54,13 +54,18 @@ struct FeedView: View {
         }
         .onAppear { updateSelectedGroup() }
         .onChange(of: feedModel.selectedGroupId) { _ in updateSelectedGroup() }
+        .onChange(of: groupModel.joinedGroups, perform: { newValue in
+            guard selectedGroup != nil else { updateSelectedGroup(); return }
+            let selectedGrou = groupModel.joinedGroups.first(where: {$0.id == feedModel.selectedGroupId })
+            self.selectedGroup = selectedGrou
+        })
         .fullScreenCover(isPresented: $feedModel.showingCreateGroup) {
             CreateGroupView(group: nil)
         }
         // TODO: - update for edit group
-//        .fullScreenCover(isPresented: $feedModel.showingCreateGroup) {
-//            CreateGroupView(group: selectedGroup)
-//        }
+        .fullScreenCover(isPresented: $feedModel.showingEditGroup) {
+            CreateGroupView(group: selectedGroup)
+        }
         .sheet(isPresented: $feedModel.showGroupSearchView) {
             SearchGroupView()
         }
@@ -183,6 +188,8 @@ extension FeedView {
             
             GroupsHorizontalListView()
             
+            EditGroupButtonView()
+            
             GroupsPostsListView()
             
         }
@@ -233,6 +240,42 @@ extension FeedView {
             
         }
         //.isVisible(selectedSegment == 1 && !groupModel.joinedGroups.isEmpty)
+        
+    }
+    
+    private func EditGroupButtonView() -> some View {
+        
+        HStack {
+            
+            //--------------------------------------------------  Edit Group
+            
+            Button {
+                feedModel.showingEditGroup.toggle()
+            } label: {
+                Text("Edit Group")
+                    .font(.system(size: 12))
+                    .foregroundColor(.white)
+            }
+            .tint(.blue)
+            .buttonStyle(.borderedProminent)
+            
+            
+            //-------------------------------------------------- Edit members
+            
+            Button {
+                
+            } label: {
+                Text("Edit Members")
+                    .font(.system(size: 12))
+                    .foregroundColor(.white)
+            }
+            .tint(.blue)
+            .buttonStyle(.borderedProminent)
+            
+            
+        }
+        .isVisible(selectedGroup?.createdBy == userId)
+
         
     }
     

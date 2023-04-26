@@ -22,6 +22,8 @@ class CreateGroupViewModel: ObservableObject {
             showToast = true
         }
     }
+    
+    @Published var groupToEdit: Group? // group thats gonna be edited
         
     init(group: Group?) {
         
@@ -34,12 +36,14 @@ class CreateGroupViewModel: ObservableObject {
         self.name               = group.name
         self.description        = group.description ?? " "
         self.imageURL           = URL(string : group.imageURL ?? "")
+        
+        self.groupToEdit = group
     }
 
     func createNewGroupInDatabase(image: UIImage?) {
         
        // guard let user = AuthViewModel.shared.user else { return }
-        let groupId = UUID().uuidString
+        let groupId = createNewGroup ? UUID().uuidString : groupToEdit!.id
         
         guard let image = image else {
             self.alertToast = .init(type: .loading)
@@ -82,7 +86,7 @@ class CreateGroupViewModel: ObservableObject {
                         .init(type: .error(.red), title: error.localizedDescription)
                     return
                 }
-                self.alert = .init(type: .success, message: "Group created successfully!")
+                self.alert = .init(type: .success, message: self.createNewGroup ? "Group created successfully!": "Group updated successfully!")
             }
         } catch {
             print(error.localizedDescription)
