@@ -62,9 +62,16 @@ struct FeedView: View {
         .fullScreenCover(isPresented: $feedModel.showingCreateGroup) {
             CreateGroupView(group: nil)
         }
-        // TODO: - update for edit group
         .fullScreenCover(isPresented: $feedModel.showingEditGroup) {
             CreateGroupView(group: selectedGroup)
+        }
+        .sheet(isPresented: $feedModel.showingMembersView) {
+            if selectedGroup != nil {
+                GroupMembersView(group: selectedGroup!)
+            }
+            else {
+                EmptyView()
+            }
         }
         .sheet(isPresented: $feedModel.showGroupSearchView) {
             SearchGroupView()
@@ -263,7 +270,7 @@ extension FeedView {
             //-------------------------------------------------- Edit members
             
             Button {
-                
+                feedModel.showingMembersView.toggle()
             } label: {
                 Text("Edit Members")
                     .font(.system(size: 12))

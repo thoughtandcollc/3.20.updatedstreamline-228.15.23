@@ -17,6 +17,7 @@ class FeedViewModel: ObservableObject {
     
     @Published var showingCreateGroup        = false
     @Published var showingEditGroup          = false
+    @Published var showingMembersView        = false
     @Published var showGroupSearchView       = false
     @Published var showGroupJoinRequestsView = false
     
