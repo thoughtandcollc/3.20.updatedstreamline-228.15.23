@@ -47,8 +47,7 @@ struct GroupMembersView: View {
                                 .isVisible(model.group.createdBy == member.id)
                                 
                             
-                            // TODO: - change for admin settings
-                            Text("Request ")
+                            Text("Sub Leader")
                                 .font(.system(size: 12))
                                 .foregroundColor(.orange)
                                 .padding(.horizontal, 4)
@@ -56,7 +55,7 @@ struct GroupMembersView: View {
                                 .background{
                                     RoundedRectangle(cornerRadius: 4).stroke(Color.orange, lineWidth: 1)
                                 }
-                                .isVisible(false)
+                                .isVisible(model.group.subLeaders?.contains(member.id) ?? false)
                             
                         }
                         .contentShape(Rectangle())
@@ -68,7 +67,8 @@ struct GroupMembersView: View {
                 .listStyle(InsetGroupedListStyle())
                 .padding(.top, 10)
             }
-            .navigationBarTitle("Search")
+            .navigationBarTitle("Members")
+            
         }
     }
 }

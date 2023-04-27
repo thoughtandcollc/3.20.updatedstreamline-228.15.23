@@ -74,7 +74,7 @@ class CreateGroupViewModel: ObservableObject {
         
         guard let user = AuthViewModel.shared.user else { return }
         
-        let group = Group(id: groupId, name: name, description: description, imageURL: imageURL, timestamp: Timestamp(date: Date()), createdBy: user.id, joinedUsers: createNewGroup ? [user.id] : nil, joinRequests: [])
+        let group = Group(id: groupId, name: name, description: description, imageURL: imageURL, timestamp: Timestamp(date: Date()), createdBy: user.id, joinedUsers: createNewGroup ? [user.id] : nil, joinRequests: [], subLeaders: [])
         
         let query = COLLECTION_GROUPS.document(groupId)
 
