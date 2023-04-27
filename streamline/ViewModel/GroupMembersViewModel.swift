@@ -203,6 +203,12 @@ extension GroupMembersViewModel {
                     guard let self = self else { return }
                     guard success else { return }
                     
+                    // sub leaders count check
+                    if tempGroup.subLeaders?.count ?? 0 >= 2 {
+                        customAlert(message: "Only two members can be made sub leaders", alertType: .error)
+                        return
+                    }
+                    
                     // add as sub leader
                     if tempGroup.subLeaders == nil { tempGroup.subLeaders = [] }
                     tempGroup.subLeaders?.append(member.id)
