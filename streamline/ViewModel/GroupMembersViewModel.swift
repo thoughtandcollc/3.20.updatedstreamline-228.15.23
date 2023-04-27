@@ -14,9 +14,12 @@ class GroupMembersViewModel: ObservableObject {
     @Published var group: Group
     @Published var membersList: [User] = []
     
+    var tempGroup: Group // for editing only
+    
     // initialization
     init(group: Group) {
         self.group = group
+        tempGroup = group
         getMembers()
     }
     
@@ -32,8 +35,9 @@ extension GroupMembersViewModel {
         // show progress bar
         ProgressHUD.show()
 
-        COLLECTION_USERS.whereField("uid", in: group.joinedUsers ?? []).getDocuments{ snapShot, error in
-
+        COLLECTION_USERS.whereField("uid", in: tempGroup.joinedUsers ?? []).getDocuments{[weak self] snapShot, error in
+            guard let self = self else { return }
+            
             // hide progress bar
             ProgressHUD.dismiss()
 
@@ -48,129 +52,49 @@ extension GroupMembersViewModel {
             let docs = snapShot.documents.map({ $0.data() })
 
             var members = [User]()
-            var owner: User?
-            var subAdmins = [User]()
-            
             
             for doc in docs {
-                
                 let user = User(dictionary: doc)
-                
-                // owner
-                if user.id == self.group.createdBy {
-                    owner = user
-                }
-                // other members
-                else {
-                    members.append(user)
-                }
-                
-            }
-            
-            // insert owner at the top of the array
-            if let owner = owner {
-                members.insert(owner, at: 0)
+                members.append(user)
             }
             
             // update members list
-            self.membersList = members
+            self.membersList = self.rearrangeMembers(members: members)
 
         }
 
     }
     
-//    func joinGroup(group: Group) {
-//
-//        customAlertApple(title: "Join Group?", message: "Would you like to send request to join this group?", showDestructive: true) { success in
-//
-//            // check if user tapped yes
-//            guard success else { return }
-//
-//            // get user id
-//            guard let userId = Auth.auth().currentUser?.uid else { return }
-//            var newGroup = group
-//
-//            // adding user id in join requests
-//            if newGroup.joinRequests == nil {
-//                newGroup.joinRequests = [userId]
-//            }
-//            else {
-//                newGroup.joinRequests?.append(userId)
-//            }
-//
-//            // removing duplicates
-//            newGroup.joinRequests = Array(Set(newGroup.joinRequests ?? []))
-//
-//            // show progress bar
-//            ProgressHUD.show()
-//
-//            // sending request in firebase
-//            COLLECTION_GROUPS.document(group.id).setData(newGroup.toDictionary(), completion: { error in
-//
-//                // hide progress bar
-//                ProgressHUD.dismiss()
-//
-//                // error
-//                guard error == nil else {
-//                    customAlert(message: error!.localizedDescription)
-//                    return
-//                }
-//
-//                // success
-//                customAlert(message: "Request Successfully Sent", alertType: .success)
-//
-//                // updating group
-//                guard let index = self.groupsList.firstIndex(where: {$0.id == group.id }) else { return }
-//                self.groupsList[index].joinRequests = newGroup.joinRequests
-//
-//            })
-//
-//
-//        }
-//    }
-    
-//    func leaveGroup(group: Group) {
-//
-//        customAlertApple(title: "Leave Group?", message: "Would you like leave this group?", showDestructive: true) { success in
-//
-//            // check if user tapped yes
-//            guard success else { return }
-//
-//            // get user id
-//            guard let userId = Auth.auth().currentUser?.uid else { return }
-//            var newGroup = group
-//
-//            // remove user id from joined users
-//            newGroup.joinedUsers?.removeAll(where: { $0 == userId })
-//
-//            // show progress bar
-//            ProgressHUD.show()
-//
-//            // sending request in firebase
-//            COLLECTION_GROUPS.document(newGroup.id).setData(newGroup.toDictionary(), completion: { error in
-//
-//                // hide progress bar
-//                ProgressHUD.dismiss()
-//
-//                // error
-//                guard error == nil else {
-//                    customAlert(message: error!.localizedDescription)
-//                    return
-//                }
-//
-//                // success
-//                customAlert(message: "Group Left", alertType: .success)
-//
-//                // updating group
-//                guard let index = self.groupsList.firstIndex(where: {$0.id == newGroup.id }) else { return }
-//                self.groupsList[index].joinedUsers = newGroup.joinedUsers
-//
-//            })
-//
-//
-//        }
-//    }
-
+    func updateGroup() {
+        
+        // show progress bar
+        ProgressHUD.show()
+        
+        // sending request in firebase
+        COLLECTION_GROUPS.document(tempGroup.id).setData(tempGroup.toDictionary(), completion: {[weak self] error in
+            
+            guard let self = self else { return }
+            
+            // hide progress bar
+            ProgressHUD.dismiss()
+            
+            // error
+            guard error == nil else {
+                customAlert(message: error!.localizedDescription)
+                self.tempGroup = self.group
+                return
+            }
+            
+            // success
+            customAlert(message: "Success", alertType: .success)
+            
+            // updating group
+            self.group = self.tempGroup
+            self.membersList = self.rearrangeMembers(members: membersList)
+            
+        })
+        
+    }
     
 }
 
@@ -182,7 +106,7 @@ extension GroupMembersViewModel {
 }
 
 
-// MARK: - Helper Functions
+// MARK: - Action Functions
 // MARK: -
 extension GroupMembersViewModel {
     
@@ -227,17 +151,40 @@ extension GroupMembersViewModel {
     
     private func groupSubLeaderTapped(member: User) {
         
-        customAlertSheetApple(title: "Change Member Role", message: "Do you want to change the role of this user?", option1: "Remove as Sub Leader", option2: "Remove user from group", option3: "Cancel") { option1, option2 in
+        customAlertSheetApple(title: "Change Member Role", message: "Do you want to change the role of this user?", option1: "Remove as Sub Leader", option2: "Remove user from group", option3: "Cancel") {  [weak self] option1, option2 in
             guard option1 || option2 else { return }
+            guard let self = self else { return }
             
             // remove as sub leader
             if option1 {
-                
+                customAlertApple(title: "Remove as Sub Leader", message: "Are you sure you want to remove this member as sub leader?", showDestructive: true) { [weak self] success in
+                    guard let self = self else { return }
+                    guard success else { return }
+                    
+                    // remove as sub leader
+                    self.tempGroup.subLeaders?.removeAll(where: { $0 == member.id })
+                    
+                    // update group in firebase
+                    self.updateGroup()
+                }
             }
             
-            // remove user from group
+            // remove member from group
             else if option2 {
-                
+                customAlertApple(title: "Remove Member", message: "Are you sure you want to remove this member from the group?", showDestructive: true) {[weak self] success in
+                    guard success else { return }
+                    guard let self = self else { return }
+                    
+                    // remove as sub leader
+                    self.tempGroup.subLeaders?.removeAll(where: { $0 == member.id })
+                    
+                    // remove as member
+                    self.tempGroup.joinedUsers?.removeAll(where: {$0 == member.id })
+                    
+                    // update group in firebase
+                    self.updateGroup()
+                    
+                }
             }
             
         }
@@ -246,16 +193,43 @@ extension GroupMembersViewModel {
     
     private func groupMemberTapped(member: User) {
         
-        customAlertSheetApple(title: "Change Member Role", message: "Do you want to change the role of this user?", option1: "Make user Sub Leader", option2: "Remove user from group", option3: "Cancel") { option1, option2 in
+        customAlertSheetApple(title: "Change Member Role", message: "Do you want to change the role of this member?", option1: "Make Sub Leader", option2: "Remove member from group", option3: "Cancel") { [weak self] option1, option2 in
             guard option1 || option2 else { return }
+            guard let self = self else { return }
             
             // make user sub leader
             if option1 {
+                customAlertApple(title: "Make Sub Leader", message: "Are you sure you want to make this member sub leader?", showDestructive: true) {[weak self] success in
+                    guard let self = self else { return }
+                    guard success else { return }
+                    
+                    // add as sub leader
+                    if tempGroup.subLeaders == nil { tempGroup.subLeaders = [] }
+                    tempGroup.subLeaders?.append(member.id)
+                    
+                    // update group in firebase
+                    updateGroup()
+                    
+                }
                 
             }
             
             // remove user from group
             else if option2 {
+                customAlertApple(title: "Remove Member", message: "Are you sure you want to remove this member from the group?", showDestructive: true) {[weak self] success in
+                    guard success else { return }
+                    guard let self = self else { return }
+                    
+                    // remove as sub leader
+                    self.tempGroup.subLeaders?.removeAll(where: { $0 == member.id })
+                    
+                    // remove as member
+                    self.tempGroup.joinedUsers?.removeAll(where: {$0 == member.id })
+                    
+                    // update group in firebase
+                    self.updateGroup()
+                    
+                }
                 
             }
             
@@ -263,15 +237,37 @@ extension GroupMembersViewModel {
         
     }
     
-    
-
-    
 }
 
 
 // MARK: - Helper Functions
 // MARK: -
 extension GroupMembersViewModel {
+    
+    func rearrangeMembers(members: [User]) -> [User] {
+        
+        let owner = members.first(where: {$0.id == group.createdBy })
+        
+        let subLeaders = members
+            .filter({group.subLeaders?.contains($0.id) ?? false })
+            .sorted(by: {$0.fullname < $1.fullname })
+        
+        let otherMembers = members
+            .filter({
+            (group.subLeaders?.contains($0.id) ?? false == false)
+            &&
+            (group.createdBy != $0.id)
+        })
+            .sorted(by: {$0.fullname < $1.fullname })
+        
+        var sortedList = [User]()
+        if let owner = owner { sortedList.append(owner)}
+        sortedList.append(contentsOf: subLeaders)
+        sortedList.append(contentsOf: otherMembers)
+        
+        return sortedList
+        
+    }
     
     
     func customAlertSheetApple(title: String,
@@ -305,4 +301,5 @@ extension GroupMembersViewModel {
         vc?.present(alertController, animated: true, completion: nil)
 
     }
+    
 }
