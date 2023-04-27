@@ -48,12 +48,31 @@ extension GroupMembersViewModel {
             let docs = snapShot.documents.map({ $0.data() })
 
             var members = [User]()
+            var owner: User?
+            var subAdmins = [User]()
+            
             
             for doc in docs {
+                
                 let user = User(dictionary: doc)
-                members.append(user)
+                
+                // owner
+                if user.id == self.group.createdBy {
+                    owner = user
+                }
+                // other members
+                else {
+                    members.append(user)
+                }
+                
             }
             
+            // insert owner at the top of the array
+            if let owner = owner {
+                members.insert(owner, at: 0)
+            }
+            
+            // update members list
             self.membersList = members
 
         }
