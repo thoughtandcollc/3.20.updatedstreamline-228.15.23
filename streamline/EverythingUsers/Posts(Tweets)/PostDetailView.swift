@@ -9,79 +9,151 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct PostDetailView: View {
+    
+    @StateObject var postModel = PostDetailViewModel()
+    
+    @Environment(\.presentationMode) var presentationMode // for dismissing this view
+    
     let post: Post
-    //    @State var commentText: String = ""
+    
     @State private var height: CGFloat = .zero
+    let columns = Array(repeating: GridItem(.flexible()), count: 2)
     
     var body: some View {
         
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                AnimatedImage(url: URL(string: post.profileImageUrl))
-                    .indicator(SDWebImageActivityIndicator.grayLarge)
-                    .resizable()
-                    .scaledToFill()
-                    .clipped()
-                    .frame(width: 56, height: 56)
-                    .cornerRadius(28)
+            
+            PostOwnerInfoView()
+            
+            PostTextView()
+            
+            PostMediaView()
+            
+            PostTimeStampView()
+            
+            PostActionsView()
+            
+            PostCommentsView(viewModel: .init(userId: post.uid, postId: post.id))
+            
+            Spacer()
+            
+            PostDeleteButtonView()
+            
+        }
+        .padding()
+        
+        
+    }
+    
+}
+
+// MARK: - Helper View Functions
+// MARK: -
+extension PostDetailView {
+    
+    private func PostOwnerInfoView() -> some View {
+        
+        HStack {
+            
+            //-------------------------------------------------- Post Owner Image
+            
+            AnimatedImage(url: URL(string: post.profileImageUrl))
+                .indicator(SDWebImageActivityIndicator.grayLarge)
+                .resizable()
+                .scaledToFill()
+                .clipped()
+                .frame(width: 56, height: 56)
+                .cornerRadius(28)
+            
+            //-------------------------------------------------- Post Owner Info
+            
+            VStack(alignment: .leading, spacing: 4) {
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(post.fullname)
-                        .font(.system(size: 14, weight: .semibold))
-                    
-                    Text("@OnTheMargin")
-                        .font(.system(size: 14))
-                        .foregroundColor(.gray)
-                }
-                Spacer()
-                HStack(alignment: .top, spacing: /*@START_MENU_TOKEN@*/nil/*@END_MENU_TOKEN@*/, content: {
-                    ReplyCell()
-                    
-                })
-                .padding()
+                Text(post.fullname)
+                    .font(.system(size: 14, weight: .semibold))
+                
+                Text("@OnTheMargin")
+                    .font(.system(size: 14))
+                    .foregroundColor(.gray)
+                
             }
-            //            .padding(.leading)
             
-            TextWithLinks(string: post.caption, fontSize: 22, dynamicHeight: $height) { url in
-                openBrowserWith(url: url.absoluteString)
+            Spacer()
+            
+            //-------------------------------------------------- Flag
+            
+            HStack(alignment: .top) {
+                ReplyCell()
             }
-            .frame(minHeight: height)
-            .fixedSize(horizontal: false, vertical: true)
             .padding()
+        }
+    }
+    
+    private func PostTextView() -> some View {
+        
+        TextWithLinks(string: post.caption, fontSize: 22, dynamicHeight: $height) { url in
+            openBrowserWith(url: url.absoluteString)
+        }
+        .frame(minHeight: height)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding()
+        
+    }
+    
+    private func PostMediaView() -> some View {
+        
+        VStack {
             
-            if post.media.count > 0 {
-                let columns = Array(repeating: GridItem(.flexible()), count: 2)
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(Array(post.media.enumerated()), id: \.element.id) { index, media in
-//                        let media = post.media[index]
-                        MorePhotoView(media: media) {
-                            
-                        } deleteAction: {
-                            print(index)
-                        }
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(Array(post.media.enumerated()), id: \.element.id) { index, media in
+                    MorePhotoView(media: media) {
+                    } deleteAction: {
+                        print(index)
                     }
                 }
-                .padding(.horizontal)
-                Spacer(minLength: 20)
             }
-            
-            Text(post.detailedTimestampString)
-                .font(.system(size: 14))
-                .foregroundColor(.gray)
-                .padding(.leading)
-            
+            .padding(.horizontal)
+            Spacer(minLength: 20)
+        }
+        .isVisible(post.media.count > 0)
+        
+    }
+    
+    private func PostTimeStampView() -> some View {
+        
+        Text(post.detailedTimestampString)
+            .font(.system(size: 14))
+            .foregroundColor(.gray)
+            .padding(.leading)
+        
+    }
+    
+    private func PostActionsView() -> some View {
+        
+        VStack {
             Divider()
-            HStack(spacing: 12) {
                 PostActionView(post: post)
-            }
             Divider()
-            Spacer()
-            VStack {
-                PostCommentsView(viewModel: .init(userId: post.uid, postId: post.id))
+        }
+        
+    }
+    
+    private func PostDeleteButtonView() -> some View {
+        
+        Button {
+            postModel.deletePost(post: post) { success in
+                guard success else { return }
+                presentationMode.wrappedValue.dismiss() // dismiss this view
             }
+        } label: {
             
-            
-        } .padding()
-        Spacer()
+            Text("Delete Post")
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(.red)
+        .center()
+        // TODO: - complete functionality
+        //.isVisible(isGroupOwner(memberId: userId, group: group))
+
     }
 }

@@ -71,6 +71,7 @@
 		CD28ECAD29C71E2900BC79E5 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28EC9A29C71E2900BC79E5 /* Macros.swift */; };
 		CD28ECAF29C72FB700BC79E5 /* GroupJoinRequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28ECAE29C72FB700BC79E5 /* GroupJoinRequestsView.swift */; };
 		CD28ECB129C846E200BC79E5 /* JoinRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */; };
+		CDAE6A2F29FBEC6100720BEC /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAE6A2E29FBEC6100720BEC /* PostDetailViewModel.swift */; };
 		CDB0414F29C49E8900A1CD3D /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */; };
 		CDB0415129C49F7900A1CD3D /* SearchGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */; };
 		CDC2477129EACE350067F9D9 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC2477029EACE350067F9D9 /* ForgotPasswordView.swift */; };
@@ -230,6 +231,7 @@
 		CD28EC9A29C71E2900BC79E5 /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		CD28ECAE29C72FB700BC79E5 /* GroupJoinRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupJoinRequestsView.swift; sourceTree = "<group>"; };
 		CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequestViewModel.swift; sourceTree = "<group>"; };
+		CDAE6A2E29FBEC6100720BEC /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
 		CDB0415029C49F7900A1CD3D /* SearchGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupViewModel.swift; sourceTree = "<group>"; };
 		CDC2477029EACE350067F9D9 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
@@ -601,6 +603,7 @@
 				F9D82FFC267B906100569CFF /* ReadingActionViewModel.swift */,
 				F95D5E40268A612E00E0F70D /* SideMenuViewModel.swift */,
 				2DC5B5DF278C3D1300737D98 /* PostCommentsViewModel.swift */,
+				CDAE6A2E29FBEC6100720BEC /* PostDetailViewModel.swift */,
 				2D66A3672796F60E00F91E28 /* CreateGroupViewModel.swift */,
 				2D8550A7279E89740034CFEE /* GetGroupViewModel.swift */,
 				2D8550C0279FD2380034CFEE /* InvitationUsersListViewModel.swift */,
@@ -895,6 +898,7 @@
 				2D66A3662796D24700F91E28 /* CreateGroupView.swift in Sources */,
 				F985D3CB265D4EE6002A8F75 /* FilterButtonView.swift in Sources */,
 				F9EC6C8E26F90D22009F8BE8 /* UserService.swift in Sources */,
+				CDAE6A2F29FBEC6100720BEC /* PostDetailViewModel.swift in Sources */,
 				F9D82FFD267B906100569CFF /* ReadingActionViewModel.swift in Sources */,
 				F95D5E41268A612E00E0F70D /* SideMenuViewModel.swift in Sources */,
 				F9EC6C9026FE1110009F8BE8 /* ChapterSelection.swift in Sources */,
