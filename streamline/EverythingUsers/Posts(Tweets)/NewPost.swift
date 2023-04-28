@@ -14,9 +14,9 @@ struct NewPost: View {
     @State var showImagePicker = false
 
     var post: Post?
-    var groupId: String?
+    var groupId: String
     
-    init(isPresented: Binding<Bool>, groupId: String?) {
+    init(isPresented: Binding<Bool>, groupId: String) {
         self._isPresented = isPresented
         self.groupId = groupId
         self.viewModel = UploadPostViewModel(isPresented: isPresented)
@@ -168,6 +168,6 @@ struct NewPost: View {
 
 struct NewPost_Previews: PreviewProvider {
     static var previews: some View {
-        NewPost(isPresented: .constant(true), groupId: nil)
+        NewPost(isPresented: .constant(true), groupId: "")
     }
 }

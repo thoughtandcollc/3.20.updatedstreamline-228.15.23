@@ -57,13 +57,13 @@ class UploadPostViewModel: ObservableObject {
         }
     }
     
-    func uploadPostWithPhotos(groupId: String?) {
+    func uploadPostWithPhotos(groupId: String) {
         isLoading = true
         let postGroup = DispatchGroup()
 
         self.selectedPhotosAndVideosURL.filter({$0.mediaType != .empty}).forEach { media in
             postGroup.enter()
-            uploadPhotoInFirestore(media: media) { downloadedURL in
+            uploadPhotoInFirestore(media: media, groupId: groupId) { downloadedURL in
                 print("Downloaded image url => \(downloadedURL)")
 
                 self.uploadedPhotosURLs.append(downloadedURL)
@@ -77,12 +77,12 @@ class UploadPostViewModel: ObservableObject {
         }
     }
     
-    fileprivate func uploadPhotoInFirestore(media: MTMedia, completion: @escaping (String)-> Void) {
-        guard let url = URL(string: media.imageURL), let user = AuthViewModel.shared.user else {
+    fileprivate func uploadPhotoInFirestore(media: MTMedia, groupId: String, completion: @escaping (String)-> Void) {
+        guard let url = URL(string: media.imageURL) else {
             return
         }
 
-        let storageRef = Storage.storage().reference().child("postsImages/\(user.id)/\(UUID().uuidString)_\(Int(Date().timeIntervalSince1970))\(media.mediaType == .photo ? ".jpeg" : ".mp4")")
+        let storageRef = Storage.storage().reference().child("postsImages/\(groupId)/\(UUID().uuidString)_\(Int(Date().timeIntervalSince1970))\(media.mediaType == .photo ? ".jpeg" : ".mp4")")
         let metadata = StorageMetadata()
         metadata.contentType = media.mediaType == .photo ? "image/jpeg" : "video/mp4"
 
