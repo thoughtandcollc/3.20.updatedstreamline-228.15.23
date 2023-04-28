@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct PostDetailView: View {
     
-    @StateObject var postModel = PostDetailViewModel()
+    @StateObject var postModel: PostDetailViewModel
     
     @Environment(\.presentationMode) var presentationMode // for dismissing this view
     
@@ -18,6 +18,11 @@ struct PostDetailView: View {
     
     @State private var height: CGFloat = .zero
     let columns = Array(repeating: GridItem(.flexible()), count: 2)
+    
+    init(post: Post) {
+        _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
+        self.post = post
+    }
     
     var body: some View {
         
@@ -152,8 +157,8 @@ extension PostDetailView {
         .buttonStyle(.borderedProminent)
         .tint(.red)
         .center()
-        // TODO: - complete functionality
-        //.isVisible(isGroupOwner(memberId: userId, group: group))
+        .isVisible(isGroupOwner(memberId: userId, group: postModel.group) ||
+                   isGroupSubLeader(memberId: userId, group: postModel.group))
 
     }
 }

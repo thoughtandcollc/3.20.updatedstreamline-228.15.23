@@ -10,6 +10,11 @@ import Firebase
 
 class PostDetailViewModel: ObservableObject {
     
+    @Published var group: Group?
+    
+    init(post: Post) {
+        getGroup(groupId: post.myGroupId)
+    }
     
 }
 
@@ -17,6 +22,24 @@ class PostDetailViewModel: ObservableObject {
 // MARK: - Api Functions
 // MARK: -
 extension PostDetailViewModel {
+    
+    func getGroup(groupId: String) {
+        
+        COLLECTION_GROUPS.document(groupId).getDocument {[weak self] snapShot, error in
+            
+            guard let self = self else { return }
+            
+            // error
+            guard error == nil else { return }
+            
+            do {
+                self.group = try snapShot?.data(as: Group.self)
+            }
+            catch let error {
+                printOnDebug(error.localizedDescription)
+            }
+        }
+    }
     
     func deletePost(post: Post, completion: @escaping (_ success: Bool)->()) {
         

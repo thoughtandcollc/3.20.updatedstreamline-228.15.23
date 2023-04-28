@@ -281,7 +281,7 @@ extension FeedView {
             
             
         }
-        .isVisible(selectedGroup?.createdBy == userId)
+        .isVisible(isGroupOwner(memberId: userId, group: selectedGroup) || isGroupSubLeader(memberId: userId, group: selectedGroup))
 
         
     }

@@ -32,12 +32,12 @@ var screenWidth: CGFloat {
     UIScreen.main.bounds.width
 }
 
-func isGroupOwner(memberId: String, group: Group) -> Bool {
-    group.createdBy == memberId
+func isGroupOwner(memberId: String, group: Group?) -> Bool {
+    group?.createdBy ?? "" == memberId
 }
 
-func isGroupSubLeader(memberId: String, group: Group) -> Bool {
-    group.subLeaders?.contains(memberId) ?? false
+func isGroupSubLeader(memberId: String, group: Group?) -> Bool {
+    group?.subLeaders?.contains(memberId) ?? false
 }
 
 
