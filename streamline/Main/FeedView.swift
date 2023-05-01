@@ -15,7 +15,7 @@ struct FeedView: View {
     @State private var isShowingNewPostView     = false
     @State private var isShowingInviteUsersView = false
     
-    @State private var selectedSegment          = 0
+    @State private var selectedSegment          = 1
     @State private var hasSelectedPostWithImage = false
     
     @State private var selectedGroup: Group?
@@ -34,7 +34,7 @@ struct FeedView: View {
          
                // TopPickerView()
                 
-               // GlobalPostsListView()
+                GlobalPostsListView()
                 
                 GroupsView()
                 

@@ -63,7 +63,7 @@ extension PostDetailViewModel {
                     }
                     
                     // success
-                    customAlert(message: "Post successfully deleted")
+                    customAlert(message: "Post successfully deleted", alertType: .success)
                     
                     completion(true)
                     
