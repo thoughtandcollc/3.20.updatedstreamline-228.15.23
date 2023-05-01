@@ -158,7 +158,9 @@ extension PostDetailView {
         .tint(.red)
         .center()
         .isVisible(isGroupOwner(memberId: userId, group: postModel.group) ||
-                   isGroupSubLeader(memberId: userId, group: postModel.group))
+                   isGroupSubLeader(memberId: userId, group: postModel.group) ||
+                   userId == post.uid
+        )
 
     }
 }
