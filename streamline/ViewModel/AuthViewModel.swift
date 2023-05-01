@@ -181,7 +181,7 @@ class AuthViewModel: ObservableObject {
     
     func tabTitle(forIndex index: Int) -> String {
         switch index {
-        case 0: return "Readings"
+        case 0: return "Groups"
         case 1: return "Notes"
         case 2: return "Messages"
         case 3: return "Main Content"

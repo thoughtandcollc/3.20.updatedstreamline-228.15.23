@@ -32,9 +32,9 @@ struct FeedView: View {
             
             VStack {
          
-                TopPickerView()
+               // TopPickerView()
                 
-                GlobalPostsListView()
+               // GlobalPostsListView()
                 
                 GroupsView()
                 
@@ -200,9 +200,10 @@ extension FeedView {
             GroupsPostsListView()
             
         }
-        .isVisible(selectedSegment == 1)
-        .transition(.move(edge: .trailing))
-        .animation(.linear(duration: 0.2), value: selectedSegment)
+        .padding(.top)
+        //.isVisible(selectedSegment == 1)
+//        .transition(.move(edge: .trailing))
+//        .animation(.linear(duration: 0.2), value: selectedSegment)
         
     }
     
