@@ -56,7 +56,6 @@
 		C9ABEDC028ECAE7200A78D88 /* ArticlesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDBF28ECAE7200A78D88 /* ArticlesManager.swift */; };
 		C9ABEDC228ECAEAF00A78D88 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ABEDC128ECAEAF00A78D88 /* Person.swift */; };
 		CD0367F22A05059E00EEB8BF /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0367F12A05059E00EEB8BF /* Utils.swift */; };
-		CD0367F42A0505F800EEB8BF /* bible.json in Resources */ = {isa = PBXBuildFile; fileRef = CD0367F32A0505F800EEB8BF /* bible.json */; };
 		CD0367F62A05067E00EEB8BF /* BooksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0367F52A05067E00EEB8BF /* BooksView.swift */; };
 		CD0367F82A05068E00EEB8BF /* BibleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0367F72A05068E00EEB8BF /* BibleViewModel.swift */; };
 		CD0367FA2A05075000EEB8BF /* Bible.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0367F92A05075000EEB8BF /* Bible.swift */; };
@@ -78,6 +77,8 @@
 		CD28ECAD29C71E2900BC79E5 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28EC9A29C71E2900BC79E5 /* Macros.swift */; };
 		CD28ECAF29C72FB700BC79E5 /* GroupJoinRequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28ECAE29C72FB700BC79E5 /* GroupJoinRequestsView.swift */; };
 		CD28ECB129C846E200BC79E5 /* JoinRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */; };
+		CD3496F52A0B77F30097F8C4 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CD3496F42A0B77F30097F8C4 /* SwiftyJSON */; };
+		CD3496F72A0B78E20097F8C4 /* bible.json in Resources */ = {isa = PBXBuildFile; fileRef = CD3496F62A0B78E20097F8C4 /* bible.json */; };
 		CD6E0F432A0A52C700756F20 /* VerseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E0F422A0A52C700756F20 /* VerseDetailView.swift */; };
 		CDAE6A2F29FBEC6100720BEC /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAE6A2E29FBEC6100720BEC /* PostDetailViewModel.swift */; };
 		CDB0414F29C49E8900A1CD3D /* SearchGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */; };
@@ -224,7 +225,6 @@
 		C9ABEDBF28ECAE7200A78D88 /* ArticlesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesManager.swift; sourceTree = "<group>"; };
 		C9ABEDC128ECAEAF00A78D88 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		CD0367F12A05059E00EEB8BF /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		CD0367F32A0505F800EEB8BF /* bible.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bible.json; sourceTree = "<group>"; };
 		CD0367F52A05067E00EEB8BF /* BooksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksView.swift; sourceTree = "<group>"; };
 		CD0367F72A05068E00EEB8BF /* BibleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleViewModel.swift; sourceTree = "<group>"; };
 		CD0367F92A05075000EEB8BF /* Bible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bible.swift; sourceTree = "<group>"; };
@@ -246,6 +246,7 @@
 		CD28EC9A29C71E2900BC79E5 /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		CD28ECAE29C72FB700BC79E5 /* GroupJoinRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupJoinRequestsView.swift; sourceTree = "<group>"; };
 		CD28ECB029C846E200BC79E5 /* JoinRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequestViewModel.swift; sourceTree = "<group>"; };
+		CD3496F62A0B78E20097F8C4 /* bible.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bible.json; sourceTree = "<group>"; };
 		CD6E0F422A0A52C700756F20 /* VerseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseDetailView.swift; sourceTree = "<group>"; };
 		CDAE6A2E29FBEC6100720BEC /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		CDB0414E29C49E8900A1CD3D /* SearchGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupView.swift; sourceTree = "<group>"; };
@@ -359,6 +360,7 @@
 				2D8550AF279ED56E0034CFEE /* SDWebImageSwiftUI in Frameworks */,
 				2D66A36F2796F9CA00F91E28 /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				2DFC9374282CE98C0009F586 /* ActiveLabel in Frameworks */,
+				CD3496F52A0B77F30097F8C4 /* SwiftyJSON in Frameworks */,
 				F985D3E4265EBB54002A8F75 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -460,7 +462,7 @@
 				CD28EC8E29C71E2900BC79E5 /* Extenstions */,
 				CD28EC9A29C71E2900BC79E5 /* Macros.swift */,
 				CD0367F12A05059E00EEB8BF /* Utils.swift */,
-				CD0367F32A0505F800EEB8BF /* bible.json */,
+				CD3496F62A0B78E20097F8C4 /* bible.json */,
 			);
 			path = Extras;
 			sourceTree = "<group>";
@@ -810,6 +812,7 @@
 				2D8550AE279ED56E0034CFEE /* SDWebImageSwiftUI */,
 				2D8550D227A2BC000034CFEE /* FirebaseMessaging */,
 				2DFC9373282CE98C0009F586 /* ActiveLabel */,
+				CD3496F42A0B77F30097F8C4 /* SwiftyJSON */,
 			);
 			productName = streamline;
 			productReference = F985D374265AE8ED002A8F75 /* streamline.app */;
@@ -843,6 +846,7 @@
 				2D66A3702797E10C00F91E28 /* XCRemoteSwiftPackageReference "AlertToast" */,
 				2D8550AD279ED56E0034CFEE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				2DFC9372282CE98B0009F586 /* XCRemoteSwiftPackageReference "ActiveLabel" */,
+				CD3496F32A0B77F30097F8C4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = F985D375265AE8ED002A8F75 /* Products */;
 			projectDirPath = "";
@@ -858,9 +862,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD3496F72A0B78E20097F8C4 /* bible.json in Resources */,
 				F985D37F265AE8F0002A8F75 /* Preview Assets.xcassets in Resources */,
 				2DB776B227A7BEDE007B1744 /* GoogleService-Info.plist in Resources */,
-				CD0367F42A0505F800EEB8BF /* bible.json in Resources */,
 				F985D37C265AE8F0002A8F75 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1256,6 +1260,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		CD3496F32A0B77F30097F8C4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		F985D3E0265EBB54002A8F75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1291,6 +1303,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2DFC9372282CE98B0009F586 /* XCRemoteSwiftPackageReference "ActiveLabel" */;
 			productName = ActiveLabel;
+		};
+		CD3496F42A0B77F30097F8C4 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD3496F32A0B77F30097F8C4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 		F985D3E1265EBB54002A8F75 /* FirebaseFunctions */ = {
 			isa = XCSwiftPackageProductDependency;

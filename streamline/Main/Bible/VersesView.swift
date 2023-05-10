@@ -42,7 +42,7 @@ struct VersesView: View {
         self.book = book
         self.chapIndex = selectedChapIndex
         
-        for index in 0..<book.chapters[selectedChapIndex].count {
+        for index in 0..<book.chapters[selectedChapIndex].vers.count {
             verses.append("Verse: \(index + 1)")
         }
     }

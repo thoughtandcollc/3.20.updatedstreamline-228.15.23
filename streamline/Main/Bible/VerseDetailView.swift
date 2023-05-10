@@ -18,7 +18,7 @@ struct VerseDetailView: View {
         
         VStack {
             
-            Text(book.chapters[chapIndex][verseIndex])
+            Text(book.chapters[chapIndex].vers[verseIndex].text ?? "")
                 .font(.title2)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 12)

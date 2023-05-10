@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftyJSON
 
 class BibleViewModel: ObservableObject {
     
@@ -31,10 +32,13 @@ extension BibleViewModel {
 extension BibleViewModel {
     
     private func getBible() {
+        
         guard let bibleData = Utils.shared.getJSONFile(name: "bible") else { return }
+        let json = JSON(bibleData)
+        
         do {
-            books = try JSONDecoder().decode([Book].self, from: bibleData)
-            
+            let booksData = try json["BIBLEBOOK"].rawData()
+            books = try JSONDecoder().decode([Book].self, from: booksData)
         }
         catch let error {
             printOnDebug("bible error: \(error.localizedDescription)")
