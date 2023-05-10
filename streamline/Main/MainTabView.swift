@@ -18,9 +18,9 @@ struct MainTabView: View {
         
         TabView(selection: $selectedIndex) {
             FeedView(viewModel: feedModel, myGroupViewModel: getGroupModel)
-                .onTapGesture {
-                    selectedIndex = 0
-                }
+//                .onTapGesture {
+//                    selectedIndex = 0
+//                }
                 .tabItem {
                     Image(systemName: "house")
                 }.tag(0)
@@ -34,9 +34,9 @@ struct MainTabView: View {
 //                }.tag(1)
             
             ConversationsView()
-                .onTapGesture {
-                    selectedIndex = 2
-                }
+//                .onTapGesture {
+//                    selectedIndex = 2
+//                }
                 .tabItem {
                     Image(systemName: "envelope")
                 }.tag(2)
@@ -50,12 +50,20 @@ struct MainTabView: View {
 //                }.tag(3)
             
             NotificationsView()
-                .onTapGesture {
-                    selectedIndex = 4
-                }
+//                .onTapGesture {
+//                    selectedIndex = 4
+//                }
                 .tabItem {
                     Image(systemName: "bell.fill")
                 }.tag(4)
+            
+            BooksView()
+//                .onTapGesture {
+//                    selectedIndex = 5
+//                }
+                .tabItem {
+                    Image(systemName: "book")
+                }.tag(5)
             
 //                CommentsConversationView()
 //                .onTapGesture {
@@ -96,6 +104,7 @@ extension MainTabView {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(Color("AdaptiveColor"))
             }
+            .isVisible(selectedIndex == 0)
             
             
             Button {
@@ -113,6 +122,7 @@ extension MainTabView {
                 Image(systemName: "plus")
                     .foregroundColor(Color("AdaptiveColor"))
             }
+            .isVisible(selectedIndex == 0)
         }
 
     }

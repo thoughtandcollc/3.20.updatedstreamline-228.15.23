@@ -185,7 +185,8 @@ class AuthViewModel: ObservableObject {
         case 1: return "Notes"
         case 2: return "Messages"
         case 3: return "Main Content"
-//        case 4: return "Wa"
+        case 5: return "Books"
+        case 4: return "Notifications"
         default: return ""
         }
     }
