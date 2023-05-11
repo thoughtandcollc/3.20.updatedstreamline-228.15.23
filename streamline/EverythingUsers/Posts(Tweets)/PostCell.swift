@@ -20,6 +20,7 @@ struct PostCell: View {
     @Namespace var namespace
     @State private var showVerseView = false // show verse view
     var verseInfo = ""
+    var caption = ""
     
     var profileView: some View {
         AnimatedImage(url: URL(string: firstPost.profileImageUrl))
@@ -79,7 +80,7 @@ struct PostCell: View {
                         }
                         
                         HStack {
-                            TextWithLinks(string: firstPost.caption.components(separatedBy: ";").first ?? "", fontSize: 14, dynamicHeight: $height) { url in
+                            TextWithLinks(string: caption, fontSize: 14, dynamicHeight: $height) { url in
                                 openBrowserWith(url: url.absoluteString)
                             }
                             .frame(minHeight: height)
@@ -155,7 +156,15 @@ struct PostCell: View {
     
     init(posts: [Post]) {
         self.posts = posts
-        verseInfo = firstPost.caption.components(separatedBy: ";").last ?? ""
+        
+        if firstPost.caption.contains(";") {
+            caption = firstPost.caption.components(separatedBy: ";").first ?? ""
+            verseInfo = firstPost.caption.components(separatedBy: ";").last ?? ""
+        }
+        else {
+            caption = firstPost.caption
+            verseInfo = ""
+        }
     }
 }
 

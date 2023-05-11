@@ -21,11 +21,20 @@ struct PostDetailView: View {
     
     @State private var showVerseView = false // show verse view
     var verseInfo = ""
+    var caption = ""
     
     init(post: Post) {
         _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
         self.post = post
-        verseInfo = post.caption.components(separatedBy: ";").last ?? ""
+        
+        if post.caption.contains(";") {
+            caption = post.caption.components(separatedBy: ";").first ?? ""
+            verseInfo = post.caption.components(separatedBy: ";").last ?? ""
+        }
+        else {
+            caption = post.caption
+            verseInfo = ""
+        }
     }
     
     var body: some View {
@@ -100,7 +109,7 @@ extension PostDetailView {
     
     private func PostTextView() -> some View {
         
-        TextWithLinks(string: post.caption.components(separatedBy: ";").first ?? "", fontSize: 22, dynamicHeight: $height) { url in
+        TextWithLinks(string: caption, fontSize: 22, dynamicHeight: $height) { url in
             openBrowserWith(url: url.absoluteString)
         }
         .frame(minHeight: height)
