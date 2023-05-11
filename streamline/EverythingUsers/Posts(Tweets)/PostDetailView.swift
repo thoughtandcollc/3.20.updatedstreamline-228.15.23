@@ -19,9 +19,13 @@ struct PostDetailView: View {
     @State private var height: CGFloat = .zero
     let columns = Array(repeating: GridItem(.flexible()), count: 2)
     
+    @State private var showVerseView = false // show verse view
+    var verseInfo = ""
+    
     init(post: Post) {
         _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
         self.post = post
+        verseInfo = post.caption.components(separatedBy: ";").last ?? ""
     }
     
     var body: some View {
@@ -96,7 +100,7 @@ extension PostDetailView {
     
     private func PostTextView() -> some View {
         
-        TextWithLinks(string: post.caption, fontSize: 22, dynamicHeight: $height) { url in
+        TextWithLinks(string: post.caption.components(separatedBy: ";").first ?? "", fontSize: 22, dynamicHeight: $height) { url in
             openBrowserWith(url: url.absoluteString)
         }
         .frame(minHeight: height)
@@ -126,10 +130,16 @@ extension PostDetailView {
     
     private func PostTimeStampView() -> some View {
         
-        Text(post.detailedTimestampString)
-            .font(.system(size: 14))
-            .foregroundColor(.gray)
-            .padding(.leading)
+        HStack {
+            
+            Text(post.detailedTimestampString)
+                .font(.system(size: 14))
+                .foregroundColor(.gray)
+                .padding(.leading)
+            
+            VerseInfoView()
+            
+        }
         
     }
     
@@ -163,4 +173,47 @@ extension PostDetailView {
         )
 
     }
+    
+    private func VerseInfoView() -> some View {
+        
+        Text(verseInfo)
+            .font(.system(size: 12))
+            .foregroundColor(.gray)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                showVerseView.toggle()
+            }
+            .isVisible(verseInfo.isNotEmpty)
+            .trailing()
+            .sheet(isPresented: $showVerseView) {
+                NavigationView {
+                    VerseDetailView(book: getBook(), chapIndex: getChapter(), verseIndex: getVerse(), bibleVerse: .constant(""), isDismiss: .constant(false))
+                }
+            }
+    }
+    
+}
+
+// MARK: - Helper Functions
+// MARK: -
+extension PostDetailView {
+    
+    private func getBook() -> Book {
+        let bookName = verseInfo.components(separatedBy: ",").first ?? ""
+        let book = BibleManager.shared.books.first(where: {$0.name == bookName}) ?? BibleManager.shared.books.first!
+        return book
+    }
+    
+    private func getChapter() -> Int {
+        var chapIndex = Int(String(verseInfo.components(separatedBy: "Chapter: ").last?.first ?? Character(""))) ?? 0
+        if chapIndex != 0 { chapIndex -= 1 }
+        return chapIndex
+    }
+    
+    private func getVerse() -> Int {
+        var verseIndex = Int(String(verseInfo.components(separatedBy: "Verse: ").last?.first ?? Character(""))) ?? 0
+        if verseIndex != 0 { verseIndex -= 1 }
+        return verseIndex
+    }
+    
 }

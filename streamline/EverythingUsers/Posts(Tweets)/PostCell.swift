@@ -18,6 +18,8 @@ struct PostCell: View {
     @State private var height: CGFloat = .zero
     @State var selectedPhotoURL: URL?
     @Namespace var namespace
+    @State private var showVerseView = false // show verse view
+    var verseInfo = ""
     
     var profileView: some View {
         AnimatedImage(url: URL(string: firstPost.profileImageUrl))
@@ -77,7 +79,7 @@ struct PostCell: View {
                         }
                         
                         HStack {
-                            TextWithLinks(string: firstPost.caption, fontSize: 14, dynamicHeight: $height) { url in
+                            TextWithLinks(string: firstPost.caption.components(separatedBy: ";").first ?? "", fontSize: 14, dynamicHeight: $height) { url in
                                 openBrowserWith(url: url.absoluteString)
                             }
                             .frame(minHeight: height)
@@ -89,6 +91,9 @@ struct PostCell: View {
                             //                            .foregroundColor(Color("AdaptiveColor"))
                             //                            .padding()
                         }
+                        
+                        VerseInfoView()
+                        
                         
                         if firstPost.media.count > 0 {
                             let columns = Array(repeating: GridItem(.flexible()), count: 2)
@@ -147,4 +152,59 @@ struct PostCell: View {
             .padding(.leading, -16) //post.multiPostId == previousPost?.multiPostId ? 16 :
         }
     }
+    
+    init(posts: [Post]) {
+        self.posts = posts
+        verseInfo = firstPost.caption.components(separatedBy: ";").last ?? ""
+    }
+}
+
+// MARK: - View Functions
+// MARK: -
+extension PostCell {
+    
+    private func VerseInfoView() -> some View {
+        
+        Text(verseInfo)
+            .font(.system(size: 12))
+            .foregroundColor(.gray)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                showVerseView.toggle()
+            }
+            .isVisible(verseInfo.isNotEmpty)
+            .trailing()
+            .sheet(isPresented: $showVerseView) {
+                NavigationView {
+                    VerseDetailView(book: getBook(), chapIndex: getChapter(), verseIndex: getVerse(), bibleVerse: .constant(""), isDismiss: .constant(false))
+                }
+            }
+    }
+    
+}
+
+// MARK: - Helper Functions
+// MARK: -
+extension PostCell {
+    
+    private func getBook() -> Book {
+        let bookName = verseInfo.components(separatedBy: ",").first ?? ""
+        let book = BibleManager.shared.books.first(where: {$0.name == bookName}) ?? BibleManager.shared.books.first!
+        return book
+    }
+    
+    private func getChapter() -> Int {
+        var chapIndex = Int(String(verseInfo.components(separatedBy: "Chapter: ").last?.first ?? Character(""))) ?? 0
+        if chapIndex != 0 { chapIndex -= 1 }
+        return chapIndex
+    }
+    
+    private func getVerse() -> Int {
+        var verseIndex = Int(String(verseInfo.components(separatedBy: "Verse: ").last?.first ?? Character(""))) ?? 0
+        if verseIndex != 0 { verseIndex -= 1 }
+        return verseIndex
+    }
+
+
+    
 }

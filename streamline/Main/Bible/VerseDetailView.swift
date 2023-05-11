@@ -55,7 +55,7 @@ struct VerseDetailView: View {
             
         }
         .padding()
-        .navigationBarTitle("Verse: \(verseIndex + 1)")
+        .navigationBarTitle("Verse: \(verseIndex + 1)", displayMode: .inline)
         
     }
 }

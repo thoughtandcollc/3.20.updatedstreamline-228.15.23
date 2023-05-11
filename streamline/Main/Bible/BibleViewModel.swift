@@ -10,11 +10,11 @@ import SwiftyJSON
 
 class BibleViewModel: ObservableObject {
     
-    var books = [Book]()
+    @Published var books = [Book]()
     
     // initialization
     init() {
-        getBible()
+        books = BibleManager.shared.books
     }
     
 }
@@ -31,20 +31,20 @@ extension BibleViewModel {
 // MARK: -
 extension BibleViewModel {
     
-    private func getBible() {
-        
-        guard let bibleData = Utils.shared.getJSONFile(name: "bible") else { return }
-        let json = JSON(bibleData)
-        
-        do {
-            let booksData = try json["BIBLEBOOK"].rawData()
-            books = try JSONDecoder().decode([Book].self, from: booksData)
-        }
-        catch let error {
-            printOnDebug("bible error: \(error.localizedDescription)")
-        }
-        
-    }
+//    private func getBible() {
+//        
+//        guard let bibleData = Utils.shared.getJSONFile(name: "bible") else { return }
+//        let json = JSON(bibleData)
+//        
+//        do {
+//            let booksData = try json["BIBLEBOOK"].rawData()
+//            books = try JSONDecoder().decode([Book].self, from: booksData)
+//        }
+//        catch let error {
+//            printOnDebug("bible error: \(error.localizedDescription)")
+//        }
+//        
+//    }
 
     
 }
