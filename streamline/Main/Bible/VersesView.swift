@@ -16,6 +16,10 @@ struct VersesView: View {
     var chapIndex: Int
     var verses: [String] = []
     
+    var isFromPostView = false // for checking if user want to add this verse in post
+    @Binding var bibleVerse: String // selected verse for post view
+    @Binding var isDismiss: Bool // for dismissing from post view
+    
     var body: some View {
         
         VStack {
@@ -26,7 +30,7 @@ struct VersesView: View {
             
             List {
                 ForEach(verses.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { verse in
-                    NavigationLink(destination: VerseDetailView(book: book, chapIndex: chapIndex, verseIndex: getIndex(verse))) {
+                    NavigationLink(destination: VerseDetailView(book: book, chapIndex: chapIndex, verseIndex: getIndex(verse), isFromPostView: isFromPostView, bibleVerse: $bibleVerse, isDismiss: $isDismiss)) {
                         Text(verse)
                     }
                 }
@@ -38,9 +42,12 @@ struct VersesView: View {
         
     }
     
-    init(book: Book, selectedChapIndex: Int) {
+    init(book: Book, selectedChapIndex: Int, isFromPostView: Bool, bibleVerse: Binding<String>, isDismiss: Binding<Bool>) {
         self.book = book
         self.chapIndex = selectedChapIndex
+        self.isFromPostView = isFromPostView
+        _bibleVerse = bibleVerse
+        _isDismiss = isDismiss
         
         for index in 0..<book.chapters[selectedChapIndex].vers.count {
             verses.append("Verse: \(index + 1)")

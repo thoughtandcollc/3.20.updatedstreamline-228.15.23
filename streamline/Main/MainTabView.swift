@@ -57,7 +57,7 @@ struct MainTabView: View {
                     Image(systemName: "bell.fill")
                 }.tag(4)
             
-            BooksView()
+            BooksView(bibleVerse: .constant(""), isDismiss: .constant(false))
 //                .onTapGesture {
 //                    selectedIndex = 5
 //                }

@@ -9,10 +9,15 @@ import SwiftUI
 
 struct VerseDetailView: View {
     
+    @Environment(\.presentationMode) var presentationMode // for dismissing this view
     @Environment(\.colorScheme) var colorScheme
     var book: Book
     var chapIndex: Int
     var verseIndex: Int
+    
+    var isFromPostView = false // for checking if user want to add this verse in post
+    @Binding var bibleVerse: String // selected verse for post view
+    @Binding var isDismiss: Bool // for dismissing from post view
     
     var body: some View {
         
@@ -34,7 +39,18 @@ struct VerseDetailView: View {
             .font(.system(size: 13))
             .trailing()
             
+            Button {
+                bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + " \n\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
+                isDismiss = false
+            } label: {
+                Text("Add this verse")
+            }
+            .padding(.top, 50)
+            .isVisible(isFromPostView)
+
+            
             Spacer()
+            
             
         }
         .padding()
