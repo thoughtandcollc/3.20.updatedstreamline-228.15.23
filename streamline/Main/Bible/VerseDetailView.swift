@@ -16,6 +16,7 @@ struct VerseDetailView: View {
     var verseIndex: Int
     
     var isFromPostView = false // for checking if user want to add this verse in post
+    
     @Binding var bibleVerse: String // selected verse for post view
     @Binding var isDismiss: Bool // for dismissing from post view
     
@@ -40,7 +41,7 @@ struct VerseDetailView: View {
             .trailing()
             
             Button {
-                bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + " \n\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
+                bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
                 isDismiss = false
             } label: {
                 Text("Add this verse")

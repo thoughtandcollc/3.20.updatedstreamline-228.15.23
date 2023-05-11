@@ -40,7 +40,7 @@ struct TextArea: View {
                 .padding(.horizontal, horizontalPadding)
                 .onChange(of: text) { newValue in
                     if characterLimitEnabled {
-                        if self.text.count > 120 {
+                        if self.text.count > 240 {
                             
                             let (currentPostText, newPostText) = getCurrentAndNextPostText(from: newValue)
                             self.text = currentPostText

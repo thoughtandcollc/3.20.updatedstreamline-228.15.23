@@ -16,6 +16,7 @@ struct NewPost: View {
     let columns = Array(repeating: GridItem(.flexible()), count: 3)
     @State private var showBibleView = false // for showing/hiding bible screen
     @State var bibleVerse = ""
+    @State var verseInfo = ""
 
     var post: Post?
     var groupId: String
@@ -35,6 +36,8 @@ struct NewPost: View {
                 
                 TopInfoView()
                 
+                VerseInfoView()
+                
                 TextInfoView()
                 
                 ImagesListView()
@@ -50,7 +53,12 @@ struct NewPost: View {
                                 trailing: NavigationTrailingView())
             .toast(isPresenting: $viewModel.isLoading, alert: { .init(type: .loading)})
             .sheet(isPresented: $showBibleView, onDismiss: {
-                if bibleVerse.isNotEmpty { captionText = bibleVerse }
+                if bibleVerse.isNotEmpty {
+                    var comp = bibleVerse.components(separatedBy: ";")
+                    captionText = comp.first ?? ""
+                    verseInfo = comp.last ?? ""
+                    
+                }
             }) {
                 NavigationView { BooksView(isFromPostView: true, bibleVerse: $bibleVerse, isDismiss: $showBibleView) }
             }
@@ -89,6 +97,15 @@ extension NewPost {
         }
     }
     
+    private func VerseInfoView() -> some View {
+        
+        Text(verseInfo)
+            .font(.system(size: 12))
+            .foregroundColor(.gray)
+            .isVisible(verseInfo.isNotEmpty)
+            .trailing()
+    }
+    
     private func TextInfoView() -> some View {
         
         HStack {
@@ -113,7 +130,7 @@ extension NewPost {
             
             Spacer()
             
-            Text("\(captionText.count)/120")
+            Text("\(captionText.count)/240")
                 .foregroundColor(Color(.placeholderText))
                 .font(.system(size: 14))
                 .padding(.trailing, 20)
@@ -193,6 +210,10 @@ extension NewPost {
         Button(action: {
             
             // if text field text is not empty then add it to list as well
+            if verseInfo.isNotEmpty {
+                captionText.append(";\(verseInfo)")
+            }
+            
             if captionText != "" {
                 viewModel.captionsListForUploading.insert(.init(text: captionText), at: 0)
             }
