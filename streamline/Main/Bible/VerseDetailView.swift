@@ -11,14 +11,18 @@ struct VerseDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode // for dismissing this view
     @Environment(\.colorScheme) var colorScheme
+    
     var book: Book
     var chapIndex: Int
-    var verseIndex: Int
+    
+    @State var verseIndex: Int
     
     var isFromPostView = false // for checking if user want to add this verse in post
     
     @Binding var bibleVerse: String // selected verse for post view
     @Binding var isDismiss: Bool // for dismissing from post view
+    
+    @State var verseCount = 0
     
     var body: some View {
         
@@ -34,9 +38,9 @@ struct VerseDetailView: View {
             
             VerseButtonsView()
             
-            
         }
         .padding()
+        .onAppear { onAppearHandling() }
         .navigationBarTitle("Verse: \(verseIndex + 1)", displayMode: .inline)
         
     }
@@ -86,7 +90,49 @@ extension VerseDetailView {
     
     private func VerseButtonsView() -> some View {
         
-        HStack {}
+        HStack {
+            
+            Button {
+                if verseIndex - 1 >= 0  {
+                    verseIndex -= 1
+                }
+            } label: {
+                Text("Previous Verse")
+                    .foregroundColor(.white)
+            }
+            .tint(Color("PrimaryColorInvert"))
+            .buttonStyle(.borderedProminent)
+            .isVisible(verseIndex - 1 >= 0)
+            .defaultShadow()
+            
+            Spacer()
+            
+            Button {
+                if verseIndex + 1 < verseCount {
+                    verseIndex += 1
+                }
+            } label: {
+                Text("Next Verse")
+                    .foregroundColor(.white)
+            }
+            .tint(Color("PrimaryColorInvert"))
+            .buttonStyle(.borderedProminent)
+            .isVisible(verseIndex + 1 < verseCount)
+            .defaultShadow()
+
+        }
+        
+    }
+    
+}
+
+// MARK: - Helper Functions
+// MARK: -
+extension VerseDetailView {
+    
+    private func onAppearHandling() {
+        
+        verseCount = book.chapters[chapIndex].vers.count
         
     }
     
