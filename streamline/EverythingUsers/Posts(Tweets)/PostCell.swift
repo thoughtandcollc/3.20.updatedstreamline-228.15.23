@@ -203,13 +203,15 @@ extension PostCell {
     }
     
     private func getChapter() -> Int {
-        var chapIndex = Int(String(verseInfo.components(separatedBy: "Chapter: ").last?.first ?? Character(""))) ?? 0
+        var chapNum = verseInfo.components(separatedBy: "Chapter: ").last ?? ""
+        chapNum = chapNum.components(separatedBy: " ").first ?? ""
+        var chapIndex = Int(chapNum) ?? 0
         if chapIndex != 0 { chapIndex -= 1 }
         return chapIndex
     }
     
     private func getVerse() -> Int {
-        var verseIndex = Int(String(verseInfo.components(separatedBy: "Verse: ").last?.first ?? Character(""))) ?? 0
+        var verseIndex = Int(String(verseInfo.components(separatedBy: "Verse: ").last ?? "")) ?? 0
         if verseIndex != 0 { verseIndex -= 1 }
         return verseIndex
     }
