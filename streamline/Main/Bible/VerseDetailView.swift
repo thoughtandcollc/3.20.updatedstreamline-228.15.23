@@ -24,33 +24,15 @@ struct VerseDetailView: View {
         
         VStack {
             
-            Text(book.chapters[chapIndex].vers[verseIndex].text ?? "")
-                .font(.title2)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(colorScheme == .dark ? .black : .white)
-                    .defaultShadow()
-                )
+            VerseTitleView()
             
-            SwiftUI.Group {
-                Text("\(book.name),")
-                Text("Chapter: \(chapIndex + 1)")
-                Text("Verse: \(verseIndex + 1)")
-            }
-            .font(.system(size: 13))
-            .trailing()
+            VerseInfoView()
             
-            Button {
-                bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
-                isDismiss = false
-            } label: {
-                Text("Add this verse")
-            }
-            .padding(.top, 50)
-            .isVisible(isFromPostView)
+            AddVerseView()
 
-            
             Spacer()
+            
+            VerseButtonsView()
             
             
         }
@@ -58,6 +40,56 @@ struct VerseDetailView: View {
         .navigationBarTitle("Verse: \(verseIndex + 1)", displayMode: .inline)
         
     }
+    
+}
+
+// MARK: - View Functions
+// MARK: -
+extension VerseDetailView {
+    
+    private func VerseTitleView() -> some View {
+        
+        Text(book.chapters[chapIndex].vers[verseIndex].text ?? "")
+            .font(.title2)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(colorScheme == .dark ? .black : .white)
+                .defaultShadow()
+            )
+        
+    }
+    
+    private func VerseInfoView() -> some View {
+        
+        SwiftUI.Group {
+            Text("\(book.name),")
+            Text("Chapter: \(chapIndex + 1)")
+            Text("Verse: \(verseIndex + 1)")
+        }
+        .font(.system(size: 13))
+        .trailing()
+        
+    }
+    
+    private func AddVerseView() -> some View {
+        
+        Button {
+            bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
+            isDismiss = false
+        } label: {
+            Text("Add this verse")
+        }
+        .padding(.top, 50)
+        .isVisible(isFromPostView)
+        
+    }
+    
+    private func VerseButtonsView() -> some View {
+        
+        HStack {}
+        
+    }
+    
 }
 
 //struct VerseDetailView_Previews: PreviewProvider {
