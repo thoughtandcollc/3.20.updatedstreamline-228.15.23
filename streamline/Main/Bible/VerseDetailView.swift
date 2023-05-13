@@ -21,8 +21,9 @@ struct VerseDetailView: View {
     
     @Binding var bibleVerse: String // selected verse for post view
     @Binding var isDismiss: Bool // for dismissing from post view
-    
     @State var verseCount = 0
+
+    @State private var showingActionSheet = false
     
     var body: some View {
         
@@ -78,13 +79,25 @@ extension VerseDetailView {
     private func AddVerseView() -> some View {
         
         Button {
-            bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
-            isDismiss = false
+            showingActionSheet.toggle()
         } label: {
             Text("Add this verse")
         }
         .padding(.top, 50)
         .isVisible(isFromPostView)
+        .actionSheet(isPresented: $showingActionSheet) {
+                    ActionSheet(title: Text("Add Verse To Post"), message: Text("Do you want to add the whole verse or just the reference"), buttons: [
+                        .default(Text("Whole Verse"),action: {
+                            bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
+                            isDismiss = false // dismiss this screen
+                        }),
+                        .default(Text("Just Reference"), action: {
+                            bibleVerse = ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
+                            isDismiss = false // dismiss this screen
+                        }),
+                        .cancel()
+                    ])
+                }
         
     }
     

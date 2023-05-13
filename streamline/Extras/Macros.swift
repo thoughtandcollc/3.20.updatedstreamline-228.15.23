@@ -117,6 +117,38 @@ func customAlert(title: String = "", message: String, alertType: AlertType = .er
     
 }
 
+func customAlertSheetApple(title: String,
+                           message: String,
+                           option1: String = "Yes",
+                           option2: String = "No",
+                           option3: String = "Cancel",
+                           completion: ((_ option1: Bool, _ option2: Bool) -> Void)? = nil) {
+
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+
+    let option1Action = UIAlertAction(title: option1, style: .default, handler: { (alert) in
+        completion?(true, false)
+    })
+    
+    let option2Action = UIAlertAction(title: option2, style: .default, handler: { (alert) in
+        completion?(false, true)
+    })
+
+    let option3Action = UIAlertAction(title: option3, style: .cancel, handler: { (alert) in
+        completion?(false, false)
+    })
+
+    alertController.addAction(option1Action)
+    alertController.addAction(option2Action)
+    alertController.addAction(option3Action)
+    alertController.modalPresentationStyle = .overFullScreen
+
+    var vc = rootVC
+    if let tempVC = vc?.presentedViewController { vc = tempVC }
+    vc?.present(alertController, animated: true, completion: nil)
+
+}
+
 func keyBoardDoneButton() -> some ToolbarContent {
     ToolbarItem(placement: .keyboard) {
         HStack {
