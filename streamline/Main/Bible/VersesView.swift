@@ -10,26 +10,23 @@ import SwiftUI
 struct VersesView: View {
     
     @Environment(\.colorScheme) var colorScheme
-        
-    var book: Book
-    var chapIndex: Int
+    
+    @Binding var bibleVerse : String // selected verse for post view
+    @Binding var isDismiss  : Bool   // for dismissing from post view
     
     var isFromPostView = false // for checking if user want to add this verse in post
-    @Binding var bibleVerse: String // selected verse for post view
-    @Binding var isDismiss: Bool // for dismissing from post view
+    
+    var book      : Book // book
+    var chapIndex : Int  // index of the selected chapter
+    
+    @State var selectedVerseList = Set<String>() // verses selected by the user
     
     var body: some View {
         
         ScrollView {
-            LazyVStack {
-                ForEach(book.chapters[chapIndex].vers, id: \.self.verseNumber) { verse in
-                    VStack{
-                        VerseTitleView(verse: verse)
-                        VerseInfoView(verse: verse)
-                    }
-                }
-            }
-            .padding()
+            
+            VerseListView()
+            
         }
         .navigationBarTitle("Chapter: \(chapIndex + 1)")
         
@@ -49,16 +46,43 @@ struct VersesView: View {
 // MARK: -
 extension VersesView {
     
+    private func VerseListView() -> some View {
+        
+        LazyVStack {
+            ForEach(book.chapters[chapIndex].vers, id: \.self.verseNumber) { verse in
+                VerseMainView(verse: verse)
+            }
+        }
+        .padding()
+        
+    }
+    
+    private func VerseMainView(verse: Ver) -> some View {
+        
+        VStack {
+            VerseTitleView(verse: verse)
+            VerseInfoView(verse: verse)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture { verseTapped(verse: verse) }
+        
+    }
+    
     private func VerseTitleView(verse: Ver) -> some View {
         
-        Text(verse.text ?? "")
-            .font(.title3)
-            .padding()
-            .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
-            .background(RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(colorScheme == .dark ? .black : .white)
-                .defaultShadow()
-            )
+        HStack {
+            
+            SelectionButtonView(verse: verse)
+            
+            Text(verse.text ?? "")
+                .font(.title3)
+                .padding()
+                .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
+                .background(RoundedRectangle(cornerRadius: 12)
+                    .foregroundColor(colorScheme == .dark ? .black : .white)
+                    .defaultShadow()
+                )
+        }
         
     }
     
@@ -74,17 +98,35 @@ extension VersesView {
         
     }
     
+    private func SelectionButtonView(verse: Ver) -> some View {
+        
+        Image(systemName: selectedVerseList.contains(verse.verseNumber ?? "") ? "checkmark.circle.fill" : "circle")
+            .padding(.trailing)
+            .isVisible(isFromPostView)
+
+    }
+    
 }
 
 // MARK: - Helper Functions
 // MARK: -
 extension VersesView {
     
-    private func getIndex(_ string: String) -> Int {
+    private func verseTapped(verse: Ver) {
         
-        let str = string.components(separatedBy: " ").last
-        return (Int(str ?? "1") ?? 1) - 1
+        // only allow tap if user is from post view
+        guard isFromPostView else { return }
+        
+        guard let verseNumber = verse.verseNumber else { return }
+        
+        if selectedVerseList.contains(verseNumber) {
+            selectedVerseList.remove(verseNumber)
+        }
+        else {
+            selectedVerseList.insert(verseNumber)
+        }
+
+        
     }
 
-    
 }
