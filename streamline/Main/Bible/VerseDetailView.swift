@@ -62,8 +62,6 @@ extension VerseDetailView {
         }
         .padding(.top, 50)
         .isVisible(isFromPostView)
-        
-        
         .actionSheet(isPresented: $showingActionSheet) {
             ActionSheet(title: Text("Add Verse To Post"), message: Text("Do you want to add the whole verse or just the reference"), buttons: [
                 .default(Text("Whole Verse"),action: {

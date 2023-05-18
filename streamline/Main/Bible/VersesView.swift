@@ -21,6 +21,8 @@ struct VersesView: View {
     
     @State var selectedVerseList = Set<String>() // verses selected by the user
     
+    @State private var showingActionSheet = false // show alert for adding only reference or whole verse
+    
     var body: some View {
         
         ScrollView {
@@ -28,6 +30,7 @@ struct VersesView: View {
             VerseListView()
             
         }
+        .toolbar { TopRightButtonView() }
         .navigationBarTitle("Chapter: \(chapIndex + 1)")
         
     }
@@ -108,6 +111,36 @@ extension VersesView {
     
 }
 
+// MARK: - Helper View Functions
+// MARK: -
+extension VersesView {
+    
+    private func TopRightButtonView() -> some ToolbarContent {
+        
+        // button on top right
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+                showingActionSheet.toggle()
+            } label: {
+                Text("Add Verse(s)")
+            }
+            .isVisible(isFromPostView && selectedVerseList.count > 0)
+            .actionSheet(isPresented: $showingActionSheet) {
+                ActionSheet(title: Text("Add Verse To Post"), message: Text("Do you want to add the whole verse(s) or just the reference"), buttons: [
+                    .default(Text("Whole Verse"),action: {
+                        addVerses(addTextAlso: true)
+                    }),
+                    .default(Text("Just Reference"), action: {
+                        addVerses(addTextAlso: false)
+                    }),
+                    .cancel()
+                ])
+            }
+        }
+    }
+    
+}
+
 // MARK: - Helper Functions
 // MARK: -
 extension VersesView {
@@ -128,5 +161,73 @@ extension VersesView {
 
         
     }
+    
+    private func addVerses(addTextAlso: Bool) {
+
+        
+        // for single selected verse
+        if selectedVerseList.count == 1 {
+            addSingleVerse(addTextAlso: addTextAlso)
+            return
+        }
+        
+        // for multiple verses
+        addMultipleVerses(addTextAlso: addTextAlso)
+        
+    }
+    
+    private func addSingleVerse(addTextAlso: Bool) {
+        
+        bibleVerse = ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(selectedVerseList.first ?? "")"
+        
+        if addTextAlso {
+            let verseIndex = (Int(selectedVerseList.first ?? "") ?? -1) - 1
+            let text = book.chapters[chapIndex].vers[safe: verseIndex]?.text ?? ""
+            bibleVerse = text + bibleVerse
+        }
+        
+        isDismiss = false // dismiss this screen
+        
+    }
+    
+    private func addMultipleVerses(addTextAlso: Bool) {
+                
+        var versesIndexes = Array(selectedVerseList).sorted()
+        var versesText = ""
+        
+        // verse: 1-5
+        if hasConsecutiveNumbers(versesIndexes) {
+            versesText = "\(versesIndexes.first ?? "") - \(versesIndexes.last ?? "")"
+        }
+        // verse: 1,4,7,9
+        else {
+            versesText = versesIndexes.joined(separator: ",")
+        }
+        
+        bibleVerse = ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(versesText)"
+        
+        // if user also wants verses text
+        if addTextAlso {
+            for index in Array(versesIndexes.reversed()) {
+                let verseIndex = (Int(index) ?? -1) - 1
+                let text = book.chapters[chapIndex].vers[safe: verseIndex]?.text ?? ""
+                bibleVerse = text + "\n\n" + bibleVerse
+            }
+        }
+        
+        isDismiss = false // dismiss this screen
+        
+    }
+
+    private func hasConsecutiveNumbers(_ arr: [String]) -> Bool {
+        let sortedArr = arr.compactMap { Int($0) }
+        for i in 0..<sortedArr.count-1 {
+            if sortedArr[i+1] - sortedArr[i] != 1 {
+                return false
+            }
+        }
+        return true
+    }
+
 
 }
