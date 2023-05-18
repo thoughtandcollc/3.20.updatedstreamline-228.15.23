@@ -16,8 +16,9 @@ struct VersesView: View {
     
     var isFromPostView = false // for checking if user want to add this verse in post
     
-    var book      : Book // book
-    var chapIndex : Int  // index of the selected chapter
+    var book         : Book // book
+    var chapIndex    : Int  // index of the selected chapter
+    var versesToShow : [String]  // if verse reference from post is tapped
     
     @State var selectedVerseList = Set<String>() // verses selected by the user
     
@@ -35,10 +36,11 @@ struct VersesView: View {
         
     }
     
-    init(book: Book, selectedChapIndex: Int, isFromPostView: Bool, bibleVerse: Binding<String>, isDismiss: Binding<Bool>) {
+    init(book: Book, selectedChapIndex: Int, versesToShow: [String] = [], isFromPostView: Bool, bibleVerse: Binding<String>, isDismiss: Binding<Bool>) {
         self.book = book
         self.chapIndex = selectedChapIndex
         self.isFromPostView = isFromPostView
+        self.versesToShow = versesToShow
         _bibleVerse = bibleVerse
         _isDismiss = isDismiss
     }
@@ -52,7 +54,7 @@ extension VersesView {
     private func VerseListView() -> some View {
         
         LazyVStack {
-            ForEach(book.chapters[chapIndex].vers, id: \.self.verseNumber) { verse in
+            ForEach(getVerses(), id: \.self.verseNumber) { verse in
                 VerseMainView(verse: verse)
             }
         }
@@ -227,6 +229,24 @@ extension VersesView {
             }
         }
         return true
+    }
+    
+    private func getVerses() -> [Ver] {
+        
+        // show all verses
+        if versesToShow.isEmpty {
+            return book.chapters[chapIndex].vers
+        }
+        
+        // show specific verses
+        var verses = [Ver]()
+        for index in versesToShow {
+            if let ind = Int(index), let ver = book.chapters[chapIndex].vers[safe: ind - 1 ]  {
+                verses.append(ver)
+            }
+        }
+        return verses
+        
     }
 
 

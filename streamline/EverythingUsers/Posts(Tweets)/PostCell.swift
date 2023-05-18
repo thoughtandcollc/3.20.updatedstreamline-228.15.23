@@ -185,7 +185,7 @@ extension PostCell {
             .trailing()
             .sheet(isPresented: $showVerseView) {
                 NavigationView {
-                    VerseDetailView(book: getBook(), chapIndex: getChapter(), verseIndex: getVerse(), bibleVerse: .constant(""), isDismiss: .constant(false))
+                    VersesView(book: getBook(), selectedChapIndex: getChapter(), versesToShow: getVerses(), isFromPostView: false, bibleVerse: .constant(""), isDismiss: .constant(false))
                 }
             }
     }
@@ -210,10 +210,23 @@ extension PostCell {
         return chapIndex
     }
     
-    private func getVerse() -> Int {
-        var verseIndex = Int(String(verseInfo.components(separatedBy: "Verse: ").last ?? "")) ?? 0
-        if verseIndex != 0 { verseIndex -= 1 }
-        return verseIndex
+    private func getVerses() -> [String] {
+        var text = String(verseInfo.components(separatedBy: "Verse: ").last ?? "")
+        var result = [String]()
+        
+        if text.contains("-") {
+            text = text.replacingOccurrences(of: " ", with: "")
+            let components = text.components(separatedBy: "-")
+            guard components.count == 2, let start = Int(components[0]), let end = Int(components[1]) else {
+                return []
+            }
+            result = (start...end).map { String($0) }
+        }
+        else {
+            result = text.components(separatedBy: ",")
+        }
+        
+        return result
     }
 
 
