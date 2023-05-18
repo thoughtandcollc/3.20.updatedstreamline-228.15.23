@@ -55,7 +55,8 @@ struct NewPost: View {
             .sheet(isPresented: $showBibleView, onDismiss: {
                 if bibleVerse.isNotEmpty {
                     var comp = bibleVerse.components(separatedBy: ";")
-                    captionText = comp.first ?? ""
+                    if captionText.isEmpty { captionText = comp.first ?? "" }
+                    else { captionText = captionText + "\n\n" + (comp.first ?? "") }
                     verseInfo = comp.last ?? ""
                     
                 }
