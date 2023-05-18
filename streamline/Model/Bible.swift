@@ -59,6 +59,7 @@ struct BookChapter: Codable {
 // MARK: - Ver
 struct Ver: Codable {
     let verseNumber, text: String?
+    var isSelected: Bool?
 
     enum CodingKeys: String, CodingKey {
         case verseNumber = "_vnumber"

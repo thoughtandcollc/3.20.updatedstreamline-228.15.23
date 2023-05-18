@@ -9,12 +9,10 @@ import SwiftUI
 
 struct VersesView: View {
     
-    @State private var searchText = ""
-    @State private var isSearching = false
-    
+    @Environment(\.colorScheme) var colorScheme
+        
     var book: Book
     var chapIndex: Int
-    var verses: [String] = []
     
     var isFromPostView = false // for checking if user want to add this verse in post
     @Binding var bibleVerse: String // selected verse for post view
@@ -22,21 +20,16 @@ struct VersesView: View {
     
     var body: some View {
         
-        VStack {
-            
-            SearchBarView(searchText: $searchText, isSearching: $isSearching)
-                .padding(.top, 10)
-                .padding(.horizontal, 20)
-            
-            List {
-                ForEach(verses.filter { searchText.isEmpty ? true : $0.localizedCaseInsensitiveContains(searchText) }, id: \.self) { verse in
-                    NavigationLink(destination: VerseDetailView(book: book, chapIndex: chapIndex, verseIndex: getIndex(verse), isFromPostView: isFromPostView, bibleVerse: $bibleVerse, isDismiss: $isDismiss)) {
-                        Text(verse)
+        ScrollView {
+            LazyVStack {
+                ForEach(book.chapters[chapIndex].vers, id: \.self.verseNumber) { verse in
+                    VStack{
+                        VerseTitleView(verse: verse)
+                        VerseInfoView(verse: verse)
                     }
                 }
             }
-            .listStyle(InsetGroupedListStyle())
-            .padding(.top, 10)
+            .padding()
         }
         .navigationBarTitle("Chapter: \(chapIndex + 1)")
         
@@ -48,10 +41,37 @@ struct VersesView: View {
         self.isFromPostView = isFromPostView
         _bibleVerse = bibleVerse
         _isDismiss = isDismiss
+    }
+    
+}
+
+// MARK: - View Functions
+// MARK: -
+extension VersesView {
+    
+    private func VerseTitleView(verse: Ver) -> some View {
         
-        for index in 0..<book.chapters[selectedChapIndex].vers.count {
-            verses.append("Verse: \(index + 1)")
+        Text(verse.text ?? "")
+            .font(.title3)
+            .padding()
+            .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
+            .background(RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(colorScheme == .dark ? .black : .white)
+                .defaultShadow()
+            )
+        
+    }
+    
+    private func VerseInfoView(verse: Ver) -> some View {
+        
+        SwiftUI.Group {
+            Text("\(book.name),")
+            Text("Chapter: \(chapIndex + 1)")
+            Text("Verse: \(verse.verseNumber ?? "")")
         }
+        .font(.system(size: 13))
+        .trailing()
+        
     }
     
 }
@@ -61,6 +81,7 @@ struct VersesView: View {
 extension VersesView {
     
     private func getIndex(_ string: String) -> Int {
+        
         let str = string.components(separatedBy: " ").last
         return (Int(str ?? "1") ?? 1) - 1
     }

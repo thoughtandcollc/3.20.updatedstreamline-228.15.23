@@ -26,23 +26,24 @@ struct VerseDetailView: View {
     @State private var showingActionSheet = false
     
     var body: some View {
+        VStack {}
         
-        VStack {
-            
-            VerseTitleView()
-            
-            VerseInfoView()
-            
-            AddVerseView()
-
-            Spacer()
-            
-            VerseButtonsView()
-            
-        }
-        .padding()
-        .onAppear { onAppearHandling() }
-        .navigationBarTitle("Verse: \(verseIndex + 1)", displayMode: .inline)
+//        VStack {
+//
+//            VerseTitleView()
+//
+//            VerseInfoView()
+//
+//            AddVerseView()
+//
+//            Spacer()
+//
+//            VerseButtonsView()
+//
+//        }
+//        .padding()
+//        .onAppear { onAppearHandling() }
+//        .navigationBarTitle("Verse: \(verseIndex + 1)", displayMode: .inline)
         
     }
     
@@ -51,30 +52,6 @@ struct VerseDetailView: View {
 // MARK: - View Functions
 // MARK: -
 extension VerseDetailView {
-    
-    private func VerseTitleView() -> some View {
-        
-        Text(book.chapters[chapIndex].vers[verseIndex].text ?? "")
-            .font(.title2)
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(colorScheme == .dark ? .black : .white)
-                .defaultShadow()
-            )
-        
-    }
-    
-    private func VerseInfoView() -> some View {
-        
-        SwiftUI.Group {
-            Text("\(book.name),")
-            Text("Chapter: \(chapIndex + 1)")
-            Text("Verse: \(verseIndex + 1)")
-        }
-        .font(.system(size: 13))
-        .trailing()
-        
-    }
     
     private func AddVerseView() -> some View {
         
@@ -85,57 +62,25 @@ extension VerseDetailView {
         }
         .padding(.top, 50)
         .isVisible(isFromPostView)
+        
+        
         .actionSheet(isPresented: $showingActionSheet) {
-                    ActionSheet(title: Text("Add Verse To Post"), message: Text("Do you want to add the whole verse or just the reference"), buttons: [
-                        .default(Text("Whole Verse"),action: {
-                            bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
-                            isDismiss = false // dismiss this screen
-                        }),
-                        .default(Text("Just Reference"), action: {
-                            bibleVerse = ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
-                            isDismiss = false // dismiss this screen
-                        }),
-                        .cancel()
-                    ])
-                }
-        
-    }
-    
-    private func VerseButtonsView() -> some View {
-        
-        HStack {
-            
-            Button {
-                if verseIndex - 1 >= 0  {
-                    verseIndex -= 1
-                }
-            } label: {
-                Text("Previous Verse")
-                    .foregroundColor(.white)
-            }
-            .tint(Color("PrimaryColorInvert"))
-            .buttonStyle(.borderedProminent)
-            .isVisible(verseIndex - 1 >= 0)
-            .defaultShadow()
-            
-            Spacer()
-            
-            Button {
-                if verseIndex + 1 < verseCount {
-                    verseIndex += 1
-                }
-            } label: {
-                Text("Next Verse")
-                    .foregroundColor(.white)
-            }
-            .tint(Color("PrimaryColorInvert"))
-            .buttonStyle(.borderedProminent)
-            .isVisible(verseIndex + 1 < verseCount)
-            .defaultShadow()
-
+            ActionSheet(title: Text("Add Verse To Post"), message: Text("Do you want to add the whole verse or just the reference"), buttons: [
+                .default(Text("Whole Verse"),action: {
+                    bibleVerse = (book.chapters[chapIndex].vers[verseIndex].text ?? "") + ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
+                    isDismiss = false // dismiss this screen
+                }),
+                .default(Text("Just Reference"), action: {
+                    bibleVerse = ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(verseIndex + 1)"
+                    isDismiss = false // dismiss this screen
+                }),
+                .cancel()
+            ])
         }
         
     }
+    
+
     
 }
 
