@@ -177,7 +177,7 @@ extension FeedView {
         .fullScreenCover(isPresented: $isShowingNewPostView) {
             NewPost(isPresented: $isShowingNewPostView, groupId: selectedSegment == 0 ? "" : feedModel.selectedGroupId)
         }
-        .isVisible(selectedSegment == 0 || groupModel.myGroups.isNotEmpty )
+        .isVisible(selectedSegment == 0 || groupModel.myGroups.isNotEmpty || groupModel.joinedGroups.isNotEmpty )
         
     }
     

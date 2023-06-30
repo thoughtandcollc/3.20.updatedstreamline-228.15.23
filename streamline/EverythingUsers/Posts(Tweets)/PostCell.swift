@@ -55,7 +55,7 @@ struct PostCell: View {
         } else {
             VStack(alignment: .leading) {
                 HStack(alignment: .top, spacing: 12) {
-                    VStack {
+                    //VStack {
                         profileView
                             .frame(width: 56, height: 56)
                         
@@ -63,7 +63,7 @@ struct PostCell: View {
                         //                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [3]))
                         //                        .frame(width: 2, height: 100)
                         //                        .foregroundColor(Color.orange)
-                    }
+                   // }
                     //                    .padding(.leading)
                     
                     VStack(alignment: .leading, spacing: 4) {
@@ -80,11 +80,12 @@ struct PostCell: View {
                         }
                         
                         HStack {
-                            TextWithLinks(string: caption, fontSize: 14, dynamicHeight: $height) { url in
-                                openBrowserWith(url: url.absoluteString)
-                            }
+                            Text(caption)
+//                            TextWithLinks(string: caption, fontSize: 14, dynamicHeight: $height) { url in
+//                                openBrowserWith(url: url.absoluteString)
+//                            }
                             .frame(minHeight: height)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .fixedSize(horizontal: false, vertical: false)
                             .padding()
                             
                             //                        Text(firstPost.caption)

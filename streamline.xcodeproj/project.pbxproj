@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0348C4BB2A464DE60076E4DB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0348C4BA2A464DE60076E4DB /* FirebaseCrashlytics */; };
 		2D1548C9282E309C00DB5A68 /* MorePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1548C8282E309B00DB5A68 /* MorePhotoView.swift */; };
 		2D66A3662796D24700F91E28 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D66A3652796D24700F91E28 /* CreateGroupView.swift */; };
 		2D66A3682796F60E00F91E28 /* CreateGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D66A3672796F60E00F91E28 /* CreateGroupViewModel.swift */; };
@@ -359,6 +360,7 @@
 				2D66A3722797E10C00F91E28 /* AlertToast in Frameworks */,
 				F985D3E8265EBB54002A8F75 /* FirebaseFirestore in Frameworks */,
 				F985D3E6265EBB54002A8F75 /* FirebaseAuth in Frameworks */,
+				0348C4BB2A464DE60076E4DB /* FirebaseCrashlytics in Frameworks */,
 				2D8550AF279ED56E0034CFEE /* SDWebImageSwiftUI in Frameworks */,
 				2D66A36F2796F9CA00F91E28 /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				2DFC9374282CE98C0009F586 /* ActiveLabel in Frameworks */,
@@ -816,6 +818,7 @@
 				2D8550D227A2BC000034CFEE /* FirebaseMessaging */,
 				2DFC9373282CE98C0009F586 /* ActiveLabel */,
 				CD3496F42A0B77F30097F8C4 /* SwiftyJSON */,
+				0348C4BA2A464DE60076E4DB /* FirebaseCrashlytics */,
 			);
 			productName = streamline;
 			productReference = F985D374265AE8ED002A8F75 /* streamline.app */;
@@ -1283,6 +1286,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0348C4BA2A464DE60076E4DB /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F985D3E0265EBB54002A8F75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 		2D66A36E2796F9CA00F91E28 /* FirebaseFirestoreSwift-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F985D3E0265EBB54002A8F75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
