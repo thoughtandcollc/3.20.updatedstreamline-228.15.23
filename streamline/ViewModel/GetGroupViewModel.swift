@@ -14,6 +14,7 @@ class GetGroupViewModel: ObservableObject {
     @Published var joinedGroups = [Group]() // other groups that the user has joined
     @Published var myGroups     = [Group]() // groups created by the user
 
+    @Published var areGroupsFetched = false // for checking if the fetch group api has been hit
     private var groupsListener: ListenerRegistration? // listener for group changes
     
     init() {
@@ -68,6 +69,8 @@ extension GetGroupViewModel {
                 
                 // move my groups to front at first
                 self.joinedGroups.insert(contentsOf: self.myGroups, at: 0)
+                
+                self.areGroupsFetched = true
                 
             }
             catch let error {
