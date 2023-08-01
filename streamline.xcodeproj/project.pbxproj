@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		032B95322A793A1A00341F44 /* NoPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032B95312A793A1A00341F44 /* NoPostsView.swift */; };
+		032B95342A79B4FA00341F44 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032B95332A79B4FA00341F44 /* GroupDetailView.swift */; };
 		0348C4BB2A464DE60076E4DB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0348C4BA2A464DE60076E4DB /* FirebaseCrashlytics */; };
 		2D1548C9282E309C00DB5A68 /* MorePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1548C8282E309B00DB5A68 /* MorePhotoView.swift */; };
 		2D66A3662796D24700F91E28 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D66A3652796D24700F91E28 /* CreateGroupView.swift */; };
@@ -185,6 +186,7 @@
 
 /* Begin PBXFileReference section */
 		032B95312A793A1A00341F44 /* NoPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPostsView.swift; sourceTree = "<group>"; };
+		032B95332A79B4FA00341F44 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		2D1548C8282E309B00DB5A68 /* MorePhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePhotoView.swift; sourceTree = "<group>"; };
 		2D66A3652796D24700F91E28 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		2D66A3672796F60E00F91E28 /* CreateGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupViewModel.swift; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				2D66A3652796D24700F91E28 /* CreateGroupView.swift */,
+				032B95332A79B4FA00341F44 /* GroupDetailView.swift */,
 				2D8550BC279FCF410034CFEE /* UsersListView.swift */,
 				2D8550BE279FCF7B0034CFEE /* InvitationCellView.swift */,
 				2D8550CB27A28B800034CFEE /* GroupCellView.swift */,
@@ -992,6 +995,7 @@
 				CD28ECA529C71E2900BC79E5 /* ImageExtension.swift in Sources */,
 				2D1548C9282E309C00DB5A68 /* MorePhotoView.swift in Sources */,
 				2DC5B5DE278C3C2500737D98 /* CommentCell.swift in Sources */,
+				032B95342A79B4FA00341F44 /* GroupDetailView.swift in Sources */,
 				CD28ECA329C71E2900BC79E5 /* ViewExtensions.swift in Sources */,
 				CDC2477129EACE350067F9D9 /* ForgotPasswordView.swift in Sources */,
 				F9B4B2FB2666F18100F2B8D6 /* ReadingCell.swift in Sources */,

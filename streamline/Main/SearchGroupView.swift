@@ -12,6 +12,7 @@ struct SearchGroupView: View {
     @StateObject var model = SearchGroupViewModel()
     @State private var searchText = ""
     @State private var isSearching = false
+    @State private var moveToDetailScreen = false
     
     var body: some View {
         NavigationView {
@@ -52,16 +53,33 @@ struct SearchGroupView: View {
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            model.groupTapped(group: group)
+                            model.selectedGroup = group
+                            moveToDetailScreen.toggle()
                         }
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
                 .padding(.top, 10)
+                .background(NavigationLinksView())
             }
             .navigationBarTitle("Search")
         }
     }
+    
+}
+
+// MARK: - View Functions
+// MARK: -
+extension SearchGroupView {
+    
+    private func NavigationLinksView() -> some View {
+        
+        NavigationLink(destination: GroupDetailView(searchModel: model), isActive: $moveToDetailScreen) {
+            EmptyView()
+        }
+        
+    }
+    
 }
 
 struct SearchBarView: View {

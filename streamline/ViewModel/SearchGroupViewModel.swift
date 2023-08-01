@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 class SearchGroupViewModel: ObservableObject {
     
     @Published var groupsList: [Group] = []
+    @Published var selectedGroup: Group = Group()
     
     // initialization
     init() {
@@ -157,6 +158,20 @@ extension SearchGroupViewModel {
 // MARK: -
 extension SearchGroupViewModel {
     
+    func getRequestStatus() -> String {
+        
+        if selectedGroup.joinedUsers?.contains(userId) ?? false {
+           return "Joined"
+        }
+        else if selectedGroup.joinRequests?.contains(userId) ?? false {
+            return "Request Sent"
+        }
+        else {
+            return "Join Group?"
+        }
+        
+    }
+    
 }
 
 
@@ -164,7 +179,10 @@ extension SearchGroupViewModel {
 // MARK: -
 extension SearchGroupViewModel {
     
-    func groupTapped(group: Group) {
+    func groupTapped() {
+        
+        guard selectedGroup.name.isNotEmpty else { return }
+        let group = selectedGroup
         
         // return if user has already sent request to join or its users group
         if group.joinRequests?.contains(userId) ?? false
