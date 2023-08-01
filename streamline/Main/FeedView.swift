@@ -34,7 +34,7 @@ struct FeedView: View {
          
                // TopPickerView()
                 
-                GlobalPostsListView()
+               // GlobalPostsListView()
                 
                 GroupsView()
                 
@@ -52,6 +52,9 @@ struct FeedView: View {
                 
             }
         }
+        .overlay(content: {
+            EmptyOverlayView()
+        })
         .onAppear { updateSelectedGroup() }
         .onChange(of: feedModel.selectedGroupId) { _ in updateSelectedGroup() }
         .onChange(of: groupModel.joinedGroups, perform: { newValue in
@@ -181,6 +184,27 @@ extension FeedView {
         
     }
     
+    private func EmptyOverlayView() -> some View {
+        
+        VStack {
+            
+            Text("No groups yet? Use the search above...")
+                .frame(maxWidth: .greatestFiniteMagnitude)
+                .padding(.vertical, 4)
+                .background(Color(.systemOrange))
+            
+            Divider().padding(.horizontal)
+            
+            
+                
+            
+           Spacer()
+        }
+        .padding(.top)
+        .isVisible(groupModel.myGroups.count == 0 && groupModel.joinedGroups.count == 0)
+        
+    }
+    
 }
 
 // MARK: - Groups View Functions
@@ -197,13 +221,13 @@ extension FeedView {
             
             EditGroupButtonView()
             
-            GroupsPostsListView()
+            NoPostsView().isVisible(feedModel.filteredGroupPosts.isEmpty)
+            
+            GroupsPostsListView().isVisible(feedModel.filteredGroupPosts.isNotEmpty)
             
         }
         .padding(.top)
-        //.isVisible(selectedSegment == 1)
-//        .transition(.move(edge: .trailing))
-//        .animation(.linear(duration: 0.2), value: selectedSegment)
+
         
     }
     

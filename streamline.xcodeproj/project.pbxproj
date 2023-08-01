@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		032B95322A793A1A00341F44 /* NoPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032B95312A793A1A00341F44 /* NoPostsView.swift */; };
 		0348C4BB2A464DE60076E4DB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0348C4BA2A464DE60076E4DB /* FirebaseCrashlytics */; };
 		2D1548C9282E309C00DB5A68 /* MorePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1548C8282E309B00DB5A68 /* MorePhotoView.swift */; };
 		2D66A3662796D24700F91E28 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D66A3652796D24700F91E28 /* CreateGroupView.swift */; };
@@ -183,6 +184,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		032B95312A793A1A00341F44 /* NoPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPostsView.swift; sourceTree = "<group>"; };
 		2D1548C8282E309B00DB5A68 /* MorePhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MorePhotoView.swift; sourceTree = "<group>"; };
 		2D66A3652796D24700F91E28 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		2D66A3672796F60E00F91E28 /* CreateGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupViewModel.swift; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 			isa = PBXGroup;
 			children = (
 				F985D3AA265B1F23002A8F75 /* PostCell.swift */,
+				032B95312A793A1A00341F44 /* NoPostsView.swift */,
 				2DC725AE27D876AD003ECF8E /* ThreadPostCell.swift */,
 				F985D3CD265DB873002A8F75 /* NewPost.swift */,
 				F985D3FE2662820D002A8F75 /* PostActionView.swift */,
@@ -956,6 +959,7 @@
 				F985D3AB265B1F23002A8F75 /* PostCell.swift in Sources */,
 				CD28ECA729C71E2900BC79E5 /* ColorExtension.swift in Sources */,
 				F951C2C426F0F2CB002BE88E /* EditListView.swift in Sources */,
+				032B95322A793A1A00341F44 /* NoPostsView.swift in Sources */,
 				CD28EC9D29C71E2900BC79E5 /* Alert.swift in Sources */,
 				F9EC6C9726FE4CEA009F8BE8 /* ChapterViewModel.swift in Sources */,
 				CD28ECA829C71E2900BC79E5 /* StringExtension.swift in Sources */,
