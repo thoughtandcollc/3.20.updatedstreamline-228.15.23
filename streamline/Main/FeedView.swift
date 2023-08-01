@@ -201,7 +201,7 @@ extension FeedView {
            Spacer()
         }
         .padding(.top)
-        .isVisible(groupModel.myGroups.count == 0 && groupModel.joinedGroups.count == 0)
+        .isVisible(groupModel.myGroups.isEmpty && groupModel.joinedGroups.isEmpty && groupModel.areGroupsFetched)
         
     }
     
@@ -221,7 +221,7 @@ extension FeedView {
             
             EditGroupButtonView()
             
-            NoPostsView().isVisible(feedModel.filteredGroupPosts.isEmpty)
+            NoPostsView().isVisible(groupModel.myGroups.isEmpty && groupModel.joinedGroups.isEmpty && groupModel.areGroupsFetched)
             
             GroupsPostsListView().isVisible(feedModel.filteredGroupPosts.isNotEmpty)
             
