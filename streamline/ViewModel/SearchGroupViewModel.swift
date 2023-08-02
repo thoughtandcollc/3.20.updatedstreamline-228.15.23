@@ -102,6 +102,14 @@ extension SearchGroupViewModel {
                 guard let index = self.groupsList.firstIndex(where: {$0.id == group.id }) else { return }
                 self.groupsList[index].joinRequests = newGroup.joinRequests
                 
+                // refresh all views
+                self.objectWillChange.send()
+                
+                // update selected group with the latest values
+                guard let group = self.groupsList.first(where: {$0.id == self.selectedGroup.id}) else { return }
+                self.selectedGroup = group
+
+                
             })
                 
                 
@@ -143,6 +151,11 @@ extension SearchGroupViewModel {
                 // updating group
                 guard let index = self.groupsList.firstIndex(where: {$0.id == newGroup.id }) else { return }
                 self.groupsList[index].joinedUsers = newGroup.joinedUsers
+                
+                // update selected group with the latest values
+                guard let group = self.groupsList.first(where: {$0.id == self.selectedGroup.id}) else { return }
+                self.selectedGroup = group
+
                 
             })
                 
