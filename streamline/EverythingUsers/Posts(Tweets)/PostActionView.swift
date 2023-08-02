@@ -9,11 +9,14 @@ import SwiftUI
 
 struct PostActionView: View {
     let post: Post
+    let posts: [Post]
     @State var isPresented = false
     @ObservedObject var viewModel: PostActionViewModel
     @State var captionText: String = ""
     
-    init(post: Post) {
+    init(posts: [Post]) {
+        let post = posts.first ?? Post(dictionary: [:])
+        self.posts = posts
         self.post = post
         self.viewModel = PostActionViewModel(post: post)
     }
@@ -38,7 +41,7 @@ struct PostActionView: View {
 //                    .padding(.horizontal)
 
                     NavigationLink(
-                        destination: PostDetailView(post: post),
+                        destination: PostDetailView(posts: [post]),
                         label: {
                             HStack {
                                 Image(systemName: "bubble.left")

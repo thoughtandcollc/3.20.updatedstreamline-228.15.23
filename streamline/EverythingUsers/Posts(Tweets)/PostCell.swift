@@ -119,7 +119,7 @@ struct PostCell: View {
                             Spacer(minLength: 20)
                         }
                         
-                        PostActionView(post: firstPost)
+                        PostActionView(posts: posts)
                         Divider()
                     }
                     
@@ -179,7 +179,7 @@ extension PostCell {
         
         ZStack {
             NavigationLink(isActive: $showMorePosts) {
-                PostDetailView(post: firstPost)
+                PostDetailView(posts: posts)
             } label: {
                 EmptyView()
             }

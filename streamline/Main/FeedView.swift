@@ -318,7 +318,7 @@ extension FeedView {
             LazyVStack {
                 
                 ForEach(Array(feedModel.filteredGroupPosts.keys).sorted(by: >), id: \.self) { key in
-                    NavigationLink(destination: PostDetailView(post: feedModel.filteredGroupPosts[key]!.first!)) {
+                    NavigationLink(destination: PostDetailView(posts: feedModel.filteredGroupPosts[key]!)) {
                         PostCell(posts: feedModel.filteredGroupPosts[key]!)
                     }
                     .buttonStyle(.plain)
