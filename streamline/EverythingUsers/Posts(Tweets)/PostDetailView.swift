@@ -15,6 +15,7 @@ struct PostDetailView: View {
     @Environment(\.presentationMode) var presentationMode // for dismissing this view
     
     let post: Post
+    let posts: [Post]
     
     @State private var height: CGFloat = .zero
     let columns = Array(repeating: GridItem(.flexible()), count: 2)
@@ -23,9 +24,11 @@ struct PostDetailView: View {
     var verseInfo = ""
     var caption = ""
     
-    init(post: Post) {
-        _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
+    init(posts: [Post]) {
+        let post = posts.first ?? Post(dictionary: [:])
+        self.posts = posts
         self.post = post
+        _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
         
         if post.caption.contains(";") {
             caption = post.caption.components(separatedBy: ";").first ?? ""
@@ -109,10 +112,12 @@ extension PostDetailView {
     
     private func PostTextView() -> some View {
         
-        TextWithLinks(string: caption, fontSize: 22, dynamicHeight: $height) { url in
-            openBrowserWith(url: url.absoluteString)
-        }
-        .frame(minHeight: height)
+//        TextWithLinks(string: caption, fontSize: 22, dynamicHeight: $height) { url in
+//            openBrowserWith(url: url.absoluteString)
+//        }
+        Text(caption)
+            .font(.system(size: 22))
+        //.frame(minHeight: height)
         .fixedSize(horizontal: false, vertical: true)
         .padding()
         
@@ -156,7 +161,7 @@ extension PostDetailView {
         
         VStack {
             Divider()
-                PostActionView(post: post)
+                PostActionView(posts: posts)
             Divider()
         }
         
