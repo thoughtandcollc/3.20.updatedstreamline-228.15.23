@@ -113,33 +113,33 @@ extension FeedView {
         
     }
     
-    private func GlobalPostsListView() -> some View {
-        
-        ScrollView {
-            
-            LazyVStack {
-                
-                ForEach(Array(feedModel.feedPosts.keys).sorted(by: >), id: \.self) { key in
-                    NavigationLink(
-                        destination: PostDetailView(post: feedModel.feedPosts[key]!.first!)) {
-                        PostCell(posts: feedModel.feedPosts[key]!)
-                    }
-                    .buttonStyle(.plain)
-                }
-                .padding()
-                
-                // Bottom Edge inset
-                Color.clear.padding(.bottom, 30)
-
-            }
-            .padding()
-            
-        }
-        .isVisible(selectedSegment == 0)
-        .transition(.move(edge: .leading))
-        .animation(.linear(duration: 0.2), value: selectedSegment)
-        
-    }
+//    private func GlobalPostsListView() -> some View {
+//        
+//        ScrollView {
+//            
+//            LazyVStack {
+//                
+//                ForEach(Array(feedModel.feedPosts.keys).sorted(by: >), id: \.self) { key in
+//                    NavigationLink(
+//                        destination: PostDetailView(post: feedModel.feedPosts[key]!.first!)) {
+//                        PostCell(posts: feedModel.feedPosts[key]!)
+//                    }
+//                    .buttonStyle(.plain)
+//                }
+//                .padding()
+//                
+//                // Bottom Edge inset
+//                Color.clear.padding(.bottom, 30)
+//
+//            }
+//            .padding()
+//            
+//        }
+//        .isVisible(selectedSegment == 0)
+//        .transition(.move(edge: .leading))
+//        .animation(.linear(duration: 0.2), value: selectedSegment)
+//        
+//    }
     
     private func ShareButtonView() -> some View {
         

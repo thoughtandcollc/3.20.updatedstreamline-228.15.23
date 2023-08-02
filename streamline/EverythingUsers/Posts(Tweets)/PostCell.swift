@@ -140,18 +140,20 @@ struct PostCell: View {
                     }
                 }
                 
-                if showMorePosts {
-                    ForEach(Array(posts.dropFirst())) { post in
-                        NavigationLink(destination: PostDetailView(post: post)) {
-                            ThreadPostCell(post: post)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    .padding()
-                }
+//                if showMorePosts {
+//                    ForEach(Array(posts.dropFirst())) { post in
+//                        NavigationLink(destination: PostDetailView(post: post)) {
+//                            ThreadPostCell(post: post)
+//                        }
+//                        .buttonStyle(PlainButtonStyle())
+//                    }
+//                    .padding()
+//                }
                 
             }
-            .padding(.leading, -16) //post.multiPostId == previousPost?.multiPostId ? 16 :
+            .padding(.leading, -16)
+            .background(NavigationLinksView())
+            //post.multiPostId == previousPost?.multiPostId ? 16 :
         }
     }
     
@@ -172,6 +174,18 @@ struct PostCell: View {
 // MARK: - View Functions
 // MARK: -
 extension PostCell {
+    
+    private func NavigationLinksView() -> some View {
+        
+        ZStack {
+            NavigationLink(isActive: $showMorePosts) {
+                PostDetailView(post: firstPost)
+            } label: {
+                EmptyView()
+            }
+
+        }
+    }
     
     private func VerseInfoView() -> some View {
         
