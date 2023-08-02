@@ -40,9 +40,15 @@ struct PostActionView: View {
                     NavigationLink(
                         destination: PostDetailView(post: post),
                         label: {
-                            Image(systemName: "bubble.left")
-                            .font(.system(size: 16))
-                            .frame(width: 32, height: 32)
+                            HStack {
+                                Image(systemName: "bubble.left")
+                                    .font(.system(size: 16))
+                                    .frame(width: 32, height: 32)
+                                
+                                Text("\(post.commentsCount ?? 0)")
+                                    .foregroundColor(.gray)
+                                
+                            }
                         })
                         .foregroundColor(.gray)
                         .padding(.horizontal)

@@ -19,6 +19,7 @@ struct Post: Identifiable {
     var myGroupId: String
     var multiPostId: String
     var media: [MTMedia] = []
+    var commentsCount: Int?
 
     init(dictionary: [String: Any]) {
         self.id = dictionary["id"] as? String ?? ""
@@ -33,6 +34,7 @@ struct Post: Identifiable {
         self.multiPostId = dictionary["multiPostId"] as? String ?? ""
         let imagesURLs = dictionary["imagesURLs"] as? [String] ?? []
         self.media = imagesURLs.compactMap({MTMedia(imageURL: $0, mediaType: URL(string: $0)?.pathExtension == "mp4" ? .video : .photo, thumbnail: $0)})
+        self.commentsCount = dictionary["commentsCount"] as? Int ?? 0
     }
     
     var timestampString: String {

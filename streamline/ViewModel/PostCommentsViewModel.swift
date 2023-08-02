@@ -108,6 +108,9 @@ class PostCommentsViewModel: ObservableObject {
         self.comments.insert(comment, at: 0)
         
         self.sendNotification(toUid: userId)
+        
+        // update comments count in post
+        COLLECTION_POSTS.document(postId).setData(["commentsCount": self.comments.count], merge: true)
     }
     
     func sendNotification(toUid uid: String) {
