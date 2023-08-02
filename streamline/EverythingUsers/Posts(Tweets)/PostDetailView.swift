@@ -35,30 +35,34 @@ struct PostDetailView: View {
             verseInfo = post.caption.components(separatedBy: ";").last ?? ""
         }
         else {
-            caption = post.caption
+            caption = posts.map({$0.caption}).joined(separator: " ")
             verseInfo = ""
         }
     }
     
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 16) {
+        ScrollView {
             
-            PostOwnerInfoView()
-            
-            PostTextView()
-            
-            PostMediaView()
-            
-            PostTimeStampView()
-            
-            PostActionsView()
-            
-            PostCommentsView(viewModel: .init(userId: post.uid, postId: post.id))
-            
-            Spacer()
-            
-            PostDeleteButtonView()
+            VStack(alignment: .leading, spacing: 16) {
+                
+                PostOwnerInfoView()
+                
+                PostTextView()
+                
+                PostMediaView()
+                
+                PostTimeStampView()
+                
+                PostActionsView()
+                
+                PostCommentsView(viewModel: .init(userId: post.uid, postId: post.id))
+                
+                Spacer()
+                
+                PostDeleteButtonView()
+                
+            }
             
         }
         .padding()
@@ -112,14 +116,14 @@ extension PostDetailView {
     
     private func PostTextView() -> some View {
         
-//        TextWithLinks(string: caption, fontSize: 22, dynamicHeight: $height) { url in
-//            openBrowserWith(url: url.absoluteString)
-//        }
+        //        TextWithLinks(string: caption, fontSize: 22, dynamicHeight: $height) { url in
+        //            openBrowserWith(url: url.absoluteString)
+        //        }
+        
         Text(caption)
             .font(.system(size: 22))
-        //.frame(minHeight: height)
-        .fixedSize(horizontal: false, vertical: true)
-        .padding()
+            .padding()
+        
         
     }
     
