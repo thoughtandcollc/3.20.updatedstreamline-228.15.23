@@ -116,13 +116,20 @@ extension PostDetailView {
     
     private func PostTextView() -> some View {
         
-        //        TextWithLinks(string: caption, fontSize: 22, dynamicHeight: $height) { url in
-        //            openBrowserWith(url: url.absoluteString)
-        //        }
-        
-        Text(caption)
-            .font(.system(size: 22))
-            .padding()
+        ForEach(Array(posts.dropFirst())) { post in
+            
+            VStack() {
+                
+                Text(post.caption)
+                    .font(.system(size: 22))
+                    .leading()
+                
+                Divider()
+                
+            }
+            
+        }
+        .padding(.horizontal)
         
         
     }
