@@ -13,24 +13,27 @@ struct GroupJoinRequestsView: View {
     
     var body: some View {
         
-        VStack {
+        NavigationView {
             
-            List {
-                ForEach(model.usersList) { user in
-                    
-                    Text(user.fullname)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            model.requestTapped(id: user.id, name: user.fullname)
-                        }
-                    
+            VStack {
+                
+                List {
+                    ForEach(model.usersList) { user in
+                        
+                        Text(user.fullname)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                model.requestTapped(id: user.id, name: user.fullname)
+                            }
+                        
+                    }
                 }
+                .listStyle(InsetGroupedListStyle())
+                .padding(.top, 10)
+                
             }
-            .listStyle(InsetGroupedListStyle())
-            .padding(.top, 10)
-            
+            .navigationBarTitle("Requests")
         }
-        .navigationBarTitle("Requests")
         
     }
     

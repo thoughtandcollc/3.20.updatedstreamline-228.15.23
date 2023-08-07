@@ -240,6 +240,7 @@ extension FeedView {
         }
         .foregroundColor(.blue)
         .padding(.horizontal)
+        .padding(.vertical, 8)
         .contentShape(Rectangle())
         .onTapGesture {
             feedModel.showGroupJoinRequestsView.toggle()
