@@ -49,6 +49,7 @@ enum NotificationType: Int, Codable {
     case comment
     case join
     case accepted
+    case posted
     
     var notificationText: String {
         switch self {
@@ -59,6 +60,7 @@ enum NotificationType: Int, Codable {
         case .comment: return " comment on your post"
         case .join: return " would like to join your group"
         case .accepted: return " accepted your request"
+        case .posted: return " posted in the group"
         }
     }
 }

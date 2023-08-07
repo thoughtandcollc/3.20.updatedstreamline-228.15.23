@@ -57,13 +57,13 @@ class UploadPostViewModel: ObservableObject {
         }
     }
     
-    func uploadPostWithPhotos(groupId: String) {
+    func uploadPostWithPhotos(group: Group) {
         isLoading = true
         let postGroup = DispatchGroup()
 
         self.selectedPhotosAndVideosURL.filter({$0.mediaType != .empty}).forEach { media in
             postGroup.enter()
-            uploadPhotoInFirestore(media: media, groupId: groupId) { downloadedURL in
+            uploadPhotoInFirestore(media: media, groupId: group.id) { downloadedURL in
                 print("Downloaded image url => \(downloadedURL)")
 
                 self.uploadedPhotosURLs.append(downloadedURL)
@@ -73,7 +73,7 @@ class UploadPostViewModel: ObservableObject {
         
         postGroup.notify(queue: DispatchQueue.main) {
             print(self.uploadedPhotosURLs)
-            self.uploadPosts(groupId: groupId)
+            self.uploadPosts(group: group)
         }
     }
     
@@ -105,14 +105,14 @@ class UploadPostViewModel: ObservableObject {
         })
     }
     
-    func uploadPosts(groupId: String?) {
+    func uploadPosts(group: Group) {
         let postGroup = DispatchGroup()
         isLoading = true
 
         let multiPostId = String(Int(Date().timeIntervalSince1970))
         self.captionsListForUploading.forEach { caption in
             postGroup.enter()
-            uploadPost(caption: caption.text, groupId: groupId, multiPostId: multiPostId) {
+            uploadPost(caption: caption.text, group: group, multiPostId: multiPostId) {
                 postGroup.leave()
             }
         }
@@ -123,7 +123,7 @@ class UploadPostViewModel: ObservableObject {
         }
     }
     
-    func uploadPost(caption: String, groupId: String?, multiPostId: String, completion: @escaping ()-> Void) {
+    func uploadPost(caption: String, group: Group, multiPostId: String, completion: @escaping ()-> Void) {
         guard let user = AuthViewModel.shared.user else { return }
         let docRef = COLLECTION_POSTS.document()
         
@@ -137,13 +137,42 @@ class UploadPostViewModel: ObservableObject {
                                    "imagesURLs": uploadedPhotosURLs,
                                    "id": docRef.documentID]
         
-        if let groupId = groupId {
-            data.updateValue(groupId, forKey: "myGroupId")
-        }
+
+        data.updateValue(group.id, forKey: "myGroupId")
         
         docRef.setData(data) { _ in
+            self.sendNotification(group: group)
             completion()
         }
         print("DEBUG: Successfully Uploaded Post")
+    }
+    
+    private func sendNotification(group: Group) {
+        
+        guard let currentUser = AuthViewModel.shared.user else { return }
+        guard group.createdBy == currentUser.id else { return }
+        let receiverIds = group.joinedUsers?.filter({ $0 != group.createdBy }) ?? []
+        
+        for receiverId in receiverIds {
+            
+            let query = COLLECTION_USERS.document(receiverId).collection("notifications").document()
+            
+            let notification = AppNotification(id: query.documentID,
+                                               senderId: currentUser.id,
+                                               username: currentUser.fullname,
+                                               receiverId: receiverId,
+                                               profileImageUrl: currentUser.profileImageUrl,
+                                               type: .posted,
+                                               groupId: group.id,
+                                               groupName: group.name,
+                                               title: "New Post",
+                                               body: "\(currentUser.fullname) posted in group \(group.name).",
+                                               timestamp: Timestamp(date: Date()))
+            
+            try? query.setData(from: notification)
+            
+        }
+        
+        
     }
 }

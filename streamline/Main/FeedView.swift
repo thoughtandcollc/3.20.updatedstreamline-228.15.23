@@ -178,7 +178,9 @@ extension FeedView {
         .clipShape(Circle())
         .padding()
         .fullScreenCover(isPresented: $isShowingNewPostView) {
-            NewPost(isPresented: $isShowingNewPostView, groupId: selectedSegment == 0 ? "" : feedModel.selectedGroupId)
+            if let myGroup = selectedGroup {
+                NewPost(isPresented: $isShowingNewPostView, group: myGroup)
+            }
         }
         .isVisible(selectedSegment == 0 || groupModel.myGroups.isNotEmpty || groupModel.joinedGroups.isNotEmpty )
         

@@ -19,11 +19,11 @@ struct NewPost: View {
     @State var verseInfo = ""
 
     var post: Post?
-    var groupId: String
+    var group: Group
     
-    init(isPresented: Binding<Bool>, groupId: String) {
+    init(isPresented: Binding<Bool>, group: Group) {
         self._isPresented = isPresented
-        self.groupId = groupId
+        self.group = group
         self.viewModel = UploadPostViewModel(isPresented: isPresented)
         UITableView.appearance().backgroundColor = UIColor.clear
     }
@@ -220,11 +220,11 @@ extension NewPost {
             }
             
             if viewModel.captionsListForUploading.count == 1 && viewModel.selectedPhotosAndVideosURL.count > 1 {
-                viewModel.uploadPostWithPhotos(groupId: groupId)
+                viewModel.uploadPostWithPhotos(group: group)
                 return
             }
             
-            viewModel.uploadPosts(groupId: groupId)
+            viewModel.uploadPosts(group: group)
             
         }, label: {
             Text("Post")
@@ -244,6 +244,6 @@ extension NewPost {
 // MARK: -
 struct NewPost_Previews: PreviewProvider {
     static var previews: some View {
-        NewPost(isPresented: .constant(true), groupId: "")
+        NewPost(isPresented: .constant(true), group: Group())
     }
 }
