@@ -46,16 +46,25 @@ struct PostDetailView: View {
             
             VStack(alignment: .leading, spacing: 16) {
                 
-                PostOwnerInfoView()
+                ForEach(Array(posts.dropFirst())) { post in
+                    
+                    VStack() {
+                        
+                        PostOwnerInfoView()
+                        
+                        PostTextView()
+                        
+                        PostMediaView()
+                        
+                        PostTimeStampView()
+                        
+                        PostActionsView()
+                        
+                    }
+                    
+                }
                 
-                PostTextView()
-                
-                PostMediaView()
-                
-                PostTimeStampView()
-                
-                PostActionsView()
-                
+      
                 PostCommentsView(viewModel: .init(userId: post.uid, postId: post.id))
                 
                 Spacer()
@@ -116,7 +125,7 @@ extension PostDetailView {
     
     private func PostTextView() -> some View {
         
-        ForEach(Array(posts.dropFirst())) { post in
+       // ForEach(Array(posts.dropFirst())) { post in
             
             VStack() {
                 
@@ -128,7 +137,7 @@ extension PostDetailView {
                 
             }
             
-        }
+       // }
         .padding(.horizontal)
         
         
