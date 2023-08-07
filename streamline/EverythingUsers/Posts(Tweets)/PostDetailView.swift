@@ -23,8 +23,9 @@ struct PostDetailView: View {
     @State private var showVerseView = false // show verse view
     var verseInfo = ""
     var caption = ""
+    var isCommentsView: Bool = false // check if post detail or comment detail
     
-    init(posts: [Post]) {
+    init(posts: [Post], isCommentsView: Bool = false) {
         let post = posts.first ?? Post(dictionary: [:])
         self.posts = posts
         self.post = post
@@ -38,6 +39,8 @@ struct PostDetailView: View {
             caption = posts.map({$0.caption}).joined(separator: " ")
             verseInfo = ""
         }
+        
+        self.isCommentsView = isCommentsView
     }
     
     var body: some View {
@@ -70,11 +73,16 @@ struct PostDetailView: View {
                 Spacer()
                 
                 PostDeleteButtonView()
+                    .isHidden(isCommentsView)
                 
             }
             
         }
         .padding()
+        .safeAreaInset(edge: .bottom) {
+            PostDeleteButtonView()
+                .isVisible(isCommentsView)
+        }
         
         
     }

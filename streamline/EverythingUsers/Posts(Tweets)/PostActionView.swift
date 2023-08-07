@@ -41,7 +41,7 @@ struct PostActionView: View {
 //                    .padding(.horizontal)
 
                     NavigationLink(
-                        destination: PostDetailView(posts: [post]),
+                        destination: PostDetailView(posts: [post], isCommentsView: true),
                         label: {
                             HStack {
                                 Image(systemName: "bubble.left")
