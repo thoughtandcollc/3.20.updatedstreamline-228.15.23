@@ -23,9 +23,9 @@ struct PostDetailView: View {
     @State private var showVerseView = false // show verse view
     var verseInfo = ""
     var caption = ""
-    var isCommentsView: Bool = false // check if post detail or comment detail
+    var isCommentsView: Bool // check if post detail or comment detail
     
-    init(posts: [Post], isCommentsView: Bool = false) {
+    init(posts: [Post], isCommentsView: Bool = true) {
         let post = posts.first ?? Post(dictionary: [:])
         self.posts = posts
         self.post = post
@@ -49,13 +49,13 @@ struct PostDetailView: View {
             
             VStack(alignment: .leading, spacing: 16) {
                 
-                ForEach(Array(posts.dropFirst())) { post in
+                ForEach(Array(posts)) { post in
                     
                     VStack() {
                         
                         PostOwnerInfoView()
                         
-                        PostTextView()
+                        PostTextView(post: post.caption)
                         
                         PostMediaView()
                         
@@ -131,23 +131,13 @@ extension PostDetailView {
         }
     }
     
-    private func PostTextView() -> some View {
+    private func PostTextView(post: String) -> some View {
         
-       // ForEach(Array(posts.dropFirst())) { post in
-            
-            VStack() {
-                
-                Text(post.caption)
-                    .font(.system(size: 22))
-                    .leading()
-                
-                Divider()
-                
-            }
-            
-       // }
-        .padding(.horizontal)
-        
+        Text(post)
+            .font(.system(size: 22))
+            .leading()
+            .padding(.horizontal)
+            .padding(.bottom)
         
     }
     
