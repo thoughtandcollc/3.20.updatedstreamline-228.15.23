@@ -36,7 +36,7 @@ struct PostActionView: View {
                     Spacer()
                     
                     NavigationLink(
-                        destination: PostDetailView(posts: [post], isCommentsView: true),
+                        destination: PostDetailView(posts: [post]),
                         label: {
                             HStack {
                                 Image(systemName: "bubble.left")

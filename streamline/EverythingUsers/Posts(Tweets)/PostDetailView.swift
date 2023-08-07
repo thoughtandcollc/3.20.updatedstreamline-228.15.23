@@ -10,9 +10,9 @@ import SDWebImageSwiftUI
 
 struct PostDetailView: View {
     
-    @StateObject var postModel: PostDetailViewModel
-    
     @Environment(\.presentationMode) var presentationMode // for dismissing this view
+    
+    @StateObject var postModel: PostDetailViewModel
     
     //let post: Post
     let posts: [Post]
@@ -21,27 +21,24 @@ struct PostDetailView: View {
     let columns = Array(repeating: GridItem(.flexible()), count: 2)
     
     @State private var showVerseView = false // show verse view
-    var verseInfo = ""
-    var caption = ""
-    var isCommentsView: Bool // check if post detail or comment detail
+    //var verseInfo = ""
+    //var caption = ""
     
-    init(posts: [Post], isCommentsView: Bool = true) {
+    init(posts: [Post]) {
         let post = posts.first ?? Post(dictionary: [:])
         self.posts = posts
         //self.post = post
         _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
         
-        // TODO: - task
-        if post.caption.contains(";") {
-            caption = post.caption.components(separatedBy: ";").first ?? ""
-            verseInfo = post.caption.components(separatedBy: ";").last ?? ""
-        }
-        else {
-            caption = posts.map({$0.caption}).joined(separator: " ")
-            verseInfo = ""
-        }
+//        // TODO: - task
+//        if post.caption.contains(";") {
+//            caption = post.caption.components(separatedBy: ";").first ?? ""
+//            verseInfo = post.caption.components(separatedBy: ";").last ?? ""
+//        }
+//        else {
+//            verseInfo = ""
+//        }
         
-        self.isCommentsView = isCommentsView
     }
     
     var body: some View {
@@ -134,7 +131,7 @@ extension PostDetailView {
     
     private func PostTextView(post: Post) -> some View {
         
-        Text(post.caption)
+        Text(getCaptionForPost(post: post))
             .font(.system(size: 22))
             .leading()
             .padding(.horizontal)
@@ -170,7 +167,7 @@ extension PostDetailView {
                 .foregroundColor(.gray)
                 .padding(.leading)
             
-            VerseInfoView()
+            VerseInfoView(post: post)
             
         }
         
@@ -207,10 +204,11 @@ extension PostDetailView {
 
     }
     
-    private func VerseInfoView() -> some View {
+    private func VerseInfoView(post: Post) -> some View {
         
-        // TODO: - task
-        Text(verseInfo)
+        let verseInfo = getVerseInfo(post: post)
+        
+        return Text(verseInfo)
             .font(.system(size: 12))
             .foregroundColor(.gray)
             .contentShape(Rectangle())
@@ -221,7 +219,13 @@ extension PostDetailView {
             .trailing()
             .sheet(isPresented: $showVerseView) {
                 NavigationView {
-                    VersesView(book: getBook(), selectedChapIndex: getChapter(), versesToShow: getVerses(), isFromPostView: false, bibleVerse: .constant(""), isDismiss: .constant(false))
+                    VersesView(
+                        book: getBook(verseInfo: verseInfo),
+                        selectedChapIndex: getChapter(verseInfo: verseInfo),
+                        versesToShow: getVerses(verseInfo: verseInfo),
+                        isFromPostView: false,
+                        bibleVerse: .constant(""),
+                        isDismiss: .constant(false))
                 }
             }
         
@@ -233,13 +237,35 @@ extension PostDetailView {
 // MARK: -
 extension PostDetailView {
     
-    private func getBook() -> Book {
+    private func getVerseInfo(post: Post) -> String {
+        
+        if post.caption.contains(";") {
+            return post.caption.components(separatedBy: ";").last ?? ""
+        }
+        else {
+            return ""
+        }
+        
+    }
+    
+    private func getCaptionForPost(post: Post) -> String {
+        
+        if post.caption.contains(";") {
+            return post.caption.components(separatedBy: ";").first ?? ""
+        }
+        else {
+            return post.caption
+        }
+    }
+
+    
+    private func getBook(verseInfo: String) -> Book {
         let bookName = verseInfo.components(separatedBy: ",").first ?? ""
         let book = BibleManager.shared.books.first(where: {$0.name == bookName}) ?? BibleManager.shared.books.first!
         return book
     }
     
-    private func getChapter() -> Int {
+    private func getChapter(verseInfo: String) -> Int {
         var chapNum = verseInfo.components(separatedBy: "Chapter: ").last ?? ""
         chapNum = chapNum.components(separatedBy: " ").first ?? ""
         var chapIndex = Int(chapNum) ?? 0
@@ -247,7 +273,7 @@ extension PostDetailView {
         return chapIndex
     }
     
-    private func getVerses() -> [String] {
+    private func getVerses(verseInfo: String) -> [String] {
         var text = String(verseInfo.components(separatedBy: "Verse: ").last ?? "")
         var result = [String]()
         
