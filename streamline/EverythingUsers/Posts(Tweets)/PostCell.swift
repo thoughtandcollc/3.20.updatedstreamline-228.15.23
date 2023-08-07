@@ -119,7 +119,7 @@ struct PostCell: View {
                             Spacer(minLength: 20)
                         }
                         
-                        PostActionView(posts: posts)
+                        PostActionView(post: firstPost)
                         Divider()
                     }
                     

@@ -180,8 +180,7 @@ extension PostDetailView {
         
         VStack {
             Divider()
-            // TODO: - task
-                PostActionView(posts: posts)
+            PostActionView(post: post)
             Divider()
         }
         

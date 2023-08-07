@@ -9,37 +9,32 @@ import SwiftUI
 
 struct PostActionView: View {
     let post: Post
-    let posts: [Post]
     @State var isPresented = false
     @ObservedObject var viewModel: PostActionViewModel
-    @State var captionText: String = ""
     
-    init(posts: [Post]) {
-        let post = posts.first ?? Post(dictionary: [:])
-        self.posts = posts
+    init(post: Post) {
         self.post = post
         self.viewModel = PostActionViewModel(post: post)
     }
     
     var body: some View {
+        
         HStack(alignment: .center) {
+            
             Button(action: {
+                
                 viewModel.didLike ? viewModel.unlikePost() : viewModel.likePost() }, label: {
-                Image(systemName: viewModel.didLike ? "heart.fill" : "heart")
-                    .font(.system(size: 16))
-                    .frame(width: 32, height: 32)
-                    .foregroundColor(viewModel.didLike ? .orange : .gray)
                     
-            Text("\(post.likes)")
-                .foregroundColor(.gray)
+                    Image(systemName: viewModel.didLike ? "heart.fill" : "heart")
+                        .font(.system(size: 16))
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(viewModel.didLike ? .orange : .gray)
                     
-                Spacer()
-//                    Image(systemName: "bubble.left")
-//                    .font(.system(size: 16))
-//                    .frame(width: 32, height: 32)
-//                    .foregroundColor(.gray)
-//                    .padding(.horizontal)
-
+                    Text("\(post.likes)")
+                        .foregroundColor(.gray)
+                    
+                    Spacer()
+                    
                     NavigationLink(
                         destination: PostDetailView(posts: [post], isCommentsView: true),
                         label: {
@@ -53,11 +48,11 @@ struct PostActionView: View {
                                 
                             }
                         })
-                        .foregroundColor(.gray)
-                        .padding(.horizontal)
-
+                    .foregroundColor(.gray)
+                    .padding(.horizontal)
+                    
                 })
-        
-            }
+            
+        }
     }
 }
