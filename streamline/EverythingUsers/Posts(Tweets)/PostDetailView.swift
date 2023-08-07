@@ -14,7 +14,7 @@ struct PostDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode // for dismissing this view
     
-    let post: Post
+    //let post: Post
     let posts: [Post]
     
     @State private var height: CGFloat = .zero
@@ -28,9 +28,10 @@ struct PostDetailView: View {
     init(posts: [Post], isCommentsView: Bool = true) {
         let post = posts.first ?? Post(dictionary: [:])
         self.posts = posts
-        self.post = post
+        //self.post = post
         _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
         
+        // TODO: - task
         if post.caption.contains(";") {
             caption = post.caption.components(separatedBy: ";").first ?? ""
             verseInfo = post.caption.components(separatedBy: ";").last ?? ""
@@ -53,36 +54,36 @@ struct PostDetailView: View {
                     
                     VStack() {
                         
-                        PostOwnerInfoView()
+                        PostOwnerInfoView(post: post)
                         
-                        PostTextView(post: post.caption)
+                        PostTextView(post: post)
                         
-                        PostMediaView()
+                        PostMediaView(post: post)
                         
-                        PostTimeStampView()
+                        PostTimeStampView(post: post)
                         
-                        PostActionsView()
+                        PostActionsView(post: post)
                         
                     }
                     
                 }
                 
-      
-                PostCommentsView(viewModel: .init(userId: post.uid, postId: post.id))
+                // show comments if there is only one post
+                if let post = posts.first, posts.count == 1 {
+                    PostCommentsView(viewModel: .init(userId: post.uid, postId: post.id))
+                }
                 
                 Spacer()
-                
-                PostDeleteButtonView()
-                    .isHidden(isCommentsView)
                 
             }
             
         }
+        .safeAreaInset(edge: .bottom, content: {
+            if let post = posts.first, posts.count == 1 {
+                PostDeleteButtonView(post: post)
+            }
+        })
         .padding()
-        .safeAreaInset(edge: .bottom) {
-            PostDeleteButtonView()
-                .isVisible(isCommentsView)
-        }
         
         
     }
@@ -93,7 +94,7 @@ struct PostDetailView: View {
 // MARK: -
 extension PostDetailView {
     
-    private func PostOwnerInfoView() -> some View {
+    private func PostOwnerInfoView(post: Post) -> some View {
         
         HStack {
             
@@ -131,9 +132,9 @@ extension PostDetailView {
         }
     }
     
-    private func PostTextView(post: String) -> some View {
+    private func PostTextView(post: Post) -> some View {
         
-        Text(post)
+        Text(post.caption)
             .font(.system(size: 22))
             .leading()
             .padding(.horizontal)
@@ -141,7 +142,7 @@ extension PostDetailView {
         
     }
     
-    private func PostMediaView() -> some View {
+    private func PostMediaView(post: Post) -> some View {
         
         VStack {
             
@@ -160,7 +161,7 @@ extension PostDetailView {
         
     }
     
-    private func PostTimeStampView() -> some View {
+    private func PostTimeStampView(post: Post) -> some View {
         
         HStack {
             
@@ -175,17 +176,18 @@ extension PostDetailView {
         
     }
     
-    private func PostActionsView() -> some View {
+    private func PostActionsView(post: Post) -> some View {
         
         VStack {
             Divider()
+            // TODO: - task
                 PostActionView(posts: posts)
             Divider()
         }
         
     }
     
-    private func PostDeleteButtonView() -> some View {
+    private func PostDeleteButtonView(post: Post) -> some View {
         
         Button {
             postModel.deletePost(post: post) { success in
@@ -208,6 +210,7 @@ extension PostDetailView {
     
     private func VerseInfoView() -> some View {
         
+        // TODO: - task
         Text(verseInfo)
             .font(.system(size: 12))
             .foregroundColor(.gray)
@@ -222,6 +225,7 @@ extension PostDetailView {
                     VersesView(book: getBook(), selectedChapIndex: getChapter(), versesToShow: getVerses(), isFromPostView: false, bibleVerse: .constant(""), isDismiss: .constant(false))
                 }
             }
+        
     }
     
 }
