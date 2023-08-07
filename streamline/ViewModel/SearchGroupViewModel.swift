@@ -98,6 +98,9 @@ extension SearchGroupViewModel {
                 // success
                 customAlert(message: "Request Successfully Sent", alertType: .success)
                 
+                // send notification to group owner
+                self.sendNotification(group: group)
+                
                 // updating group
                 guard let index = self.groupsList.firstIndex(where: {$0.id == group.id }) else { return }
                 self.groupsList[index].joinRequests = newGroup.joinRequests
@@ -161,6 +164,37 @@ extension SearchGroupViewModel {
                 
                 
         }
+    }
+    
+    private func sendNotification(group: Group) {
+        
+        guard let currentUser = AuthViewModel.shared.user else { return }
+        guard let receiverId = group.createdBy else { return }
+        let query = COLLECTION_USERS.document(receiverId).collection("notifications").document()
+        
+        let notification = AppNotification(id: query.documentID,
+                                           senderId: currentUser.id,
+                                           username: currentUser.fullname,
+                                           receiverId: receiverId,
+                                           profileImageUrl: currentUser.profileImageUrl,
+                                           type: .join,
+                                           groupId: group.id,
+                                           groupName: group.name,
+                                           title: "Group Join Request",
+                                           body: "\(currentUser.fullname) wants to join group \(group.name).",
+                                           timestamp: Timestamp(date: Date()))
+        
+        do {
+            let _ = try query.setData(from: notification) { error in
+                if let error = error {
+                    debugPrint(error.localizedDescription)
+                    return
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        
     }
 
     

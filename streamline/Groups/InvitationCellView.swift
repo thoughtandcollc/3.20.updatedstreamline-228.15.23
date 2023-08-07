@@ -63,6 +63,6 @@ struct InvitationCellView: View {
 
 struct InvitationCellView_Previews: PreviewProvider {
     static var previews: some View {
-        InvitationCellView(user: InvitationCellViewModel(User(dictionary: [:]), myGroupId: "")) {}
+        InvitationCellView(user: InvitationCellViewModel(User(dictionary: [:]), group: Group())) {}
     }
 }

@@ -37,7 +37,7 @@ class InvitationUsersListViewModel: ObservableObject {
             }
             
             let users = snapshots?.documents.compactMap({User(dictionary: $0.data())})
-            self.users = (users?.filter({$0.id != uid}) ?? []).compactMap({InvitationCellViewModel($0, myGroupId: self.myGroup.id)})
+            self.users = (users?.filter({$0.id != uid}) ?? []).compactMap({InvitationCellViewModel($0, group: self.myGroup)})
         }
     }
     

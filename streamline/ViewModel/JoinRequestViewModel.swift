@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 class JoinRequestViewModel: ObservableObject {
     
@@ -102,8 +103,11 @@ extension JoinRequestViewModel {
                     return
                 }
                 
+                // send notification to group owner
+                self.sendNotification(receiverId: id)
+                
                 // success
-                customAlert(message: "Request Successfully Sent", alertType: .success)
+                customAlert(message: "Request Accepted", alertType: .success)
                 
                 // updating group
                 self.group.joinRequests = tempGroup.joinRequests
@@ -115,6 +119,38 @@ extension JoinRequestViewModel {
         
         
     }
+    
+    private func sendNotification(receiverId: String) {
+
+        guard let sender = AuthViewModel.shared.user else { return }
+        
+        let query = COLLECTION_USERS.document(receiverId).collection("notifications").document()
+
+        let notification = AppNotification(id: query.documentID,
+                                           senderId: sender.id,
+                                           username: sender.fullname,
+                                           receiverId: receiverId,
+                                           profileImageUrl: sender.profileImageUrl,
+                                           type: .accepted,
+                                           groupId: group.id,
+                                           groupName: group.name,
+                                           title: "Request Accepted",
+                                           body: "Your request to join \(group.name) has been accepted.",
+                                           timestamp: Timestamp(date: Date()))
+
+        do {
+            let _ = try query.setData(from: notification) { error in
+                if let error = error {
+                    debugPrint(error.localizedDescription)
+                    return
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+
+    }
+
     
 }
 

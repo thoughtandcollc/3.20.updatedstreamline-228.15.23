@@ -47,6 +47,8 @@ enum NotificationType: Int, Codable {
     case follow
     case invite
     case comment
+    case join
+    case accepted
     
     var notificationText: String {
         switch self {
@@ -55,6 +57,8 @@ enum NotificationType: Int, Codable {
         case .follow: return " started following you"
         case .invite: return " invited you to join group. Tap to join."
         case .comment: return " comment on your post"
+        case .join: return " would like to join your group"
+        case .accepted: return " accepted your request"
         }
     }
 }

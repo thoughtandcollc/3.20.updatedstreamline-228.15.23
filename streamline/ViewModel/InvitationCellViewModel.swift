@@ -14,10 +14,10 @@ class InvitationCellViewModel: ObservableObject, Identifiable {
     var invitationSent: Bool = false
     var alreadyMember: Bool = false
 
-    init(_ user: User, myGroupId: String) {
+    init(_ user: User, group: Group) {
         self.id = user.id
         self.profileImageUrl = user.profileImageUrl
         self.fullname = user.fullname
-        self.alreadyMember = user.joinedGroups.contains(myGroupId)
+        self.alreadyMember = group.joinedUsers?.contains(user.id) ?? false
     }
 }
