@@ -180,7 +180,7 @@ extension VersesView {
     
     private func addSingleVerse(addTextAlso: Bool) {
         
-        bibleVerse = ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(selectedVerseList.first ?? "")"
+        bibleVerse = "\(VERSE_DIVIDER)\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(selectedVerseList.first ?? "")"
         
         if addTextAlso {
             let verseIndex = (Int(selectedVerseList.first ?? "") ?? -1) - 1
@@ -194,7 +194,7 @@ extension VersesView {
     
     private func addMultipleVerses(addTextAlso: Bool) {
                 
-        var versesIndexes = Array(selectedVerseList).sorted()
+        let versesIndexes = Array(selectedVerseList).sorted()
         var versesText = ""
         
         // verse: 1-5
@@ -206,7 +206,7 @@ extension VersesView {
             versesText = versesIndexes.joined(separator: ",")
         }
         
-        bibleVerse = ";\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(versesText)"
+        bibleVerse = "\(VERSE_DIVIDER)\(book.name), " + "Chapter: \(chapIndex + 1) " + "Verse: \(versesText)"
         
         // if user also wants verses text
         if addTextAlso {

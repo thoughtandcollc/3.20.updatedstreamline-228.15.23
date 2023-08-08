@@ -21,6 +21,7 @@ let COLLECTION_COMMENTS = Firestore.firestore().collection("comments")
 let COLLECTION_GROUPS = Firestore.firestore().collection("groups")
 
 let COMMENTS = "comments"
+let VERSE_DIVIDER = ";;;"
 
 func getCurrentAndNextPostText(from value: String) -> (String, String) {
     var currentPost = String(value.prefix(120))

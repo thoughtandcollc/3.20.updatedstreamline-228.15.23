@@ -30,15 +30,6 @@ struct PostDetailView: View {
         //self.post = post
         _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
         
-//        // TODO: - task
-//        if post.caption.contains(";") {
-//            caption = post.caption.components(separatedBy: ";").first ?? ""
-//            verseInfo = post.caption.components(separatedBy: ";").last ?? ""
-//        }
-//        else {
-//            verseInfo = ""
-//        }
-        
     }
     
     var body: some View {
@@ -239,8 +230,8 @@ extension PostDetailView {
     
     private func getVerseInfo(post: Post) -> String {
         
-        if post.caption.contains(";") {
-            return post.caption.components(separatedBy: ";").last ?? ""
+        if post.caption.contains(VERSE_DIVIDER) {
+            return post.caption.components(separatedBy: VERSE_DIVIDER).last ?? ""
         }
         else {
             return ""
@@ -250,8 +241,8 @@ extension PostDetailView {
     
     private func getCaptionForPost(post: Post) -> String {
         
-        if post.caption.contains(";") {
-            return post.caption.components(separatedBy: ";").first ?? ""
+        if post.caption.contains(VERSE_DIVIDER) {
+            return post.caption.components(separatedBy: VERSE_DIVIDER).first ?? ""
         }
         else {
             return post.caption

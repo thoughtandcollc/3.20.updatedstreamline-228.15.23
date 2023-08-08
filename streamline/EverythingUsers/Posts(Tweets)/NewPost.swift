@@ -54,7 +54,7 @@ struct NewPost: View {
             .toast(isPresenting: $viewModel.isLoading, alert: { .init(type: .loading)})
             .sheet(isPresented: $showBibleView, onDismiss: {
                 if bibleVerse.isNotEmpty {
-                    var comp = bibleVerse.components(separatedBy: ";")
+                    let comp = bibleVerse.components(separatedBy: VERSE_DIVIDER)
                     if captionText.isEmpty { captionText = comp.first ?? "" }
                     else { captionText = captionText + "\n\n" + (comp.first ?? "") }
                     verseInfo = comp.last ?? ""
@@ -212,7 +212,7 @@ extension NewPost {
             
             // if text field text is not empty then add it to list as well
             if verseInfo.isNotEmpty {
-                captionText.append(";\(verseInfo)")
+                captionText.append("\(VERSE_DIVIDER)\(verseInfo)")
             }
             
             if captionText != "" {
