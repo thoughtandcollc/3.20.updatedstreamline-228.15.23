@@ -120,7 +120,7 @@ extension PostDetailView {
     
     private func PostTextView(post: Post) -> some View {
         
-        Text(getCaptionForPost(post: post))
+        Text(BIBLE_MANAGER.getCaptionForPost(post: post))
             .font(.system(size: 22))
             .leading()
             .padding(.horizontal)
@@ -195,7 +195,7 @@ extension PostDetailView {
     
     private func VerseInfoView(post: Post) -> some View {
         
-        let verseInfo = getVerseInfo(post: post)
+        let verseInfo = BIBLE_MANAGER.getVerseInfo(post: post)
         
         return Text(verseInfo)
             .font(.system(size: 12))
@@ -209,100 +209,15 @@ extension PostDetailView {
             .sheet(isPresented: $showVerseView) {
                 NavigationView {
                     VersesView(
-                        book: getBook(verseInfo: verseInfo),
-                        selectedChapIndex: getChapter(verseInfo: verseInfo),
-                        versesToShow: getVerses(verseInfo: verseInfo),
+                        book: BIBLE_MANAGER.getBook(verseInfo: verseInfo),
+                        selectedChapIndex: BIBLE_MANAGER.getChapter(verseInfo: verseInfo),
+                        versesToShow: BIBLE_MANAGER.getVerses(verseInfo: verseInfo),
                         isFromPostView: false,
                         bibleVerse: .constant(""),
                         isDismiss: .constant(false))
                 }
             }
         
-    }
-    
-}
-
-// MARK: - Helper Functions
-// MARK: -
-extension PostDetailView {
-    
-    private func getVerseInfo(post: Post) -> String {
-        
-        if post.caption.contains(VERSE_DIVIDER) {
-            return post.caption.components(separatedBy: VERSE_DIVIDER).last ?? ""
-        }
-        else {
-            // for older posts
-            let caption = post.caption.components(separatedBy: ";").first ?? ""
-            let verseInfo = post.caption.components(separatedBy: ";").last ?? ""
-            if verseInfo.contains("Verse"), verseInfo.contains("Chapter") {
-                return verseInfo
-            }
-            else {
-                return ""
-            }
-        }
-        // uncomment this one later
-//        else {
-//            return ""
-//        }
-        
-    }
-    
-    private func getCaptionForPost(post: Post) -> String {
-        
-        if post.caption.contains(VERSE_DIVIDER) {
-            return post.caption.components(separatedBy: VERSE_DIVIDER).first ?? ""
-        }
-        else {
-            // for older posts
-            let caption = post.caption.components(separatedBy: ";").first ?? ""
-            let verseInfo = post.caption.components(separatedBy: ";").last ?? ""
-            if verseInfo.contains("Verse"), verseInfo.contains("Chapter") {
-                return caption
-            }
-            else {
-                return post.caption
-            }
-        }
-        // uncomment this one later
-//        else {
-//            return post.caption
-//        }
-    }
-
-    
-    private func getBook(verseInfo: String) -> Book {
-        let bookName = verseInfo.components(separatedBy: ",").first ?? ""
-        let book = BibleManager.shared.books.first(where: {$0.name == bookName}) ?? BibleManager.shared.books.first!
-        return book
-    }
-    
-    private func getChapter(verseInfo: String) -> Int {
-        var chapNum = verseInfo.components(separatedBy: "Chapter: ").last ?? ""
-        chapNum = chapNum.components(separatedBy: " ").first ?? ""
-        var chapIndex = Int(chapNum) ?? 0
-        if chapIndex != 0 { chapIndex -= 1 }
-        return chapIndex
-    }
-    
-    private func getVerses(verseInfo: String) -> [String] {
-        var text = String(verseInfo.components(separatedBy: "Verse: ").last ?? "")
-        var result = [String]()
-        
-        if text.contains("-") {
-            text = text.replacingOccurrences(of: " ", with: "")
-            let components = text.components(separatedBy: "-")
-            guard components.count == 2, let start = Int(components[0]), let end = Int(components[1]) else {
-                return []
-            }
-            result = (start...end).map { String($0) }
-        }
-        else {
-            result = text.components(separatedBy: ",")
-        }
-        
-        return result
     }
     
 }
