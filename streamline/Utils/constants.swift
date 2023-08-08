@@ -22,6 +22,7 @@ let COLLECTION_GROUPS = Firestore.firestore().collection("groups")
 
 let COMMENTS = "comments"
 let VERSE_DIVIDER = ";;;"
+let BIBLE_MANAGER = BibleManager.shared
 
 func getCurrentAndNextPostText(from value: String) -> (String, String) {
     var currentPost = String(value.prefix(120))

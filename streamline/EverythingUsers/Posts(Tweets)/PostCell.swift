@@ -19,8 +19,6 @@ struct PostCell: View {
     @State var selectedPhotoURL: URL?
     @Namespace var namespace
     @State private var showVerseView = false // show verse view
-    var verseInfo = ""
-    var caption = ""
     
     var profileView: some View {
         AnimatedImage(url: URL(string: firstPost.profileImageUrl))
@@ -80,7 +78,7 @@ struct PostCell: View {
                         }
                         
                         HStack {
-                            Text(caption)
+                            Text(BIBLE_MANAGER.getCaptionForPost(post: firstPost))
 //                            TextWithLinks(string: caption, fontSize: 14, dynamicHeight: $height) { url in
 //                                openBrowserWith(url: url.absoluteString)
 //                            }
@@ -159,15 +157,6 @@ struct PostCell: View {
     
     init(posts: [Post]) {
         self.posts = posts
-        
-        if firstPost.caption.contains(";") {
-            caption = firstPost.caption.components(separatedBy: ";").first ?? ""
-            verseInfo = firstPost.caption.components(separatedBy: ";").last ?? ""
-        }
-        else {
-            caption = firstPost.caption
-            verseInfo = ""
-        }
     }
 }
 
@@ -188,8 +177,8 @@ extension PostCell {
     }
     
     private func VerseInfoView() -> some View {
-        
-        Text(verseInfo)
+        let verseInfo = BIBLE_MANAGER.getVerseInfo(post: firstPost)
+        return Text(verseInfo)
             .font(.system(size: 12))
             .foregroundColor(.gray)
             .contentShape(Rectangle())
@@ -200,50 +189,15 @@ extension PostCell {
             .trailing()
             .sheet(isPresented: $showVerseView) {
                 NavigationView {
-                    VersesView(book: getBook(), selectedChapIndex: getChapter(), versesToShow: getVerses(), isFromPostView: false, bibleVerse: .constant(""), isDismiss: .constant(false))
+                    VersesView(
+                        book: BIBLE_MANAGER.getBook(verseInfo: verseInfo),
+                        selectedChapIndex: BIBLE_MANAGER.getChapter(verseInfo: verseInfo),
+                        versesToShow: BIBLE_MANAGER.getVerses(verseInfo: verseInfo),
+                        isFromPostView: false,
+                        bibleVerse: .constant(""),
+                        isDismiss: .constant(false))
                 }
             }
     }
-    
-}
-
-// MARK: - Helper Functions
-// MARK: -
-extension PostCell {
-    
-    private func getBook() -> Book {
-        let bookName = verseInfo.components(separatedBy: ",").first ?? ""
-        let book = BibleManager.shared.books.first(where: {$0.name == bookName}) ?? BibleManager.shared.books.first!
-        return book
-    }
-    
-    private func getChapter() -> Int {
-        var chapNum = verseInfo.components(separatedBy: "Chapter: ").last ?? ""
-        chapNum = chapNum.components(separatedBy: " ").first ?? ""
-        var chapIndex = Int(chapNum) ?? 0
-        if chapIndex != 0 { chapIndex -= 1 }
-        return chapIndex
-    }
-    
-    private func getVerses() -> [String] {
-        var text = String(verseInfo.components(separatedBy: "Verse: ").last ?? "")
-        var result = [String]()
-        
-        if text.contains("-") {
-            text = text.replacingOccurrences(of: " ", with: "")
-            let components = text.components(separatedBy: "-")
-            guard components.count == 2, let start = Int(components[0]), let end = Int(components[1]) else {
-                return []
-            }
-            result = (start...end).map { String($0) }
-        }
-        else {
-            result = text.components(separatedBy: ",")
-        }
-        
-        return result
-    }
-
-
     
 }
