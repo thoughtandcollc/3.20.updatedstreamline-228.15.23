@@ -27,9 +27,7 @@ struct PostDetailView: View {
     init(posts: [Post]) {
         let post = posts.first ?? Post(dictionary: [:])
         self.posts = posts
-        //self.post = post
         _postModel = StateObject(wrappedValue: PostDetailViewModel(post: post))
-        
     }
     
     var body: some View {
@@ -234,8 +232,20 @@ extension PostDetailView {
             return post.caption.components(separatedBy: VERSE_DIVIDER).last ?? ""
         }
         else {
-            return ""
+            // for older posts
+            let caption = post.caption.components(separatedBy: ";").first ?? ""
+            let verseInfo = post.caption.components(separatedBy: ";").last ?? ""
+            if verseInfo.contains("Verse"), verseInfo.contains("Chapter") {
+                return verseInfo
+            }
+            else {
+                return ""
+            }
         }
+        // uncomment this one later
+//        else {
+//            return ""
+//        }
         
     }
     
@@ -245,8 +255,20 @@ extension PostDetailView {
             return post.caption.components(separatedBy: VERSE_DIVIDER).first ?? ""
         }
         else {
-            return post.caption
+            // for older posts
+            let caption = post.caption.components(separatedBy: ";").first ?? ""
+            let verseInfo = post.caption.components(separatedBy: ";").last ?? ""
+            if verseInfo.contains("Verse"), verseInfo.contains("Chapter") {
+                return caption
+            }
+            else {
+                return post.caption
+            }
         }
+        // uncomment this one later
+//        else {
+//            return post.caption
+//        }
     }
 
     
