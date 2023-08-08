@@ -18,7 +18,7 @@ struct PostCommentsView: View {
         VStack {
             HStack {
                 if #available(iOS 16, *) {
-                    TextField("Enter your text", text: $commentText, axis: .verticall)
+                    TextField("Enter your text", text: $commentText, axis: .vertical)
                 } else {
                     TextField("Enter your text", text: $commentText)
                 }

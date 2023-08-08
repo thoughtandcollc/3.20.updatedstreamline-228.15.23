@@ -157,6 +157,7 @@ extension PostDetailView {
                 .padding(.leading)
             
             VerseInfoView(post: post)
+                .isVisible(BIBLE_MANAGER.getVerseInfo(post: post) != "")
             
         }
         
