@@ -17,7 +17,12 @@ struct PostCommentsView: View {
     var body: some View {
         VStack {
             HStack {
-                TextField("Enter your text", text: $commentText)
+                if #available(iOS 16, *) {
+                    TextField("Enter your text", text: $commentText, axis: .verticall)
+                } else {
+                    TextField("Enter your text", text: $commentText)
+                }
+                
                 Button {
                     let answer = commentText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
                     guard answer.count > 0 else { return }
